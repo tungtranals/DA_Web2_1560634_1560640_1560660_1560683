@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>hello</title>
+    <script src="jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            var startDate = Date.parse("4/4/2011 00:00:00");
+            var endDate = Date.parse("4/4/2011 00:30:00");
+            var t = (endDate - startDate) / (1000 * 60);
+            var id = "#nd" + 2;
+            $(id).html(t);
+
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <div id="nd1"></div>
+    <div id="nd2"></div>
+    </div>
+</body>
+
+</html>

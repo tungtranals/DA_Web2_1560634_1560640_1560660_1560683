@@ -1,0 +1,29 @@
+<html>
+
+<body>
+  <form ref='uploadForm' id='submit' action='/upload' method='post' encType="multipart/form-data">
+    <input type="file" name="sampleFile" />
+    <input type='submit' id='submit' value='submit' />
+  </form>
+
+  <input type="file" name="sampleFile" id ="file2" />
+  <input type='submit' onclick="layfile()" id='submit' value='submit' />
+</body>
+
+<script src="jquery.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript">
+  function layfile(){
+    var file = $("#file2");
+    $.ajax({
+					url: '/uploadsss',
+					method: 'POST',
+					data: file,
+					success: function (response) {
+          }
+				});
+  }
+      
+</script>
+
+</html>
