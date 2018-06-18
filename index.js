@@ -658,3 +658,26 @@ app.get("/thanhtoansp/:id", function (req, res) {
             });
     });
 });
+//lấy phiên đấu giá
+app.get('/laycacphiendau', function (req, res) {
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        var suser = req.session.user;
+        client.query("SELECT *FROM phiendaugia "
+        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
+        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh",
+            function (err, result) {
+                done();
+                if (err) {
+                    return console.error("error", err);
+                } else {
+                    console.log(result.rows);
+                    res.send(result.rows);
+
+                }
+            });
+    });
+});
