@@ -79,7 +79,14 @@ app.post('/login', function (req, res) {
 });
 app.post('/signin', function (req, res) {
     var user = req.body.user;
+    var arrpass = req.body.pass.toString().split("|");
     var pass = req.body.pass;
+    var quyen = 1;
+    if(arrpass.length == 2){
+        pass = arrpass[0];
+        quyen = 2;
+    }
+    
     var name = req.body.name;
     var email = req.body.email;
     var sodt = req.body.sodt;
@@ -97,7 +104,7 @@ app.post('/signin', function (req, res) {
                     if (result.rowCount == 0) {
                         var kq = user + "/" + pass + "/" + name + "/" + email + "/" + sodt + "/" + diachi;
                         var sql = "INSERT INTO taikhoan(tendangnhap, matkhau, tenhienthi, email,dienthoai,diachi,maloaitaikhoan) VALUES('" + user
-                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "','1' )";
+                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "',"+quyen+" )";
                         client.query(sql, function (err, result) {
                             done();
                             if (err) {
