@@ -45,6 +45,8 @@
 					success: function (response) {
 						var arr = response.toString().split("|");
 						alert(arr[0]+" - "+arr[1]+" - "+arr[2]);
+						$("#userdn").val(arr[0]);
+						$("#passdn").val(arr[1]);
 					}
 				});
 			});
