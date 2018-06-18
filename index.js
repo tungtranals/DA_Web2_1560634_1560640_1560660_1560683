@@ -27,7 +27,7 @@ var config = {
     idleTimeoutMillis: 30000,
 };
 var pool = new pg.Pool(config);
-
+//Test
 var time11 = 0;
 setInterval(function () {
     time11++;
@@ -35,6 +35,7 @@ setInterval(function () {
 }, 1000);
 
 var time = 0;
+//emit liên tục mỗi giấy để lấy giá trị realtime gửi về cho client
 setInterval(function () {
     time++;
     pool.connect(function (err, client, done) {
@@ -52,15 +53,6 @@ setInterval(function () {
             });
     });
 }, 1000);
-
-io.on("connection", function (socket) {
-    console.log("ket noi " + socket.io);
-    socket.on("disconnect", function () {
-        console.log(socket.io + "ngat ket noi ");
-    });
-
-
-});
 
 app.get('/', function (req, res) {
 
