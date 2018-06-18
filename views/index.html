@@ -52,18 +52,26 @@
 			$("#menu123").hide();
 
 			$("#submitbatdau").click(function () {
-				$("#chuadangnhap").show();
-				$("#batdau").hide();
-
 				$.ajax({
 					type: 'POST',
 					url: '/kiemtrasesioncookie',
 					dataType: 'text',
 					success: function (response) {
 						var arr = response.toString().split("|");
-						alert(arr[0] + " - " + arr[1] + " - " + arr[2]);
+						alert(arr[0] + " - " + arr[1] + " - " + arr[2] +" - "+arr[3]);
 						$("#userdn").val(arr[0]);
-						$("#passdn").val(arr[1]);
+                        $("#passdn").val(arr[1]);
+                        $("#chuadangnhap").show();
+                        $("#batdau").hide();
+                        if(arr[2] != "0"){
+                            $("#menu1").show();
+							$("#chuadangnhap").hide();
+							$("#dadangnhap").show();
+							$("#sanpham").show();
+                        }
+                        if(arr[3] == 2){
+                            $("#admin").show();
+                        }
 					}
 				});
 			});

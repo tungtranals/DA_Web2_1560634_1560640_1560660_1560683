@@ -80,6 +80,7 @@ app.post('/login', function (req, res) {
                     res.cookie('user', user.toString(), options);
                     res.cookie('pass', pass.toString(), options);
                     req.session.user = user.toString();
+                    req.session.quyen = result.rows[0].maloaitaikhoan;
                     res.send(result.rowCount.toString());
                 }
             });
@@ -563,10 +564,11 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     }
     //Kiểm tra sesion
     var suser = req.session.user;
+    var quyen = req.session.quyen;
     if (suser) {
-        lc += suser;
+        lc += suser+"|"+quyen;
     } else {
-        lc += "0";
+        lc += "0|0";
     }
     res.send(lc);
 
