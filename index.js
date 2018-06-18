@@ -516,8 +516,10 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var lc = "";
     var user = req.cookies['user'];
     var pass = req.cookies['pass'];
+    //Kiểm tra cookie
     if (user === undefined || pass=== undefined){
         lc +="0|0|";
+        //test
         let options = {
             maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
             httpOnly: true, // The cookie only accessible by the web server
@@ -527,10 +529,12 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     }else{
         lc += user+"|"+pass+"|";
     }
+    //Kiểm tra sesion
     var suser = req.session.user;
     if(suser){
         lc += suser;
     }else{
+        //test
         lc += "0";
         req.session.user = "tungtran";
     }
