@@ -20,8 +20,15 @@
 
 	<!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
 	<script src="js/adminEdit.js"></script>
-
+	<script src="socket.io/socket.io.js"></script>
 	<script src="jquery.js"></script>
+
+	<script>
+        var socket = io("http://localhost:3000");
+        socket.on("senddata", function (data) {
+            $("#nd").html(data);
+        });
+    </script>
 	<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -114,6 +121,7 @@
 </head>
 
 <body>
+	<div id ="nd" ></div>
 	<div id="page">
 		<div class="page-inner">
 			<div id="admin">

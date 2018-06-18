@@ -22,14 +22,15 @@ io.on("connection", function(socket){
     });
     socket.on("clientsentdata", function(data){
         console.log(data);
-        io.sockets.emit("serversentdata",data+" hihi");
+        io.sockets.emit("senddata",data+" hihi");
     });
     var time = 1;
     setInterval(function() {
-        io.sockets.emit("serversentdata",time+" hihi");
+        io.sockets.emit("senddata",time+" hihi");
         time++;
     }, 1000);
 });
+
 
 app.get("/tr",function(req,res){
     res.render("main1.ejs");

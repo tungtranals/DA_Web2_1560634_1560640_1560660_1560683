@@ -29,13 +29,19 @@ var config = {
 var pool = new pg.Pool(config);
 
 
-io.on("connection", function (socket) {
-    socket.on("disconnect", function () {
+io.on("connection", function(socket){
+    console.log("ket noi "+socket.io);
+    socket.on("disconnect", function(){
+        console.log(socket.io +"ngat ket noi ");
     });
-    socket.on("clientsentdata", function (data) {
-        io.sockets.emit("serversentdata", "khong the truy van");
-    });
+
+    var time = 1;
+    setInterval(function() {
+        io.sockets.emit("senddata",time+" hihi");
+        time++;
+    }, 1000);
 });
+
 app.get('/', function (req, res) {
 
     res.sendFile(path.join(__dirname + '/views/index.html'));
