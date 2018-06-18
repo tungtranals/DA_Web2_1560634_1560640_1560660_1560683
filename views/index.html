@@ -25,10 +25,7 @@
 
     <script>
         var socket = io("http://localhost:3000");
-        socket.on("senddata1", function (data) {
-            $('#nd').html(data);
 
-        });
         socket.on("senddata", function (data) {
 
 			/*data.forEach(function (item) {
@@ -201,7 +198,7 @@
                             "<p>" + item.mota + "</p>" +
                             "<hr>" +
                             "</ul>" +
-                            "<a href='#' class='btn btn-default btn-sm' onclick='thanhtoansp(" + item.maphieudau + ")'>Thanh Toán</a>" +
+                            "<a class='btn btn-default btn-sm' onclick='thanhtoansp(" + item.maphieudau + ")'>Thanh Toán</a>" +
                             "</div></div>";
                         $("#sanpham").append(lc);
                     });
@@ -223,7 +220,7 @@
                             "<p>" + item.mota + "</p>" +
                             "<hr>" +
                             "</ul>" +
-                            "<a href='#' class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
+                            "<a  class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
                             "</div></div>";
                         $("#sanpham").append(lc);
                     });
@@ -245,7 +242,7 @@
                             "<p>" + item.mota + "</p>" +
                             "<hr>" +
                             "</ul>" +
-                            "<a href='#' class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
+                            "<a class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
                             "</div></div>";
                         $("#sanpham").append(lc);
                     });
@@ -257,8 +254,6 @@
 </head>
 
 <body>
-    <div id="nd"></div>
-    <div id="nd2"></div>
     <div id="page">
         <div class="page-inner">
             <div id="admin">
@@ -268,19 +263,19 @@
                             <div class="col-xs-8 text-right menu-1">
                                 <ul>
                                     <li>
-                                        <a href="#" onclick="laysanpham()">Sản Phẩm</a>
+                                        <a  onclick="laysanpham()">Sản Phẩm</a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="laytaikhoan()">Tài Khoản</a>
+                                        <a  onclick="laytaikhoan()">Tài Khoản</a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="layphiendaugia()">Phiên Đấu Giá</a>
+                                        <a  onclick="layphiendaugia()">Phiên Đấu Giá</a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="layhinhanh()">Hình Ảnh</a>
+                                        <a onclick="layhinhanh()">Hình Ảnh</a>
                                     </li>
                                     <li>
-                                        <a href="#" onclick="dangxuat()">Đăng Xuất</a>
+                                        <a  onclick="dangxuat()">Đăng Xuất</a>
                                     </li>
                                 </ul>
                             </div>
@@ -326,27 +321,27 @@
                                     <div class="col-xs-8 text-right menu-1">
                                         <ul>
                                             <li>
-                                                <a href="#" onclick="laycacphiendau()">SP Mới Nhất</a>
+                                                <a onclick="laycacphiendau()">SP Mới Nhất</a>
                                             </li>
                                             <li class="has-dropdown">
-                                                <a href="#">Danh Mục SP</a>
+                                                <a >Danh Mục SP</a>
                                                 <ul class="dropdown">
                                                     <li>
-                                                        <a href="#" onclick="laycacphiendautheoloai(1)">Loại 1</a>
+                                                        <a onclick="laycacphiendautheoloai(1)">Loại 1</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" onclick="laycacphiendautheoloai(2)">Loại 2</a>
+                                                        <a  onclick="laycacphiendautheoloai(2)">Loại 2</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" onclick="laycacphiendautheoloai(3)">Loại 3</a>
+                                                        <a  onclick="laycacphiendautheoloai(3)">Loại 3</a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="khodo()">Kho Đồ</a>
+                                                <a  onclick="khodo()">Kho Đồ</a>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="dangxuat()">Đăng Xuất</a>
+                                                <a  onclick="dangxuat()">Đăng Xuất</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -408,10 +403,10 @@
                                                 <div class="tab">
                                                     <ul class="tab-menu">
                                                         <li class="active gtco-first">
-                                                            <a href="#" data-tab="signup">Đăng Nhập</a>
+                                                            <a  data-tab="signup">Đăng Nhập</a>
                                                         </li>
                                                         <li class="gtco-second">
-                                                            <a href="#" data-tab="login">Đăng Ký</a>
+                                                            <a  data-tab="login">Đăng Ký</a>
                                                         </li>
                                                     </ul>
                                                     <div class="tab-content">
@@ -522,7 +517,7 @@
                         </div>
                     </div>
                     <div class="gototop js-top">
-                        <a href="#" class="js-gotop">
+                        <a class="js-gotop">
                             <i class="icon-arrow-up"></i>
                         </a>
                     </div>
