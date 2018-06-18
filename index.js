@@ -1,4 +1,5 @@
 var express = require("express");
+var session = require('express-session')
 var app = express();
 app.use(express.static("public"));
 var bodyParser = require('body-parser');
@@ -6,9 +7,13 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 var fileUpload = require('express-fileupload');
 var path = require("path");
+app.use(session({secret: 'iloveuit'}));
+
+
 app.use(fileUpload());
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
+
 server.listen(3000,function(){console.log('server is listening in port 3000')});
 var pg = require('pg');
 var config = {
@@ -31,6 +36,17 @@ io.on("connection", function(socket){
     });
 });
 app.get('/',function(req,res){
+    if(req.session.email){
+        console.log("Co roi");
+        req.session.destroy(function(err){
+            if(err){
+
+            }
+        });
+    }else{
+        console.log("Chua Co");
+        req.session.email = "hihi";
+    }
     res.sendFile(path.join(__dirname+'/views/index.html'));
 });
 
