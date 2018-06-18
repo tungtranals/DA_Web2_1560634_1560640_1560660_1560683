@@ -37,7 +37,24 @@ io.on("connection", function(socket){
     });
 });
 app.get('/',function(req,res){
-    console.log('Cookies: ', req.cookies)
+    var cookie = req.cookies['cookieName'];
+    if (cookie === undefined){
+        let options = {
+            maxAge: 1000*60*60*24*3, // would expire after 3 day
+            httpOnly: true, // The cookie only accessible by the web server
+        }// Set cookie
+        console.log("Chua co cookie");
+        res.cookie('cookieName', 'Value1', options)
+    }else{
+        console.log("da co cookie"+cookie);
+        let options = {
+            maxAge: 1000*60*60*24*3, // would expire after 3 day
+            httpOnly: true, // The cookie only accessible by the web server
+        }// Set cookie
+        res.cookie('cookieName', 'Value2', options)
+    }
+
+    
     if(req.session.email){
         console.log("Co roi");
         req.session.destroy(function(err){
