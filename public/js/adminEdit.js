@@ -242,7 +242,7 @@ function xoaphien(i) {
         dataType: 'text',
         success: function (response) {
             alert(response);
-            layphiendaugia()
+            layphiendaugia();
         }
     });
 }
@@ -275,7 +275,7 @@ function hoanthanhaddPhien() {
             pmathang: pmathang.val(),pmasp: pmasp.val(), ptimebd: ptimebd.val(),
             mtimedau: mtimedau.val(), pgiaht: pgiaht.val() }),
         success: function (response) {
-            layphiendaugia()
+            layphiendaugia();
             alert(response);
         }
     });
@@ -302,13 +302,27 @@ function layhinhanh(){
     });
 }
 
-
+function xoahinhanh(id){
+    $.ajax({
+        type: 'GET',
+        url: '/xoahinhanh/' + id,
+        dataType: 'text',
+        success: function (response) {
+            alert(response);
+            layhinhanh();
+        }   
+    });
+}
 
 function addHinhAnh() {
     
     $('#sanphanadmin').html("");
     $('#ten').html("Thêm Ảnh");
-    $('#sanphanadmin').append("<form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType='multipart/form-data'>");
-    $('#sanphanadmin').append("<input id = 'file' type='file' name='sampleFile' />");
-    $('#sanphanadmin').append("<input type='submit' class='btn btn-primary btn-sm' value='Upload!' /> </form>");
+    $('#sanphanadmin').append("upload 1 lần tối đa 3 file");
+    $('#sanphanadmin').append("<form ref='uploadForm' id='uploadForm' action='/upload' method='post' encType='multipart/form-data'>"
+    +"<input id = 'file' type='file' name='sampleFile'/>"
+    +"<input id = 'file' type='file' name='sampleFile2'/>"
+    +"<input id = 'file' type='file' name='sampleFile3'/>"
+    +"<input type='submit' class='btn btn-primary btn-sm' value='Upload!' /> </form>");
+
 }
