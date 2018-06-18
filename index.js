@@ -79,11 +79,10 @@ app.post('/login', function (req, res) {
 });
 app.post('/signin', function (req, res) {
     var user = req.body.user;
-    var arrpass = req.body.pass.toString().split("|");
     var pass = req.body.pass;
     var quyen = 1;
-    if(arrpass.length == 2){
-        pass = arrpass[0];
+    var quyenadmin = req.body.ad;
+    if(quyenadmin == "admin123"){
         quyen = 2;
     }
     
