@@ -25,12 +25,17 @@
 
 	<script>
 		var socket = io("http://localhost:3000");
+		socket.on("senddata1", function (data) {
+			$('#nd').html(data);
+
+		});
 		socket.on("senddata", function (data) {
 			
-			data.forEach(function (item) {
-				$('#nd').append("</br>"+item.);
+			/*data.forEach(function (item) {
+				$('#nd').append("</br>"+item.maphien);
+				$('#nd').append("</hr> ---------------");
 				
-			});
+			});*/
 			
 		});
 	</script>

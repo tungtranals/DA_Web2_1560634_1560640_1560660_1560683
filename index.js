@@ -28,30 +28,38 @@ var config = {
 };
 var pool = new pg.Pool(config);
 
+var time11 = 0;
+setInterval(function () {
+    time11++;
+    io.sockets.emit("senddata1", time11);
+}, 1000);
 
-io.on("connection", function(socket){
-    console.log("ket noi "+socket.io);
-    socket.on("disconnect", function(){
-        console.log(socket.io +"ngat ket noi ");
+var time = 0;
+setInterval(function () {
+    time++;
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        client.query("SELECT *FROM phiendaugia",
+            function (err, result) {
+                done();
+                if (err) {
+                    return console.error("error", err);
+                } else {
+                    io.sockets.emit("senddata", result.rows);
+                }
+            });
     });
-    var time  = 0;
-    setInterval(function() {
-        time ++;
-        pool.connect(function (err, client, done) {
-            if (err) {
-                return console.error("error ", err);
-            }
-            client.query("SELECT *FROM phiendaugia",
-                function (err, result) {
-                    done();
-                    if (err) {
-                        return console.error("error", err);
-                    } else {
-                        io.sockets.emit("senddata",result.rows);
-                    }
-                });
-        });
-    },1000);
+}, 1000);
+
+io.on("connection", function (socket) {
+    console.log("ket noi " + socket.io);
+    socket.on("disconnect", function () {
+        console.log(socket.io + "ngat ket noi ");
+    });
+
+
 });
 
 app.get('/', function (req, res) {
@@ -535,8 +543,8 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var user = req.cookies['user'];
     var pass = req.cookies['pass'];
     //Kiểm tra cookie
-    if (user === undefined || pass=== undefined){
-        lc +="0|0|";
+    if (user === undefined || pass === undefined) {
+        lc += "0|0|";
         //test
         let options = {
             maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
@@ -544,14 +552,14 @@ app.post('/kiemtrasesioncookie', function (req, res) {
         }
         res.cookie('user', 'tung', options);
         res.cookie('pass', '12345', options);
-    }else{
-        lc += user+"|"+pass+"|";
+    } else {
+        lc += user + "|" + pass + "|";
     }
     //Kiểm tra sesion
     var suser = req.session.user;
-    if(suser){
+    if (suser) {
         lc += suser;
-    }else{
+    } else {
         //test
         lc += "0";
         req.session.user = "tungtran";
