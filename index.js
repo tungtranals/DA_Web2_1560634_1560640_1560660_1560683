@@ -72,6 +72,14 @@ app.post('/login', function (req, res) {
                 if (err) {
                     return console.error("error", err);
                 } else {
+
+                    let options = {
+                        maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
+                        httpOnly: true,
+                    }
+                    res.cookie('user', user.toString(), options);
+                    res.cookie('pass', pass.toString(), options);
+
                     res.send(result.rowCount.toString());
                 }
             });
@@ -82,10 +90,10 @@ app.post('/signin', function (req, res) {
     var pass = req.body.pass;
     var quyen = 1;
     var quyenadmin = req.body.add;
-    if(quyenadmin == "admin123"){
+    if (quyenadmin == "admin123") {
         quyen = 2;
     }
-    
+
     var name = req.body.name;
     var email = req.body.email;
     var sodt = req.body.sodt;
@@ -103,7 +111,7 @@ app.post('/signin', function (req, res) {
                     if (result.rowCount == 0) {
                         var kq = user + "/" + pass + "/" + name + "/" + email + "/" + sodt + "/" + diachi;
                         var sql = "INSERT INTO taikhoan(tendangnhap, matkhau, tenhienthi, email,dienthoai,diachi,maloaitaikhoan) VALUES('" + user
-                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "',"+quyen+" )";
+                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "'," + quyen + " )";
                         client.query(sql, function (err, result) {
                             done();
                             if (err) {
@@ -544,12 +552,12 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     if (user === undefined || pass === undefined) {
         lc += "0|0|";
         //test
-        let options = {
+        /*let options = {
             maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
             httpOnly: true, // The cookie only accessible by the web server
         }
         res.cookie('user', 'tung', options);
-        res.cookie('pass', '12345', options);
+        res.cookie('pass', '12345', options);*/
     } else {
         lc += user + "|" + pass + "|";
     }
