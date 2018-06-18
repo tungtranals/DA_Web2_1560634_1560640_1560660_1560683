@@ -34,10 +34,9 @@ io.on("connection", function(socket){
     socket.on("disconnect", function(){
         console.log(socket.io +"ngat ket noi ");
     });
-
-    var time = 1;
+    var time =1;
     setInterval(function() {
-        io.sockets.emit("senddata",time+" hihi");
+        io.sockets.emit(time);
         time++;
     }, 1000);
 });
