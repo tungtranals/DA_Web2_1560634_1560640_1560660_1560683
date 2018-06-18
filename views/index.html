@@ -24,10 +24,16 @@
 	<script src="jquery.js"></script>
 
 	<script>
-        var socket = io("http://localhost:3000");
-        socket.on("senddata", function (data) {
-			$("#nd").html(data);
-    </script>
+		var socket = io("http://localhost:3000");
+		socket.on("senddata", function (data) {
+			
+			data.forEach(function (item) {
+				$('#nd').append("</br>"+item.);
+				
+			});
+			
+		});
+	</script>
 	<script type="text/javascript">
 
 		$(document).ready(function () {
@@ -50,7 +56,7 @@
 					dataType: 'text',
 					success: function (response) {
 						var arr = response.toString().split("|");
-						alert(arr[0]+" - "+arr[1]+" - "+arr[2]);
+						alert(arr[0] + " - " + arr[1] + " - " + arr[2]);
 						$("#userdn").val(arr[0]);
 						$("#passdn").val(arr[1]);
 					}
@@ -110,7 +116,7 @@
 
 			});
 		});
-		
+
 		function nhanvaosp(i) {
 			$("#sanpham").hide();
 			$("#menu123").show();
@@ -120,47 +126,57 @@
 </head>
 
 <body>
-	<div id ="nd" ></div>
+	<div id="nd"></div>
+	<div id="nd2"></div>
 	<div id="page">
 		<div class="page-inner">
 			<div id="admin">
-					<nav class="gtco-nav" role="navigation">
-						<div class="gtco-container">
-							<div class="row">
-								<div class="col-xs-8 text-right menu-1">
-									<ul>
-										<li><a href="#" onclick="laysanpham()">Sản Phẩm</a></li>
-										<li><a href="#" onclick="laytaikhoan()">Tài Khoản</a></li>
-										<li><a href="#" onclick="layphiendaugia()">Phiên Đấu Giá</a></li>
-										<li><a href="#" onclick="layhinhanh()">Hình Ảnh</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</nav>
-					<header id="gtco-header" style="background-image: url(images/img_8.jpg)">
+				<nav class="gtco-nav" role="navigation">
+					<div class="gtco-container">
 						<div class="row">
-							<div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
-									<h1>Plans for Everyone</h1>	
-									<span class="intro-text-small">See Our Pricing</span>
+							<div class="col-xs-8 text-right menu-1">
+								<ul>
+									<li>
+										<a href="#" onclick="laysanpham()">Sản Phẩm</a>
+									</li>
+									<li>
+										<a href="#" onclick="laytaikhoan()">Tài Khoản</a>
+									</li>
+									<li>
+										<a href="#" onclick="layphiendaugia()">Phiên Đấu Giá</a>
+									</li>
+									<li>
+										<a href="#" onclick="layhinhanh()">Hình Ảnh</a>
+									</li>
+								</ul>
 							</div>
 						</div>
-					</header><center>
-					<div class="gtco-section border-bottom" >
-							<div class="gtco-container">
-								
-								<div class="row">
-									<div class="col-md-4">
-										
-											<h2 id = 'ten' class="pricing-plan"></h2>
-											<div id ="sanphanadmin">
-												
-											</div>
-										
+					</div>
+				</nav>
+				<header id="gtco-header" style="background-image: url(images/img_8.jpg)">
+					<div class="row">
+						<div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
+							<h1>Plans for Everyone</h1>
+							<span class="intro-text-small">See Our Pricing</span>
+						</div>
+					</div>
+				</header>
+				<center>
+					<div class="gtco-section border-bottom">
+						<div class="gtco-container">
+
+							<div class="row">
+								<div class="col-md-4">
+
+									<h2 id='ten' class="pricing-plan"></h2>
+									<div id="sanphanadmin">
+
 									</div>
-									
+
 								</div>
+
 							</div>
+						</div>
 					</div>
 				</center>
 			</div>

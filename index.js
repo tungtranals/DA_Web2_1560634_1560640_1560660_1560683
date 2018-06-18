@@ -34,11 +34,24 @@ io.on("connection", function(socket){
     socket.on("disconnect", function(){
         console.log(socket.io +"ngat ket noi ");
     });
-    var time =1;
+    var time  = 0;
     setInterval(function() {
-        io.sockets.emit(time);
-        time++;
-    }, 1000);
+        time ++;
+        pool.connect(function (err, client, done) {
+            if (err) {
+                return console.error("error ", err);
+            }
+            client.query("SELECT *FROM phiendaugia",
+                function (err, result) {
+                    done();
+                    if (err) {
+                        return console.error("error", err);
+                    } else {
+                        io.sockets.emit("senddata",result.rows);
+                    }
+                });
+        });
+    },1000);
 });
 
 app.get('/', function (req, res) {
