@@ -79,7 +79,7 @@ app.post('/login', function (req, res) {
                     }
                     res.cookie('user', user.toString(), options);
                     res.cookie('pass', pass.toString(), options);
-
+                    req.session.user = user.toString();
                     res.send(result.rowCount.toString());
                 }
             });
@@ -566,9 +566,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     if (suser) {
         lc += suser;
     } else {
-        //test
         lc += "0";
-        req.session.user = "tungtran";
     }
     res.send(lc);
 
