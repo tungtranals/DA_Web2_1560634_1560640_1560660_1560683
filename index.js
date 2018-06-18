@@ -81,7 +81,7 @@ app.post('/signin', function (req, res) {
     var user = req.body.user;
     var pass = req.body.pass;
     var quyen = 1;
-    var quyenadmin = req.body.ad;
+    var quyenadmin = req.body.add;
     if(quyenadmin == "admin123"){
         quyen = 2;
     }

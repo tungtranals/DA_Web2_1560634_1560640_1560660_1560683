@@ -97,13 +97,13 @@
 				var diachi = $("#diachi");
 				var pass1 = $("#pass1");
 				var pass2 = $("#pass2");
-				var ad = $("#ad");
+				var ad = $("#ad123");
 				if (pass1.val() == pass2.val()) {
 					$.ajax({
 						url: '/signin',
 						method: 'POST',
 						contentType: 'application/json',
-						data: JSON.stringify({ diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
+						data: JSON.stringify({add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
 						success: function (response) {
 							if (response == 1) {
 								$("#menu1").show();
@@ -367,7 +367,7 @@
 															<div class="row form-group">
 																<div class="col-md-12">
 																	<label for="username">Code(create admin)</label>
-																	<input type="text" class="form-control" id="ad">
+																	<input type="text" class="form-control" id="ad123">
 																</div>
 															</div>
 															<div class="row form-group">
