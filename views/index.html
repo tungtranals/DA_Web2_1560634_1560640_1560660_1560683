@@ -158,15 +158,16 @@
             $("#sanpham").hide();
             $("#menu123").show();
         }
-        function thanhtoansp(id){
+        function thanhtoansp(id) {
             $.ajax({
                 type: 'GET',
-                url: '/thanhtoansp/'+id,
+                url: '/thanhtoansp/' + id,
                 dataType: 'json',
                 success: function (response) {
-
+                    khodo();
                 }
-        });
+            });
+        }
         function khodo() {
             $("#sanpham").html("");
             $.ajax({
@@ -176,14 +177,14 @@
                 success: function (response) {
                     response.forEach(function (item) {
                         var lc = " <div class='col-md-4'>" +
-                        "<div class='price-box'>" +
-                        "<img src='images/"+item.tenanh+"' alt='Image' class='img-responsive'>" +
-                        "<p>"+item.tensp+"</p>" +
-                        "<p>"+item.mota+"</p>" +
-                        "<hr>" +
-                        "</ul>" +
-                        "<a href='#' class='btn btn-default btn-sm' onclick='thanhtoansp("+item.maphieudau+")'>Thanh Toán</a>" +
-                        "</div></div>";
+                            "<div class='price-box'>" +
+                            "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
+                            "<p>" + item.tensp + "</p>" +
+                            "<p>" + item.mota + "</p>" +
+                            "<hr>" +
+                            "</ul>" +
+                            "<a href='#' class='btn btn-default btn-sm' onclick='thanhtoansp(" + item.maphieudau + ")'>Thanh Toán</a>" +
+                            "</div></div>";
                         $("#sanpham").append(lc);
                     });
                 }
