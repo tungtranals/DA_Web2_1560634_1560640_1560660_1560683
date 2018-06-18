@@ -182,7 +182,7 @@ function layphiendaugia() {
             response.forEach(function (item) {
                 $('#sanphanadmin').append("</br>Mã Phiên: " + item.maphien + "");
                 $('#sanphanadmin').append("</br>Mã SP: " + item.masp + "");
-                $('#sanphanadmin').append("</br>Time Bắt Đầu: " + item.thoigianbatdau + "");
+                $('#sanphanadmin').append("</br>Time Bắt Đầu (mm/dd/yyy hh:mm:ss): " + item.thoigianbatdau + "");
                 $('#sanphanadmin').append("</br>Time Đấu: " + item.thoigiandau + "");
                 $('#sanphanadmin').append("</br>Giá Hiện Tại:" + item.giahientai + "");
                 $('#sanphanadmin').append("</br>Giá Khởi Điểm:" + item.giakhoidiem + "");
@@ -203,7 +203,7 @@ function chinhsuaphien(ma) {
         dataType: 'json',
         success: function (response) {
             $('#sanphanadmin').append('Mã Sản Phẩm: </br><input value= ' + response.masp + ' type="text" class="form-control" id="pmasp">');
-            $('#sanphanadmin').append('Time Bắt Đầu:</br><input value= ' + response.thoigianbatdau + ' type="text" class="form-control" id="ptimebd">');
+            $('#sanphanadmin').append('Time Bắt Đầu (mm/dd/yyy hh:mm:ss)::</br><input value= ' + response.thoigianbatdau + ' type="text" class="form-control" id="ptimebd">');
             $('#sanphanadmin').append('Time Đấu:</br><input value= ' + response.thoigiandau + ' type="text" class="form-control" id="mtimedau">');
             $('#sanphanadmin').append('Giá Hiện Tại:</br><input value= ' + response.giahientai + ' type="text" class="form-control" id="pgiaht">');
             $('#sanphanadmin').append('Giá Khởi Điểm:</br><input value= ' + response.giakhoidiem + ' type="text" class="form-control" id="pgiakd">');
