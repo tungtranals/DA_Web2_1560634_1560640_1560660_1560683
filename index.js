@@ -81,7 +81,7 @@ app.post('/login', function (req, res) {
                     res.cookie('pass', pass.toString(), options);
                     req.session.user = user.toString();
                     req.session.quyen = result.rows[0].maloaitaikhoan;
-                    res.send(result.rowCount.toString());
+                    res.send({rowcount:result.rowCount, quyen: result.rows[0].maloaitaikhoan});
                 }
             });
     });

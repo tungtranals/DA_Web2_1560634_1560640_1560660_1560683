@@ -71,6 +71,7 @@
                         }
                         if(arr[3] == 2){
                             $("#admin").show();
+                            $("#nguoidung").hide();
                         }
 					}
 				});
@@ -85,11 +86,16 @@
 					data: JSON.stringify({ name: user.val(), pass: pass.val() }),
 					success: function (response) {
 
-						if (response == 1) {
+						if (response.rowcount == 1) {
 							$("#menu1").show();
 							$("#chuadangnhap").hide();
 							$("#dadangnhap").show();
-							$("#sanpham").show();
+                            $("#sanpham").show();
+                            if(response.quyen == 2){
+                                $("#admin").show();
+                                $("#nguoidung").hide();
+                            }
+                            
 						} else {
 							alert("sai mật khẩu hoặc tài khoản");
 						}
