@@ -57,7 +57,7 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-                        
+
                         $("#userdn").val(arr[0]);
                         $("#passdn").val(arr[1]);
                         $("#chuadangnhap").show();
@@ -90,7 +90,7 @@
                             $("#chuadangnhap").hide();
                             $("#dadangnhap").show();
                             $("#sanpham").show();
-                            $('#tenuser').html(response.tenhienthi+" đã đăng Nhập");
+                            $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
                             if (response.quyen == 2) {
                                 $("#admin").show();
                                 $("#nguoidung").hide();
@@ -228,46 +228,31 @@
                             <div class="gtco-container">
 
                                 <div class="row">
-                                    
+
                                     <div class="col-xs-8 text-right menu-1">
                                         <ul>
-                                            
                                             <li>
-                                                <a href="features.html">Features</a>
-                                            </li>
-                                            <li>
-                                                <a href="tour.html">Tour</a>
+                                                <a href="#">SP Mới Nhất</a>
                                             </li>
                                             <li class="has-dropdown">
-                                                <a href="#">Dropdown</a>
+                                                <a href="#">Danh Mục SP</a>
                                                 <ul class="dropdown">
                                                     <li>
-                                                        <a href="#">Web Design</a>
+                                                        <a href="#">Loại 1</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">eCommerce</a>
+                                                        <a href="#">Loại 2</a>
                                                     </li>
                                                     <li>
-                                                        <a href="#">Branding</a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#">API</a>
+                                                        <a href="#">Loại 3</a>
                                                     </li>
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="pricing.html">Pricing</a>
-                                            </li>
-                                            <li>
-                                                <a href="contact.html">Contact</a>
+                                                <a href="#" onclick="dangxuat()">Kho Đồ</a>
                                             </li>
                                             <li>
                                                 <a href="#" onclick="dangxuat()">Đăng Xuất</a>
-                                            </li>
-                                            <li class="btn-cta">
-                                                <a href="#">
-                                                    <span>Get started</span>
-                                                </a>
                                             </li>
                                         </ul>
                                     </div>
@@ -282,7 +267,7 @@
                             </br>
                             <div class="row">
                                 <div class="col-md-7 mt-text animate-box " data-animate-effect="fadeInUp">
-                                        
+
                                     1560660 1560683 1560634 1560640
                                     </br>
                                     </br>
@@ -298,7 +283,8 @@
                             <div class="row">
 
                                 <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-                                        <div id ='tenuser'></div></br>
+                                    <div id='tenuser'></div>
+                                    </br>
                                     1560660 1560683 1560634 1560640
                                     </br>
                                     </br>
