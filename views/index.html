@@ -158,6 +158,19 @@
             $("#sanpham").hide();
             $("#menu123").show();
         }
+        function khodo() {
+
+
+
+            " <div class='col-md-4'>" +
+                "<div class='price-box'>" +
+                "<img src='images/img_2.jpg' alt='Image' class='img-responsive'>" +
+                "<p>Basic customer support</p>" +
+                "<hr>" +
+                "</ul>" +
+                "<a href='#' class='btn btn-default btn-sm' onclick='nhanvaosp(12)'>Get started</a>" +
+                "</div></div>"
+        }
     </script>
 
 </head>
@@ -249,7 +262,7 @@
                                                 </ul>
                                             </li>
                                             <li>
-                                                <a href="#" onclick="dangxuat()">Kho Đồ</a>
+                                                <a href="#" onclick="khodo()">Kho Đồ</a>
                                             </li>
                                             <li>
                                                 <a href="#" onclick="dangxuat()">Đăng Xuất</a>
@@ -410,30 +423,14 @@
 
 
                     <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
-                    <div class="gtco-section border-bottom" id="sanpham">
+                    <div class="gtco-section border-bottom">
                         <div class="gtco-container">
 
-                            <div class="row">
+                            <div class="row" id="sanpham">
 
-                                <div class="col-md-4">
-                                    <div class="price-box">
-                                        <img src="images/img_1.jpg" alt="Image" class="img-responsive">
-                                        <p>Basic customer support</p>
-                                        <hr>
-                                        </ul>
-                                        <a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
-                                    </div>
-                                </div>
+                                
 
-                                <div class="col-md-4">
-                                    <div class="price-box">
-                                        <img src="images/img_2.jpg" alt="Image" class="img-responsive">
-                                        <p>Basic customer support</p>
-                                        <hr>
-                                        </ul>
-                                        <a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
-                                    </div>
-                                </div>
+
 
                             </div>
                         </div>

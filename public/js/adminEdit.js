@@ -293,7 +293,8 @@ function layhinhanh(){
         dataType: 'json',
         success: function (response) {
             response.forEach(function (item) {
-                $('#sanphanadmin').append("</br>Mã SP: " + item.mahinhanh + "");
+                $('#sanphanadmin').append("</br>Mã Ảnh: " + item.mahinhanh + "");
+                $('#sanphanadmin').append("</br>Tên Ảnh: " + item.tenanh + "");
                 $('#sanphanadmin').append("</br><img src='/images/"+item.tenanh+"' height='70' width='70'></br>");
                 $('#sanphanadmin').append('</br><a href="#" onclick="xoahinhanh(' + item.mahinhanh + ')" class="btn btn-primary btn-sm">Xóa</a>');
                 
