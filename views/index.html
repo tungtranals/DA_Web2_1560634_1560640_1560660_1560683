@@ -52,13 +52,21 @@
                 var endDate = Date.parse(StrDate.toString());
 
                 if(endDate-startDate <0){//Chưa tới time đấu giá sp này
-
+                    $(tgcl).html("chưa tới giờ");
                 }else{//Bắt Đầu Đấu Giá
-
+                    var min = ((endDate-startDate)/1000);
+                    var arrtime = item.thoigiandau.split(":");
+                    var timesec =  parseInt(arrtime[0])*60+parseInt(arrtime[1]);
+                    if(min>timesec){
+                        $(tgcl).html("Hết giờ");
+                    }else{
+                        var timepp = timesec - min;
+                        $(tgcl).html(timepp);
+                    }
+                    
+                    
                 }
-                var min = ((endDate-startDate)/1000)/60;
-                var sec =((endDate-startDate)/1000)-60*min ;
-                $(tgcl).html(min+" : "+sec);
+                
             });
 
         });
