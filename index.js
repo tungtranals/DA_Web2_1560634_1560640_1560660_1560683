@@ -81,7 +81,7 @@ app.post('/login', function (req, res) {
                     res.cookie('pass', pass.toString(), options);
                     req.session.user = user.toString();
                     req.session.quyen = result.rows[0].maloaitaikhoan;
-                    res.send({rowcount:result.rowCount, quyen: result.rows[0].maloaitaikhoan});
+                    res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan });
                 }
             });
     });
@@ -566,7 +566,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var suser = req.session.user;
     var quyen = req.session.quyen;
     if (suser) {
-        lc += suser+"|"+quyen;
+        lc += suser + "|" + quyen;
     } else {
         lc += "0|0";
     }
@@ -601,4 +601,14 @@ app.post('/kiemtrasesioncookie', function (req, res) {
         console.log("Chua Co");
         req.session.email = "hihi";
     }*/
+});
+
+app.post('/sigout', function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+
+        } else {
+            res.send("dang xuat");
+        }
+    });
 });

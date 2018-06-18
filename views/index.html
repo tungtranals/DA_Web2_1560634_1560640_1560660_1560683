@@ -2,550 +2,568 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
-	<title>Trang Đấu Giá ALS</title>
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
-	<link rel="stylesheet" href="css/animate.css">
-	<link rel="stylesheet" href="css/icomoon.css">
-	<link rel="stylesheet" href="css/themify-icons.css">
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/magnific-popup.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/owl.theme.default.min.css">
-	<link rel="stylesheet" href="css/style.css">
-	<script src="js/modernizr-2.6.2.min.js"></script>
+    <meta charset="utf-8">
+    <title>Trang Đấu Giá ALS</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/icomoon.css">
+    <link rel="stylesheet" href="css/themify-icons.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/modernizr-2.6.2.min.js"></script>
 
 
 
 
-	<!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
-	<script src="js/adminEdit.js"></script>
-	<script src="socket.io/socket.io.js"></script>
-	<script src="jquery.js"></script>
+    <!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
+    <script src="js/adminEdit.js"></script>
+    <script src="socket.io/socket.io.js"></script>
+    <script src="jquery.js"></script>
 
-	<script>
-		var socket = io("http://localhost:3000");
-		socket.on("senddata1", function (data) {
-			$('#nd').html(data);
+    <script>
+        var socket = io("http://localhost:3000");
+        socket.on("senddata1", function (data) {
+            $('#nd').html(data);
 
-		});
-		socket.on("senddata", function (data) {
-			
+        });
+        socket.on("senddata", function (data) {
+
 			/*data.forEach(function (item) {
 				$('#nd').append("</br>"+item.maphien);
 				$('#nd').append("</hr> ---------------");
 				
 			});*/
-			
-		});
-	</script>
-	<script type="text/javascript">
 
-		$(document).ready(function () {
-			$("#admin").hide();
+        });
+    </script>
+    <script type="text/javascript">
 
-			$("#menu123").hide();
-			$("#menu1").hide();
-			$("#sanpham").hide();
-			$("#dadangnhap").hide();
-			$("#chuadangnhap").hide();
-			$("#menu123").hide();
+        $(document).ready(function () {
+            $("#admin").hide();
+            $("#menu123").hide();
+            $("#menu1").hide();
+            $("#sanpham").hide();
+            $("#dadangnhap").hide();
+            $("#chuadangnhap").hide();
+            $("#menu123").hide();
 
-			$("#submitbatdau").click(function () {
-				$.ajax({
-					type: 'POST',
-					url: '/kiemtrasesioncookie',
-					dataType: 'text',
-					success: function (response) {
-						var arr = response.toString().split("|");
-						alert(arr[0] + " - " + arr[1] + " - " + arr[2] +" - "+arr[3]);
-						$("#userdn").val(arr[0]);
+            $("#submitbatdau").click(function () {
+                $.ajax({
+                    type: 'POST',
+                    url: '/kiemtrasesioncookie',
+                    dataType: 'text',
+                    success: function (response) {
+                        var arr = response.toString().split("|");
+                        alert(arr[0] + " - " + arr[1] + " - " + arr[2] + " - " + arr[3]);
+                        $("#userdn").val(arr[0]);
                         $("#passdn").val(arr[1]);
                         $("#chuadangnhap").show();
                         $("#batdau").hide();
-                        if(arr[2] != "0"){
+                        if (arr[2] != "0") {
                             $("#menu1").show();
-							$("#chuadangnhap").hide();
-							$("#dadangnhap").show();
-							$("#sanpham").show();
+                            $("#chuadangnhap").hide();
+                            $("#dadangnhap").show();
+                            $("#sanpham").show();
                         }
-                        if(arr[3] == 2){
+                        if (arr[3] == 2) {
                             $("#admin").show();
                             $("#nguoidung").hide();
                         }
-					}
-				});
-			});
-			$("#submitdangnhap").click(function () {
-				var user = $("#userdn");
-				var pass = $("#passdn");
-				$.ajax({
-					url: '/login',
-					method: 'POST',
-					contentType: 'application/json',
-					data: JSON.stringify({ name: user.val(), pass: pass.val() }),
-					success: function (response) {
+                    }
+                });
+            });
+            $("#submitdangnhap").click(function () {
+                var user = $("#userdn");
+                var pass = $("#passdn");
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ name: user.val(), pass: pass.val() }),
+                    success: function (response) {
 
-						if (response.rowcount == 1) {
-							$("#menu1").show();
-							$("#chuadangnhap").hide();
-							$("#dadangnhap").show();
+                        if (response.rowcount == 1) {
+                            $("#menu1").show();
+                            $("#chuadangnhap").hide();
+                            $("#dadangnhap").show();
                             $("#sanpham").show();
-                            if(response.quyen == 2){
+                            if (response.quyen == 2) {
                                 $("#admin").show();
                                 $("#nguoidung").hide();
                             }
-                            
-						} else {
-							alert("sai mật khẩu hoặc tài khoản");
-						}
-					}
-				});
 
-			});
-			$("#submitdangky").click(function () {
-				var user = $("#user");
-				var name = $("#name");
-				var email = $("#email");
-				var sodt = $("#sodt");
-				var diachi = $("#diachi");
-				var pass1 = $("#pass1");
-				var pass2 = $("#pass2");
-				var ad = $("#ad123");
-				if (pass1.val() == pass2.val()) {
-					$.ajax({
-						url: '/signin',
-						method: 'POST',
-						contentType: 'application/json',
-						data: JSON.stringify({add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
-						success: function (response) {
-							if (response == 1) {
-								$("#menu1").show();
-								$("#chuadangnhap").hide();
-								$("#dadangnhap").show();
-								$("#sanpham").show();
-								alert("Tạo thành công");
-							} else {
-								alert("không thể tạo tài khoản này");
-							}
-						}
-					});
-				} else {
-					alert("Mật khẩu không trùng khớp");
-				}
+                        } else {
+                            alert("sai mật khẩu hoặc tài khoản");
+                        }
+                    }
+                });
 
-			});
-		});
+            });
+            $("#submitdangky").click(function () {
+                var user = $("#user");
+                var name = $("#name");
+                var email = $("#email");
+                var sodt = $("#sodt");
+                var diachi = $("#diachi");
+                var pass1 = $("#pass1");
+                var pass2 = $("#pass2");
+                var ad = $("#ad123");
+                if (pass1.val() == pass2.val()) {
+                    $.ajax({
+                        url: '/signin',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({ add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
+                        success: function (response) {
+                            if (response == 1) {
+                                $("#menu1").show();
+                                $("#chuadangnhap").hide();
+                                $("#dadangnhap").show();
+                                $("#sanpham").show();
+                                alert("Tạo thành công");
+                            } else {
+                                alert("không thể tạo tài khoản này");
+                            }
+                        }
+                    });
+                } else {
+                    alert("Mật khẩu không trùng khớp");
+                }
 
-		function nhanvaosp(i) {
-			$("#sanpham").hide();
-			$("#menu123").show();
-		}
-	</script>
+            });
+        });
+        function dangxuat() {
+            $.ajax({
+                type: 'POST',
+                url: '/sigout',
+                dataType: 'text',
+                success: function (response) {
+                    alert(response);
+                }
+            });
+            $("#admin").hide();
+            $("#nguoidung").show();
+            $("#menu123").hide();
+            $("#menu1").hide();
+            $("#sanpham").hide();
+            $("#dadangnhap").hide();
+            $("#chuadangnhap").hide();
+        }
+        function nhanvaosp(i) {
+            $("#sanpham").hide();
+            $("#menu123").show();
+        }
+    </script>
 
 </head>
 
 <body>
-	<div id="nd"></div>
-	<div id="nd2"></div>
-	<div id="page">
-		<div class="page-inner">
-			<div id="admin">
-				<nav class="gtco-nav" role="navigation">
-					<div class="gtco-container">
-						<div class="row">
-							<div class="col-xs-8 text-right menu-1">
-								<ul>
-									<li>
-										<a href="#" onclick="laysanpham()">Sản Phẩm</a>
-									</li>
-									<li>
-										<a href="#" onclick="laytaikhoan()">Tài Khoản</a>
-									</li>
-									<li>
-										<a href="#" onclick="layphiendaugia()">Phiên Đấu Giá</a>
-									</li>
-									<li>
-										<a href="#" onclick="layhinhanh()">Hình Ảnh</a>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</nav>
-				<header id="gtco-header" style="background-image: url(images/img_8.jpg)">
-					<div class="row">
-						<div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
-							<h1>Plans for Everyone</h1>
-							<span class="intro-text-small">See Our Pricing</span>
-						</div>
-					</div>
-				</header>
-				<center>
-					<div class="gtco-section border-bottom">
-						<div class="gtco-container">
+    <div id="nd"></div>
+    <div id="nd2"></div>
+    <div id="page">
+        <div class="page-inner">
+            <div id="admin">
+                <nav class="gtco-nav" role="navigation">
+                    <div class="gtco-container">
+                        <div class="row">
+                            <div class="col-xs-8 text-right menu-1">
+                                <ul>
+                                    <li>
+                                        <a href="#" onclick="laysanpham()">Sản Phẩm</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="laytaikhoan()">Tài Khoản</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="layphiendaugia()">Phiên Đấu Giá</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="layhinhanh()">Hình Ảnh</a>
+                                    </li>
+                                    <li>
+                                        <a href="#" onclick="dangxuat()">Đăng Xuất</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                <header id="gtco-header" style="background-image: url(images/img_8.jpg)">
+                    <div class="row">
+                        <div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
+                            <h1>Plans for Everyone</h1>
+                            <span class="intro-text-small">See Our Pricing</span>
+                        </div>
+                    </div>
+                </header>
+                <center>
+                    <div class="gtco-section border-bottom">
+                        <div class="gtco-container">
 
-							<div class="row">
-								<div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-4">
 
-									<h2 id='ten' class="pricing-plan"></h2>
-									<div id="sanphanadmin">
+                                    <h2 id='ten' class="pricing-plan"></h2>
+                                    <div id="sanphanadmin">
 
-									</div>
+                                    </div>
 
-								</div>
+                                </div>
 
-							</div>
-						</div>
-					</div>
-				</center>
-			</div>
-			<div id="nguoidung">
-				<div class="page-inner">
-					<!-- Menu Đã Đăng Nhập -->
-					<div id="menu1">
-						<nav class="gtco-nav" role="navigation">
-							<div class="gtco-container">
+                            </div>
+                        </div>
+                    </div>
+                </center>
+            </div>
+            <div id="nguoidung">
+                <div class="page-inner">
+                    <!-- Menu Đã Đăng Nhập -->
+                    <div id="menu1">
+                        <nav class="gtco-nav" role="navigation">
+                            <div class="gtco-container">
 
-								<div class="row">
-									<div class="col-sm-4 col-xs-12">
-										<div>
-											<div id="gtco-logo">
-												<a href="index.html">Splash</a>
-											</div>
-										</div>
-									</div>
-									<div class="col-xs-8 text-right menu-1">
-										<ul>
-											<li>
-												<a href="features.html">Features</a>
-											</li>
-											<li>
-												<a href="tour.html">Tour</a>
-											</li>
-											<li class="has-dropdown">
-												<a href="#">Dropdown</a>
-												<ul class="dropdown">
-													<li>
-														<a href="#">Web Design</a>
-													</li>
-													<li>
-														<a href="#">eCommerce</a>
-													</li>
-													<li>
-														<a href="#">Branding</a>
-													</li>
-													<li>
-														<a href="#">API</a>
-													</li>
-												</ul>
-											</li>
-											<li>
-												<a href="pricing.html">Pricing</a>
-											</li>
-											<li>
-												<a href="contact.html">Contact</a>
-											</li>
-											<li class="btn-cta">
-												<a href="#">
-													<span>Get started</span>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-						</nav>
-					</div>
-					<!-- Menu Đã Đăng Nhập -->
-					<header id="gtco-header" style="background-image: url(images/img_8.jpg)">
-						<!-- Bắt Đầu -->
-						<div id="batdau">
-							</br>
-							<div class="row">
-								<div class="col-md-7 mt-text animate-box " data-animate-effect="fadeInUp">
-									1560660 1560683 1560634 1560640
-									</br>
-									</br>
-									<h1>TRANG ĐẤU GIÁ 15CK3</h1>
-									Bắt đầu tham gia đấu giá nào !!!
-									<input id="submitbatdau" type="submit" class="btn btn-primary" value="Bắt Đầu">
-								</div>
-							</div>
-						</div>
-						<!-- Bắt Đầu -->
-						<!-- Đã Đăng Nhập -->
-						<div id="dadangnhap">
-							<div class="row">
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div>
+                                            <div id="gtco-logo">
+                                                <a href="index.html">Splash</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-8 text-right menu-1">
+                                        <ul>
+                                            <li>
+                                                <a href="features.html">Features</a>
+                                            </li>
+                                            <li>
+                                                <a href="tour.html">Tour</a>
+                                            </li>
+                                            <li class="has-dropdown">
+                                                <a href="#">Dropdown</a>
+                                                <ul class="dropdown">
+                                                    <li>
+                                                        <a href="#">Web Design</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">eCommerce</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Branding</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">API</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>
+                                                <a href="pricing.html">Pricing</a>
+                                            </li>
+                                            <li>
+                                                <a href="contact.html">Contact</a>
+                                            </li>
+                                            <li class="btn-cta">
+                                                <a href="#">
+                                                    <span>Get started</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                    <!-- Menu Đã Đăng Nhập -->
+                    <header id="gtco-header" style="background-image: url(images/img_8.jpg)">
+                        <!-- Bắt Đầu -->
+                        <div id="batdau">
+                            </br>
+                            <div class="row">
+                                <div class="col-md-7 mt-text animate-box " data-animate-effect="fadeInUp">
+                                    1560660 1560683 1560634 1560640
+                                    </br>
+                                    </br>
+                                    <h1>TRANG ĐẤU GIÁ 15CK3</h1>
+                                    Bắt đầu tham gia đấu giá nào !!!
+                                    <input id="submitbatdau" type="submit" class="btn btn-primary" value="Bắt Đầu">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Bắt Đầu -->
+                        <!-- Đã Đăng Nhập -->
+                        <div id="dadangnhap">
+                            <div class="row">
 
-								<div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-									1560660 1560683 1560634 1560640
-									</br>
-									</br>
-									<h1>TRANG ĐẤU GIÁ 15CK3</h1>
-									<div class="row form-group">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Đã Đăng Nhập -->
+                                <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                                    1560660 1560683 1560634 1560640
+                                    </br>
+                                    </br>
+                                    <h1>TRANG ĐẤU GIÁ 15CK3</h1>
+                                    <div class="row form-group">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Đã Đăng Nhập -->
 
-						<!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
-						<div class="gtco-container" id="chuadangnhap">
-							<div class="row">
-								<div class="col-md-12 col-md-offset-0 text-left">
+                        <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
+                        <div class="gtco-container" id="chuadangnhap">
+                            <div class="row">
+                                <div class="col-md-12 col-md-offset-0 text-left">
 
-									<div class="row row-mt-15em">
-										<div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
-											1560660 1560683 1560634 1560640
-											</br>
-											</br>
-											<h1>TRANG ĐẤU GIÁ 15CK3</h1>
-										</div>
+                                    <div class="row row-mt-15em">
+                                        <div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
+                                            1560660 1560683 1560634 1560640
+                                            </br>
+                                            </br>
+                                            <h1>TRANG ĐẤU GIÁ 15CK3</h1>
+                                        </div>
 
-										<div id="menu" class="col-md-4 col-md-push-1 " data-animate-effect="fadeInRight">
-											<div class="form-wrap">
-												<div class="tab">
-													<ul class="tab-menu">
-														<li class="active gtco-first">
-															<a href="#" data-tab="signup">Đăng Nhập</a>
-														</li>
-														<li class="gtco-second">
-															<a href="#" data-tab="login">Đăng Ký</a>
-														</li>
-													</ul>
-													<div class="tab-content">
-														<div class="tab-content-inner active" data-content="signup">
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Tên Đăng Nhập</label>
-																	<input type="text" class="form-control" id="userdn">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="password">Mật Khẩu</label>
-																	<input type="password" class="form-control" id="passdn">
-																</div>
-															</div>
+                                        <div id="menu" class="col-md-4 col-md-push-1 " data-animate-effect="fadeInRight">
+                                            <div class="form-wrap">
+                                                <div class="tab">
+                                                    <ul class="tab-menu">
+                                                        <li class="active gtco-first">
+                                                            <a href="#" data-tab="signup">Đăng Nhập</a>
+                                                        </li>
+                                                        <li class="gtco-second">
+                                                            <a href="#" data-tab="login">Đăng Ký</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-content-inner active" data-content="signup">
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Tên Đăng Nhập</label>
+                                                                    <input type="text" class="form-control" id="userdn">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="password">Mật Khẩu</label>
+                                                                    <input type="password" class="form-control" id="passdn">
+                                                                </div>
+                                                            </div>
 
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<input id="submitdangnhap" type="submit" class="btn btn-primary" value="Đăng Nhập">
-																</div>
-															</div>
-														</div>
-														<div class="tab-content-inner" data-content="login">
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Tên Đăng Nhập</label>
-																	<input type="text" class="form-control" id="user">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Tên Hiển Thị</label>
-																	<input type="text" class="form-control" id="name">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Email</label>
-																	<input type="text" class="form-control" id="email">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Số Điện Thoại</label>
-																	<input type="text" class="form-control" id="sodt">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Địa chỉ</label>
-																	<input type="text" class="form-control" id="diachi">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="password">Mật Khẩu</label>
-																	<input type="password" class="form-control" id="pass1">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="password2">Nhập Lại Mật Khẩu</label>
-																	<input type="password" class="form-control" id="pass2">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<label for="username">Code(create admin)</label>
-																	<input type="text" class="form-control" id="ad123">
-																</div>
-															</div>
-															<div class="row form-group">
-																<div class="col-md-12">
-																	<input id="submitdangky" type="submit" class="btn btn-primary" value="Đăng Ký">
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
-					</header>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <input id="submitdangnhap" type="submit" class="btn btn-primary" value="Đăng Nhập">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-content-inner" data-content="login">
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Tên Đăng Nhập</label>
+                                                                    <input type="text" class="form-control" id="user">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Tên Hiển Thị</label>
+                                                                    <input type="text" class="form-control" id="name">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Email</label>
+                                                                    <input type="text" class="form-control" id="email">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Số Điện Thoại</label>
+                                                                    <input type="text" class="form-control" id="sodt">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Địa chỉ</label>
+                                                                    <input type="text" class="form-control" id="diachi">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="password">Mật Khẩu</label>
+                                                                    <input type="password" class="form-control" id="pass1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="password2">Nhập Lại Mật Khẩu</label>
+                                                                    <input type="password" class="form-control" id="pass2">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <label for="username">Code(create admin)</label>
+                                                                    <input type="text" class="form-control" id="ad123">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row form-group">
+                                                                <div class="col-md-12">
+                                                                    <input id="submitdangky" type="submit" class="btn btn-primary" value="Đăng Ký">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
+                    </header>
 
 
 
-					<!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
-					<div class="gtco-section border-bottom" id="sanpham">
-						<div class="gtco-container">
+                    <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
+                    <div class="gtco-section border-bottom" id="sanpham">
+                        <div class="gtco-container">
 
-							<div class="row">
+                            <div class="row">
 
-								<div class="col-md-4">
-									<div class="price-box">
-										<img src="images/img_1.jpg" alt="Image" class="img-responsive">
-										<p>Basic customer support</p>
-										<hr>
-										</ul>
-										<a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
-									</div>
-								</div>
+                                <div class="col-md-4">
+                                    <div class="price-box">
+                                        <img src="images/img_1.jpg" alt="Image" class="img-responsive">
+                                        <p>Basic customer support</p>
+                                        <hr>
+                                        </ul>
+                                        <a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
+                                    </div>
+                                </div>
 
-								<div class="col-md-4">
-									<div class="price-box">
-										<img src="images/img_2.jpg" alt="Image" class="img-responsive">
-										<p>Basic customer support</p>
-										<hr>
-										</ul>
-										<a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
-									</div>
-								</div>
+                                <div class="col-md-4">
+                                    <div class="price-box">
+                                        <img src="images/img_2.jpg" alt="Image" class="img-responsive">
+                                        <p>Basic customer support</p>
+                                        <hr>
+                                        </ul>
+                                        <a href="#" class="btn btn-default btn-sm" onclick="nhanvaosp(12)">Get started</a>
+                                    </div>
+                                </div>
 
-							</div>
-						</div>
-					</div>
-					<!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
 
-					<!-- Chi Tiết sản phẩm -->
-					<div class="gtco-section border-bottom" id="menu123">
-						<div class="gtco-container">
+                    <!-- Chi Tiết sản phẩm -->
+                    <div class="gtco-section border-bottom" id="menu123">
+                        <div class="gtco-container">
 
-							<div class="row">
+                            <div class="row">
 
-								<div class="col-md-4">
-									<div class="price-box popular">
+                                <div class="col-md-4">
+                                    <div class="price-box popular">
 
-										<div class="popular-text">Popular</div>
-										<img src="images/img_1.jpg" alt="Image" class="img-responsive">
-										<hr>
-										<ul class="pricing-info">
-											<li>Unlimitted projects</li>
-											<li>100 Pages</li>
-											<li>100 Emails</li>
-											<li>700 Images</li>
-										</ul>
-									</div>
-								</div>
-								<div class="col-md-4">
+                                        <div class="popular-text">Popular</div>
+                                        <img src="images/img_1.jpg" alt="Image" class="img-responsive">
+                                        <hr>
+                                        <ul class="pricing-info">
+                                            <li>Unlimitted projects</li>
+                                            <li>100 Pages</li>
+                                            <li>100 Emails</li>
+                                            <li>700 Images</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
 
-									<h2 class="pricing-plan">Starter</h2>
-									<div class="price">
-										<sup class="currency">$</sup>7
-										<small>/mo</small>
-									</div>
-									<p>Basic customer support for small business</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
-									<div class="col-md-6 col-sm-6">
-										<div class="form-group">
-											<label for="email" class="sr-only">Email</label>
-											<input type="email" class="form-control" id="email" placeholder="Your Email">
-										</div>
-									</div>
-									<a href="#" class="btn btn-primary btn-sm">Get started</a>
+                                    <h2 class="pricing-plan">Starter</h2>
+                                    <div class="price">
+                                        <sup class="currency">$</sup>7
+                                        <small>/mo</small>
+                                    </div>
+                                    <p>Basic customer support for small business</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
+                                    <div class="col-md-6 col-sm-6">
+                                        <div class="form-group">
+                                            <label for="email" class="sr-only">Email</label>
+                                            <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        </div>
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-sm">Get started</a>
 
-								</div>
-								<div class="col-md-4">
+                                </div>
+                                <div class="col-md-4">
 
-									<h2 class="pricing-plan">Meow</h2>
-									<div class="price">
-										<sup class="currency">$</sup>7
-										<small>/mo</small>
-									</div>
-									<p>Basic customer support for small business</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
-									<hr>
-									<p>Unlimitted projects</p>
-									<p>100 Pages</p>
-									<p>700 Images</p>
+                                    <h2 class="pricing-plan">Meow</h2>
+                                    <div class="price">
+                                        <sup class="currency">$</sup>7
+                                        <small>/mo</small>
+                                    </div>
+                                    <p>Basic customer support for small business</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
+                                    <hr>
+                                    <p>Unlimitted projects</p>
+                                    <p>100 Pages</p>
+                                    <p>700 Images</p>
 
-								</div>
-							</div>
+                                </div>
+                            </div>
 
-						</div>
-					</div>
-					<!-- Chi Tiết sản phẩm -->
-					<div class="gtco-section border-bottom">
-						<div class="gtco-container">
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-									<h2>I lived my life my way</h2>
-								</div>
-							</div>
+                        </div>
+                    </div>
+                    <!-- Chi Tiết sản phẩm -->
+                    <div class="gtco-section border-bottom">
+                        <div class="gtco-container">
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                                    <h2>I lived my life my way</h2>
+                                </div>
+                            </div>
 
-						</div>
-					</div>
-					<div class="gototop js-top">
-						<a href="#" class="js-gotop">
-							<i class="icon-arrow-up"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			<!-- jQuery -->
-			<script src="js/jquery.min.js"></script>
-			<!-- jQuery Easing -->
-			<script src="js/jquery.easing.1.3.js"></script>
-			<!-- Bootstrap -->
-			<script src="js/bootstrap.min.js"></script>
-			<!-- Waypoints -->
-			<script src="js/jquery.waypoints.min.js"></script>
-			<!-- Carousel -->
-			<script src="js/owl.carousel.min.js"></script>
-			<!-- countTo -->
-			<script src="js/jquery.countTo.js"></script>
-			<!-- Magnific Popup -->
-			<script src="js/jquery.magnific-popup.min.js"></script>
-			<script src="js/magnific-popup-options.js"></script>
-			<!-- Main -->
-			<script src="js/main.js"></script>
-		</div>
-	</div>
+                        </div>
+                    </div>
+                    <div class="gototop js-top">
+                        <a href="#" class="js-gotop">
+                            <i class="icon-arrow-up"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- jQuery -->
+            <script src="js/jquery.min.js"></script>
+            <!-- jQuery Easing -->
+            <script src="js/jquery.easing.1.3.js"></script>
+            <!-- Bootstrap -->
+            <script src="js/bootstrap.min.js"></script>
+            <!-- Waypoints -->
+            <script src="js/jquery.waypoints.min.js"></script>
+            <!-- Carousel -->
+            <script src="js/owl.carousel.min.js"></script>
+            <!-- countTo -->
+            <script src="js/jquery.countTo.js"></script>
+            <!-- Magnific Popup -->
+            <script src="js/jquery.magnific-popup.min.js"></script>
+            <script src="js/magnific-popup-options.js"></script>
+            <!-- Main -->
+            <script src="js/main.js"></script>
+        </div>
+    </div>
 </body>
 
 </html>
