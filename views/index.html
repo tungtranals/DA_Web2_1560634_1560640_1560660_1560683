@@ -39,7 +39,9 @@
                 var idghts = "#idghts" + ma; //giá hiện tại
 
                 $(idghts).val(item.giahientai + tyle);
-
+                
+                var tgcl = "#tgcl"+ma;
+                $(idghts).val(item.thoigianbatdau);
             });
 
         });
@@ -166,6 +168,7 @@
                 dataType: 'json',
                 success: function (response) {
                     var ma = response.maphien;
+                    var tgcl = "tgcl"+ma;
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
                     var lc = " <div class='col-md-4'>" +
@@ -176,6 +179,7 @@
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
+                        "<p>Time còn lại: " +"<div id = '" + tgcl + "'> </div>" + "</p>" +
                         "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
