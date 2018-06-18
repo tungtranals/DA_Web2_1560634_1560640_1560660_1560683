@@ -25,7 +25,8 @@
 	<script type="text/javascript">
 
 		$(document).ready(function () {
-			$("#nguoidung").hide();
+			$("#admin").hide();
+
 			$("#menu123").hide();
 			$("#menu1").hide();
 			$("#sanpham").hide();
@@ -36,6 +37,16 @@
 			$("#submitbatdau").click(function () {
 				$("#chuadangnhap").show();
 				$("#batdau").hide();
+
+				$.ajax({
+					type: 'POST',
+					url: '/kiemtrasesioncookie',
+					dataType: 'text',
+					success: function (response) {
+						var arr = response.toString().split("|");
+						alert(arr[0]+" - "+arr[1]+" - "+arr[2]);
+					}
+				});
 			});
 			$("#submitdangnhap").click(function () {
 				var user = $("#userdn");
