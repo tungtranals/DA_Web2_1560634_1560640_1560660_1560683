@@ -612,3 +612,49 @@ app.post('/sigout', function (req, res) {
         }
     });
 });
+
+//Kho Đồ
+app.get('/laykhodo', function (req, res) {
+
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        var suser = req.session.user;
+        client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
+        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
+        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh"+
+        " WHERE tendangnhap ='"+suser+"' AND phieudaugia.tinhtrang = 1",
+            function (err, result) {
+                done();
+                if (err) {
+                    return console.error("error", err);
+                } else {
+                    console.log(result.rows);
+                    res.send(result.rows);
+
+                }
+            });
+    });
+});
+
+app.get("/thanhtoansp/:id", function (req, res) {
+    var id = req.params.id;
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        client.query("UPDATE phieudaugia SET tinhtrang = 2 WHERE maphieudau ="+id+"",
+            function (err, result) {
+                done();
+                if (err) {
+                    res.send("k thanh cong");
+                    return console.error("error", err);
+                } else {
+                    console.log(result);
+                    res.send("thanh cong");
+
+                }
+            });
+    });
+});
