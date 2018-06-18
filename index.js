@@ -1,5 +1,6 @@
 var express = require("express");
 var session = require('express-session')
+var cookieParser = require('cookie-parser');
 var app = express();
 app.use(express.static("public"));
 var bodyParser = require('body-parser');
@@ -8,7 +9,7 @@ app.use(bodyParser.json());
 var fileUpload = require('express-fileupload');
 var path = require("path");
 app.use(session({secret: 'iloveuit'}));
-
+app.use(cookieParser());
 
 app.use(fileUpload());
 var server = require("http").Server(app);
@@ -36,6 +37,7 @@ io.on("connection", function(socket){
     });
 });
 app.get('/',function(req,res){
+    console.log('Cookies: ', req.cookies)
     if(req.session.email){
         console.log("Co roi");
         req.session.destroy(function(err){
