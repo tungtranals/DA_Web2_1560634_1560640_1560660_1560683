@@ -57,7 +57,7 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-                        alert(arr[0] + " - " + arr[1] + " - " + arr[2] + " - " + arr[3]);
+                        
                         $("#userdn").val(arr[0]);
                         $("#passdn").val(arr[1]);
                         $("#chuadangnhap").show();
@@ -90,6 +90,7 @@
                             $("#chuadangnhap").hide();
                             $("#dadangnhap").show();
                             $("#sanpham").show();
+                            $('#tenuser').html(response.tenhienthi+" đã đăng Nhập");
                             if (response.quyen == 2) {
                                 $("#admin").show();
                                 $("#nguoidung").hide();
@@ -227,15 +228,10 @@
                             <div class="gtco-container">
 
                                 <div class="row">
-                                    <div class="col-sm-4 col-xs-12">
-                                        <div>
-                                            <div id="gtco-logo">
-                                                <a href="index.html">Splash</a>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                     <div class="col-xs-8 text-right menu-1">
                                         <ul>
+                                            
                                             <li>
                                                 <a href="features.html">Features</a>
                                             </li>
@@ -265,6 +261,9 @@
                                             <li>
                                                 <a href="contact.html">Contact</a>
                                             </li>
+                                            <li>
+                                                <a href="#" onclick="dangxuat()">Đăng Xuất</a>
+                                            </li>
                                             <li class="btn-cta">
                                                 <a href="#">
                                                     <span>Get started</span>
@@ -283,6 +282,7 @@
                             </br>
                             <div class="row">
                                 <div class="col-md-7 mt-text animate-box " data-animate-effect="fadeInUp">
+                                        
                                     1560660 1560683 1560634 1560640
                                     </br>
                                     </br>
@@ -298,6 +298,7 @@
                             <div class="row">
 
                                 <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                                        <div id ='tenuser'></div></br>
                                     1560660 1560683 1560634 1560640
                                     </br>
                                     </br>

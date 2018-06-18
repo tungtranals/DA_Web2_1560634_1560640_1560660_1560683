@@ -79,9 +79,9 @@ app.post('/login', function (req, res) {
                     }
                     res.cookie('user', user.toString(), options);
                     res.cookie('pass', pass.toString(), options);
-                    req.session.user = user.toString();
+                    req.session.user = user.toString(); 
                     req.session.quyen = result.rows[0].maloaitaikhoan;
-                    res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan });
+                    res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan, tenhienthi: result.rows[0].tenhienthi });
                 }
             });
     });
