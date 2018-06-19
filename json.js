@@ -26,22 +26,8 @@ io.on("connection", function(socket){
         console.log(socket.io +"ngat ket noi ");
     });
     socket.on("clientsentdata", function(data){
-        console.log(data);
-        var user = data.split("/");
-        pool.connect(function(err, client, done){
-            if(err){
-                return console.error("error ",err);
-            }
-            client.query("INSERT INTO taikhoan(tendn, matkhau) values('"+user[0].toString()+"','"+user[1].toString()+"')",function(err,result){
-                done();
-                if(err){
-                    return console.error("error",err);
-                    io.sockets.emit("serversentdata","khong the truy van");
-                }else{
-                    io.sockets.emit("serversentdata",result.rowCount);
-                }
-            });
-        });
+        io.sockets.emit("serversentdata",
+    "xin chao");
         
     });
 });
