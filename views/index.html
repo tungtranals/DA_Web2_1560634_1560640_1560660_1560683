@@ -318,20 +318,44 @@
                 dataType: 'json',
                 success: function (response) {
                     response.forEach(function (item) {
-                        var ma = item.maphien;
-                        var tgcl = "tgcl" + ma;
-                        var lc = " <div class='col-md-4'>" +
-                            "<div class='price-box'>" +
-                            "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
-                            "<p> Tên SP:" + item.tensp + "</p>" +
-                            "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
-                            "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
-                            "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
-                            "<hr>" +
-                            "</ul>" +
-                            "<a  class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
-                            "</div></div>";
-                        $("#sanpham").append(lc);
+                        lc = 1;
+                        var startDate = Date.parse(item.thoigianbatdau.toString());
+                        var date = new Date();
+                        var t3 = date.getDate();
+                        var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                        var h = date.getHours(); var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
+                        var endDate = Date.parse(StrDate.toString());
+
+                        if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
+                        } else {//Bắt Đầu Đấu Giá
+
+                            var min = ((endDate - startDate) / 1000);
+                            var arrtime = item.thoigiandau.split(":");
+                            var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                            if (min > timesec) {//Hết Giờ
+                                lc = 0;
+                            } else {
+
+                            }
+                        }
+                        if (lc == 1) {
+                            var ma = item.maphien;
+                            var tgcl = "tgcl" + ma;
+                            var lc = " <div class='col-md-4'>" +
+                                "<div class='price-box'>" +
+                                "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
+                                "<p> Tên SP:" + item.tensp + "</p>" +
+                                "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
+                                "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
+                                "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
+                                "<hr>" +
+                                "</ul>" +
+                                "<a  class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
+                                "</div></div>";
+                            $("#sanpham").append(lc);
+                        }
                     });
                 }
             });
@@ -344,20 +368,44 @@
                 dataType: 'json',
                 success: function (response) {
                     response.forEach(function (item) {
-                        var ma = item.maphien;
-                        var tgcl = "tgcl" + ma;
-                        var lc = " <div class='col-md-4'>" +
-                            "<div class='price-box'>" +
-                            "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
-                            "<p> Tên SP:" + item.tensp + "</p>" +
-                            "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
-                            "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
-                            "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
-                            "<hr>" +
-                            "</ul>" +
-                            "<a class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
-                            "</div></div>";
-                        $("#sanpham").append(lc);
+                        lc = 1;
+                        var startDate = Date.parse(item.thoigianbatdau.toString());
+                        var date = new Date();
+                        var t3 = date.getDate();
+                        var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                        var h = date.getHours(); var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
+                        var endDate = Date.parse(StrDate.toString());
+
+                        if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
+                        } else {//Bắt Đầu Đấu Giá
+
+                            var min = ((endDate - startDate) / 1000);
+                            var arrtime = item.thoigiandau.split(":");
+                            var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                            if (min > timesec) {//Hết Giờ
+                                lc = 0;
+                            } else {
+
+                            }
+                        }
+                        if (lc == 1) {
+                            var ma = item.maphien;
+                            var tgcl = "tgcl" + ma;
+                            var lc = " <div class='col-md-4'>" +
+                                "<div class='price-box'>" +
+                                "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
+                                "<p> Tên SP:" + item.tensp + "</p>" +
+                                "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
+                                "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
+                                "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
+                                "<hr>" +
+                                "</ul>" +
+                                "<a class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
+                                "</div></div>";
+                            $("#sanpham").append(lc);
+                        }
                     });
                 }
             });
