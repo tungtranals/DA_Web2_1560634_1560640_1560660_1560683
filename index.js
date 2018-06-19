@@ -22,7 +22,7 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5432,
+    port: 5433,
     max: 10,
     idleTimeoutMillis: 30000,
 };
@@ -124,7 +124,7 @@ app.post('/signin', function (req, res) {
                                 req.session.user = user.toString();
                                 req.session.quyen = quyen1;
                             }
-                            res.send({rowcount: 1, quyen: quyen1, tenhienthi: name});
+                            res.send({ rowcount: 1, quyen: quyen1, tenhienthi: name });
                         });
 
                     } else
@@ -598,7 +598,8 @@ app.get('/laykhodo', function (req, res) {
         client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
-            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1",
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang ="+
+            +"phieudaugia.maphieudau",
             function (err, result) {
                 done();
                 if (err) {
@@ -709,28 +710,42 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 app.post('/daugiaclient', function (req, res) {
     var maphien = req.body.maphien;
     var giadau = req.body.giadau;
-    var suser = req.session.user;
+    var suser = req.session.user ;
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
         }
-        client.query("SELECT *FROM phieudaugia WHERE maphiendau = " 
-        + maphien.toString() + " AND tendangnhap='" + suser.toString() + "'",
+        client.query("SELECT *FROM phieudaugia WHERE maphiendau = "
+            + maphien + " AND tendangnhap='" + suser+ "'",
             function (err, result) {
                 done();
                 if (err) {
                     return console.error("error", err);
                 } else {
-                    if(result.rowCount == 1){
-                        client.query("",
-                        function (err, result) {
-                        done();
-                        if (err) {
-                            return console.error("error", err);
-                        } else {
-                        }});
-                    }else{
-                        console.log("chua");
+                    if (result.rowCount == 1) {//update
+                        client.query("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
+                        +" AND tendangnhap='"+suser+"'",
+                            function (err, result) {
+                                done();
+                                if (err) {
+                                    return console.error("error", err);
+                                } else {
+                                    console.log("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
+                                    +" AND tendangnhap='"+suser+"'");
+                                }
+                            });
+                    } else {//insert
+                        client.query("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
+                        +maphien+", '"+suser+"', "+giadau+", 1)",
+                            function (err, result) {
+                                done();
+                                if (err) {
+                                    return console.error("error", err);
+                                } else {
+                                    console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
+                                    +maphien+", '"+suser+"', "+giadau+", 1);");
+                                }
+                            });
                     }
                 }
             });
