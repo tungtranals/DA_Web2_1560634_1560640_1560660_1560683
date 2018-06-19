@@ -22,7 +22,7 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5433,
+    port: 5432,
     max: 10,
     idleTimeoutMillis: 30000,
 };
