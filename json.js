@@ -45,25 +45,6 @@ io.on("connection", function(socket){
         
     });
 });
-    app.get("/", function(req, res){
-        res.render("main.ejs");
-    });
-    app.get("/test", function(req, res){
-        pool.connect(function(err, client, done){
-            if(err){
-                return console.error("error ",err);
-            }
-            client.query('SELECT *FROM thongtin',function(err,result){
-                done();
-                if(err){
-                    res.end();
-                    return console.error("error",err);
-                } 
-                console.log(result.rows[0].hoten);
-                res.render("main.ejs", {danhsach:result});
-            });
-        });
-    }); 
 
     server.listen(3000,function(){
         console.log('server is listening in port 3000')
