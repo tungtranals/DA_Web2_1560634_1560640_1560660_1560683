@@ -22,7 +22,7 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5432,
+    port: 5433,
     max: 10,
     idleTimeoutMillis: 30000,
 };
@@ -707,9 +707,9 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 
 //
 app.post('/daugiaclient', function (req, res) {
-    var maphien = req.body.maphien.toString();
+    var maphien = req.body.maphien;
     var giadau = req.body.giadau;
-    var suser = req.session.user.toString() ;
+    var suser = req.session.user ;
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
@@ -722,22 +722,27 @@ app.post('/daugiaclient', function (req, res) {
                     return console.error("error", err);
                 } else {
                     if (result.rowCount == 1) {//update
-                        client.query("",
+                        client.query("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
+                        +" AND tendangnhap='"+suser+"'",
                             function (err, result) {
                                 done();
                                 if (err) {
                                     return console.error("error", err);
                                 } else {
+                                    console.log("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
+                                    +" AND tendangnhap='"+suser+"'");
                                 }
                             });
                     } else {//insert
                         client.query("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
-                        +maphien+", '"+suser+"', "+giadau+", 1);",
+                        +maphien+", '"+suser+"', "+giadau+", 1)",
                             function (err, result) {
                                 done();
                                 if (err) {
                                     return console.error("error", err);
                                 } else {
+                                    console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
+                                    +maphien+", '"+suser+"', "+giadau+", 1);");
                                 }
                             });
                     }
