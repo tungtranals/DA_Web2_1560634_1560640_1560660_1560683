@@ -93,12 +93,17 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-
-                        $("#userdn").val(arr[0]);
                         $("#passdn").val(arr[1]);
+                            $("#userdn").val("");
+                            $("#passdn").val("");
+                        }
+                        else {
+                            $("#userdn").val(arr[0]);
+                            $("#passdn").val(arr[1]);
+                        }
                         $("#chuadangnhap").show();
                         $("#batdau").hide();
-                        if (arr[2] != "0") {
+                        if (arr[2] != " ") {
                             $("#menu1").show();
                             $("#chuadangnhap").hide();
                             $("#dadangnhap").show();

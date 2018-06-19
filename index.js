@@ -543,14 +543,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var pass = req.cookies['pass'];
     //Kiểm tra cookie
     if (user === undefined || pass === undefined) {
-        lc += "0|0|";
-        //test
-        /*let options = {
-            maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
-            httpOnly: true, // The cookie only accessible by the web server
-        }
-        res.cookie('user', 'tung', options);
-        res.cookie('pass', '12345', options);*/
+        lc += " | |";
     } else {
         lc += user + "|" + pass + "|";
     }
@@ -560,7 +553,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     if (suser) {
         lc += suser + "|" + quyen;
     } else {
-        lc += "0|0";
+        lc += " |";
     }
     res.send(lc);
 
