@@ -22,7 +22,7 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5433,
+    port: 5432,
     max: 10,
     idleTimeoutMillis: 30000,
 };
@@ -556,36 +556,6 @@ app.post('/kiemtrasesioncookie', function (req, res) {
         lc += " |";
     }
     res.send(lc);
-
-    /*var cookie = req.cookies['cookieName'];
-    if (cookie === undefined) {
-        let options = {
-            maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
-            httpOnly: true, // The cookie only accessible by the web server
-        }// Set cookie
-        console.log("Chua co cookie");
-        res.cookie('cookieName', 'Value1', options)
-    } else {
-        console.log("da co cookie" + cookie);
-        let options = {
-            maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
-            httpOnly: true, // The cookie only accessible by the web server
-        }// Set cookie
-        res.cookie('cookieName', 'Value2', options)
-    }
-
-
-    if (req.session.email) {
-        console.log("Co roi");
-        req.session.destroy(function (err) {
-            if (err) {
-
-            }
-        });
-    } else {
-        console.log("Chua Co");
-        req.session.email = "hihi";
-    }*/
 });
 
 app.post('/sigout', function (req, res) {
