@@ -93,7 +93,7 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-                        $("#passdn").val(arr[1]);
+                        if(arr[0] ==  " ") {
                             $("#userdn").val("");
                             $("#passdn").val("");
                         }
