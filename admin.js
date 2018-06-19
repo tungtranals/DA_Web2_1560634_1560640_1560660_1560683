@@ -34,21 +34,3 @@ app.get('/',function(req,res){
     res.sendFile(path.join(__dirname+'/views/admin.html'));
 });
 
-app.post('/login',function(req,res){
-    var user = req.body.name;
-    var pass = req.body.pass;
-    pool.connect(function(err, client, done){
-        if(err){
-            return console.error("error ",err);
-        }
-        client.query("SELECT *FROM taikhoan WHERE tendangnhap ='"+user.toString()+"'AND matkhau='"+pass.toString()+"'",
-        function(err,result){
-            done();
-            if(err){
-                return console.error("error",err);
-            }else{
-                res.send(result.rowCount.toString());
-            }
-        });
-    });
-});
