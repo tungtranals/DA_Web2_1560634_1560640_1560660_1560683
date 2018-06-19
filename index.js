@@ -124,7 +124,7 @@ app.post('/signin', function (req, res) {
                                 req.session.user = user.toString();
                                 req.session.quyen = quyen1;
                             }
-                            res.send({rowcount: 1, quyen: quyen1, tenhienthi: name});
+                            res.send({ rowcount: 1, quyen: quyen1, tenhienthi: name });
                         });
 
                     } else
@@ -737,30 +737,39 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 
 //
 app.post('/daugiaclient', function (req, res) {
-    var maphien = req.body.maphien;
+    var maphien = req.body.maphien.toString();
     var giadau = req.body.giadau;
-    var suser = req.session.user;
+    var suser = req.session.user.toString() ;
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
         }
-        client.query("SELECT *FROM phieudaugia WHERE maphiendau = " 
-        + maphien.toString() + " AND tendangnhap='" + suser.toString() + "'",
+        client.query("SELECT *FROM phieudaugia WHERE maphiendau = "
+            + maphien + " AND tendangnhap='" + suser+ "'",
             function (err, result) {
                 done();
                 if (err) {
                     return console.error("error", err);
                 } else {
-                    if(result.rowCount == 1){
+                    if (result.rowCount == 1) {//update
                         client.query("",
-                        function (err, result) {
-                        done();
-                        if (err) {
-                            return console.error("error", err);
-                        } else {
-                        }});
-                    }else{
-                        console.log("chua");
+                            function (err, result) {
+                                done();
+                                if (err) {
+                                    return console.error("error", err);
+                                } else {
+                                }
+                            });
+                    } else {//insert
+                        client.query("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
+                        +maphien+", '"+suser+"', "+giadau+", 1);",
+                            function (err, result) {
+                                done();
+                                if (err) {
+                                    return console.error("error", err);
+                                } else {
+                                }
+                            });
                     }
                 }
             });
