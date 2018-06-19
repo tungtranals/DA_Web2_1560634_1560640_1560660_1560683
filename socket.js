@@ -14,18 +14,16 @@ var config = {
     max:10,
     idleTimeoutMillis:30000,
 };
-var pool = new pg.Pool(config);
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true}));
-app.use(bodyParser.json());
+
+//Sử dụng socket io
 io.on("connection", function(socket){
     console.log("ket noi "+socket.io);
     socket.on("disconnect", function(){
         console.log(socket.io +"ngat ket noi ");
     });
+    //nhận kết nối
     socket.on("clientsentdata", function(data){
+        //send data
         io.sockets.emit("serversentdata",
     "xin chao");
         
