@@ -598,7 +598,8 @@ app.get('/laykhodo', function (req, res) {
         client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
-            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1",
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang ="+
+            +"phieudaugia.maphieudau",
             function (err, result) {
                 done();
                 if (err) {
