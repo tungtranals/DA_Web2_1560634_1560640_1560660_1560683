@@ -93,9 +93,14 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-
-                        $("#userdn").val(arr[0]);
-                        $("#passdn").val(arr[1]);
+                        if (arr[0] != "0"){
+                            $("#userdn").val(arr[0]);
+                            $("#passdn").val(arr[1]);
+                        }else{
+                            $("#userdn").val('');
+                            $("#passdn").val('');
+                        }
+                        
                         $("#chuadangnhap").show();
                         $("#batdau").hide();
                         if (arr[2] != "0") {
@@ -205,11 +210,14 @@
                         "<div class='price-box'>" +
                         "<img src='images/" + response.tenanh + "' alt='Image' class='img-responsive'>" +
                         "<p>" + response.tensp + "</p>" +
-                        "<p>" + response.mota + "</p>" +
+                        "<p>Mô Tả: " + response.mota + "</p>" +
+                        "<p>Time Bắt Đầu: " + response.thoigianbatdau  + "</p>" +
+                        "<p>Time Đấu Giá: " + response.thoigiandau  + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
+                        
                         "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
@@ -277,6 +285,7 @@
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
@@ -302,6 +311,7 @@
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
