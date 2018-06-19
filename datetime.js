@@ -18,6 +18,6 @@ console.log(StrDate);
 var endDatess = Date.parse(StrDate.toString());
 console.log(endDatess+"/"+endDate);
 
-console.log(endDatess);
+/*console.log(endDatess);
 console.log(endDate);
-  console.log((startDate - endDate)/1000 );
+  console.log((startDate - endDate)/1000 ); */

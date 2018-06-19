@@ -64,32 +64,6 @@ io.on("connection", function(socket){
             });
         });
     }); 
-    app.get("/he/:id", function(req, res){
-        var  id = req.params.id;
-        var data = [{
-            "id": 2,
-            "msg": "hi",
-            "tid": "2013-05-05 23:35",
-            "fromWho": "hello1@email.se"
-          }, {
-            "id": 5,
-            "msg": "there",
-            "tid": "2013-05-05 23:45",
-            "fromWho": "hello2@email.se"
-          }
-        ];
-
-        for(var i= 0; i< data.length -1; i++){
-            for(var j= i+1; j< data.length; j++){
-                if(data[j].id > data[i].id){
-                    var t = data[j].id;
-                    data[j].id = data[i].id;
-                    data[i].id = t;
-                }
-            }
-        }
-        res.send(data);
-    });
 
     server.listen(3000,function(){
         console.log('server is listening in port 3000')
