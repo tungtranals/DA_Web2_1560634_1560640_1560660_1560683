@@ -41,39 +41,10 @@ setInterval(function () {
                     return console.error("error", err);
                 } else {
                     io.sockets.emit("senddata", result.rows);
-                    result.rows.forEach(function (item) {
-                        var startDate = Date.parse(item.thoigianbatdau.toString());
-                        var date = new Date();
-                        var t3 = date.getDate();
-                        var t1 = date.getMonth()+1;var t2 = date.getFullYear();
-                        var h = date.getHours();var m = date.getMinutes(); 
-                        var s = date.getSeconds();
-                        var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
-                        var endDate = Date.parse(StrDate.toString());
-                        if(endDate-startDate <0){
-                        }else{
-                            var min = ((endDate-startDate)/1000);
-                            var arrtime = item.thoigiandau.split(":");
-                            var timesec =  parseInt(arrtime[0])*60+parseInt(arrtime[1]);
-                            if(min>timesec){//hết giờ
-                                client.query("UPDATE phiendaugia SET matinhtrang= 2 WHERE maphien= "+item.maphien+"",
-                                function (err, result) {
-                                    done();
-                                    if (err) {
-                                        return console.error("error", err);
-                                    } else {
-                                    }
-                                });
-                            }else{
-                            }
-                            
-                            
-                        }
-                    });
                 }
             });
     });
-}, 1000);
+}, 100);
 
 app.get('/', function (req, res) {
 
