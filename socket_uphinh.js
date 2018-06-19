@@ -38,7 +38,6 @@ app.get("/tr",function(req,res){
 
 app.post('/upload', function(req, res) {
     if (!req.files)
-      return res.status(400).send('No files were uploaded.');
   
     // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
     let sampleFile = req.files.sampleFile;
@@ -69,7 +68,6 @@ app.get("/trtr",function(req,res){
 }); 
 
 app.get('/html',function(req,res){
-    res.sendFile(path.join(__dirname+'/views/uphinh.html'));
-    //__dirname : It will resolve to your project folder.
+    res.sendFile(path.join(__dirname+'/views/senfile.html'));
 });
 
