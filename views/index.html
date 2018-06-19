@@ -38,7 +38,7 @@
                 var idght = "#idght" + ma; //giá hiện tại
                 $(idght).html(item.giahientai);
                 var idghts = "#idghts" + ma; //giá hiện tại
-                var thedaugia= "#thedaugia"+ma;
+                var thedaugia = "#thedaugia" + ma;
                 $(idghts).val(item.giahientai + tyle);
 
                 var tgcl = "#tgcl" + ma;
@@ -46,52 +46,52 @@
                 var startDate = Date.parse(item.thoigianbatdau.toString());
                 var date = new Date();
                 var t3 = date.getDate();
-                var t1 = date.getMonth()+1;var t2 = date.getFullYear();
-                var h = date.getHours();var m = date.getMinutes(); 
+                var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                var h = date.getHours(); var m = date.getMinutes();
                 var s = date.getSeconds();
                 var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
                 var endDate = Date.parse(StrDate.toString());
-                var thedaupp = "#thepp"+ma;
-                
-                if(endDate-startDate <0){//Chưa tới time đấu giá sp này
+                var thedaupp = "#thepp" + ma;
+
+                if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
                     $(thedaupp).hide();
                     $(tgcl).html("chưa tới giờ");
-                }else{//Bắt Đầu Đấu Giá
+                } else {//Bắt Đầu Đấu Giá
                     $(thedaupp).hide();
-                    var min = ((endDate-startDate)/1000);
+                    var min = ((endDate - startDate) / 1000);
                     var arrtime = item.thoigiandau.split(":");
-                    var timesec =  parseInt(arrtime[0])*60+parseInt(arrtime[1]);
-                    if(min>timesec){
+                    var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                    if (min > timesec) {
                         $(tgcl).html("Hết giờ");
-                    }else{
+                    } else {
                         $(thedaupp).show();
                         var timepp = timesec - min;
                         $(tgcl).html(timepp);
-                        
+
                     }
-                    
-                    
+
+
                 }
-                
+
             });
 
         });
     </script>
     <script type="text/javascript">
 
-        function daugiaclient(ma){
+        function daugiaclient(ma) {
 
             var idghts = "#idghts" + ma;
             var gia = $(idghts).val();
 
             $.ajax({
-                    url: '/daugiaclient',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({ maphien: ma, giadau: gia }),
-                    success: function (response) {
-                    }
-                });
+                url: '/daugiaclient',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ maphien: ma, giadau: gia }),
+                success: function (response) {
+                }
+            });
         }
         $(document).ready(function () {
             $("#tangtien").val(5);
@@ -173,20 +173,20 @@
                         data: JSON.stringify({ add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
                         success: function (response) {
                             if (response.rowcount == 1) {
-                            $("#menu1").show();
-                            $("#chuadangnhap").hide();
-                            $("#dadangnhap").show();
-                            $("#sanpham").show();
-                            $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
-                            laycacphiendau();
-                            if (response.quyen == 2) {
-                                $("#admin").show();
-                                $("#nguoidung").hide();
-                            }
+                                $("#menu1").show();
+                                $("#chuadangnhap").hide();
+                                $("#dadangnhap").show();
+                                $("#sanpham").show();
+                                $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
+                                laycacphiendau();
+                                if (response.quyen == 2) {
+                                    $("#admin").show();
+                                    $("#nguoidung").hide();
+                                }
 
-                        } else {
-                            alert("sai mật khẩu hoặc tài khoản");
-                        }
+                            } else {
+                                alert("sai mật khẩu hoặc tài khoản");
+                            }
                         }
                     });
                 } else {
@@ -223,24 +223,24 @@
                     var tgcl = "tgcl" + ma;
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
-                    var idthedaugia = "thedaugia"+ma;
+                    var idthedaugia = "thedaugia" + ma;
                     var lc = " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<img src='images/" + response.tenanh + "' alt='Image' class='img-responsive'>" +
                         "<p>" + response.tensp + "</p>" +
                         "<p>Mô Tả: " + response.mota + "</p>" +
-                        "<p>Time Bắt Đầu: " + response.thoigianbatdau  + "</p>" +
-                        "<p>Time Đấu Giá: " + response.thoigiandau  + "</p>" +
+                        "<p>Time Bắt Đầu: " + response.thoigianbatdau + "</p>" +
+                        "<p>Time Đấu Giá: " + response.thoigiandau + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
-                        
+
                         "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
-                        "</br><div id = 'thepp"+ma+"'> <a class='btn btn-default btn-sm' onclick='daugiaclient("+ma+")'>Đấu Giá</a></div>" +
+                        "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
                         "</div></div>";
                     $("#sanpham").append(lc);
                 }
@@ -256,7 +256,7 @@
             var tyle = parseInt($("#tangtien").val());
             $("#tangtien").val(tyle + 5);
         }
-        
+
         function khodo() {
             $("#sanpham").html("");
             $.ajax({
@@ -265,6 +265,31 @@
                 dataType: 'json',
                 success: function (response) {
                     response.forEach(function (item) {
+                        var startDate = Date.parse(item.thoigianbatdau.toString());
+                        var date = new Date();
+                        var t3 = date.getDate();
+                        var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                        var h = date.getHours(); var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
+                        var endDate = Date.parse(StrDate.toString());
+
+                        if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
+                        } else {//Bắt Đầu Đấu Giá
+
+                            var min = ((endDate - startDate) / 1000);
+                            var arrtime = item.thoigiandau.split(":");
+                            var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                            if (min > timesec) {//Hết Giờ
+                            } else {
+                                $(thedaupp).show();
+                                var timepp = timesec - min;
+                                $(tgcl).html(timepp);
+
+                            }
+
+
+                        }
                         var lc = " <div class='col-md-4'>" +
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
@@ -281,16 +306,17 @@
             });
         }
         function thanhtoansp(id) {
+            alert("hihihi");
             $.ajax({
                 type: 'GET',
                 url: '/thanhtoansp/' + id,
-                dataType: 'json',
+                dataType: 'text',
                 success: function (response) {
                     alert(response);
-                    
+                    khodo();
                 }
             });
-            khodo();
+
         }
         function laycacphiendau() {
             $("#sanpham").html("");
@@ -301,12 +327,12 @@
                 success: function (response) {
                     response.forEach(function (item) {
                         var ma = item.maphien;
-                    var tgcl = "tgcl" + ma; 
+                        var tgcl = "tgcl" + ma;
                         var lc = " <div class='col-md-4'>" +
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
-                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
@@ -327,12 +353,12 @@
                 success: function (response) {
                     response.forEach(function (item) {
                         var ma = item.maphien;
-                    var tgcl = "tgcl" + ma; 
+                        var tgcl = "tgcl" + ma;
                         var lc = " <div class='col-md-4'>" +
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
-                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
@@ -390,203 +416,205 @@
                         <div class="gtco-container">
 
                             <div class="row" id="sanphanadmin">
-                                    <h2 id='ten' class="pricing-plan"></h2>
-                                </div>
+                                <h2 id='ten' class="pricing-plan"></h2>
+                            </div>
 
+                        </div>
+                    </div>
+            </div>
+            </center>
+        </div>
+        <div id="nguoidung">
+            <div class="page-inner">
+                <!-- Menu Đã Đăng Nhập -->
+                <div id="menu1">
+                    <nav class="gtco-nav" role="navigation">
+                        <div class="gtco-container">
+
+                            <div class="row">
+
+                                <div class="col-xs-8 text-right menu-1">
+                                    <ul>
+                                        <li>
+                                            <a onclick="laycacphiendau()">SP Mới Nhất</a>
+                                        </li>
+                                        <li class="has-dropdown">
+                                            <a>Danh Mục SP</a>
+                                            <ul class="dropdown">
+                                                <li>
+                                                    <a onclick="laycacphiendautheoloai(1)">Loại 1</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="laycacphiendautheoloai(2)">Loại 2</a>
+                                                </li>
+                                                <li>
+                                                    <a onclick="laycacphiendautheoloai(3)">Loại 3</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a onclick="khodo()">Kho Đồ</a>
+                                        </li>
+                                        <li>
+                                            <a onclick="dangxuat()">Đăng Xuất</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+                <!-- Menu Đã Đăng Nhập -->
+                <header id="gtco-header" style="background-image: url(images/img_8.jpg)">
+                    <!-- Bắt Đầu -->
+                    <div id="batdau">
+                        </br>
+                        <div class="row">
+                            <div class="text-center" data-animate-effect="fadeInUp">
+
+                                <p>1560660 | 1560683 | 1560634 | 1560640</p>
+                                </br>
+                                </br>
+                                <h1 class="text-primary">TRANG ĐẤU GIÁ 15CK3</h1>
+                                <br>
+                                <br>
+                                <br>
+                                <h3 class="text-info">
+                                    Bắt đầu tham gia đấu giá nào !!!
+                                </h3>
+                                <input id="submitbatdau" type="submit" class="btn btn-primary" value="Bắt Đầu">
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="row-mt-15em">
+                            <img src="/images/NOKIA-Logo-Blue-Rev.jpg" width="290px" height="225px">
+                            <img src="/images/download.png" width="290px" height="225px">
+                            <img src="/images/apple-logo_318-40184.jpg" width="290px" height="225px">
+                            <img src="/images/2000px-Samsung_Logo.svg.png" width="318x" height="225px">
+                            <img src="/images/main-qimg-18d801a88c5d4fefd289642da0d074d9.png" width="290x" height="225px">
+                            <img src="/images/392455336.png" width="290x" height="225px">
+                            <img src="/images/1280px-Intel-logo.svg.png" width="290x" height="225px">
+                            <img src="/images/asus-logo.png" width="318x" height="225px">
+
+                        </div>
+                    </div>
+                    <!-- Bắt Đầu -->
+                    <!-- Đã Đăng Nhập -->
+                    <div id="dadangnhap">
+                        <div class="row">
+
+                            <div class="col-lg-12 mt-text animate-box" data-animate-effect="fadeInUp">
+                                <div id='tenuser'></div>
+                                </br>
+                                <p>1560660 | 1560683 | 1560634 | 1560640</p>
+                                </br>
+                                </br>
+                                <h1>TRANG ĐẤU GIÁ 15CK3</h1>
+                                <div class="row form-group">
+                                </div>
                             </div>
                         </div>
                     </div>
-                </center>
-            </div>
-            <div id="nguoidung">
-                <div class="page-inner">
-                    <!-- Menu Đã Đăng Nhập -->
-                    <div id="menu1">
-                        <nav class="gtco-nav" role="navigation">
-                            <div class="gtco-container">
+                    <!-- Đã Đăng Nhập -->
 
-                                <div class="row">
+                    <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
+                    <div class="gtco-container" id="chuadangnhap">
+                        <div class="row">
+                            <div class="col-md-12 col-md-offset-0 text-left">
 
-                                    <div class="col-xs-8 text-right menu-1">
-                                        <ul>
-                                            <li>
-                                                <a onclick="laycacphiendau()">SP Mới Nhất</a>
-                                            </li>
-                                            <li class="has-dropdown">
-                                                <a>Danh Mục SP</a>
-                                                <ul class="dropdown">
-                                                    <li>
-                                                        <a onclick="laycacphiendautheoloai(1)">Loại 1</a>
+                                <div class="row row-mt-15em">
+                                    <div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
+                                        1560660 1560683 1560634 1560640
+                                        </br>
+                                        </br>
+                                        <h1>TRANG ĐẤU GIÁ 15CK3</h1>
+                                    </div>
+
+                                    <div id="menu" class="col-md-4 col-md-push-1 " data-animate-effect="fadeInRight">
+                                        <div class="form-wrap">
+                                            <div class="tab">
+                                                <ul class="tab-menu">
+                                                    <li class="active gtco-first">
+                                                        <a data-tab="signup">Đăng Nhập</a>
                                                     </li>
-                                                    <li>
-                                                        <a onclick="laycacphiendautheoloai(2)">Loại 2</a>
-                                                    </li>
-                                                    <li>
-                                                        <a onclick="laycacphiendautheoloai(3)">Loại 3</a>
+                                                    <li class="gtco-second">
+                                                        <a data-tab="login">Đăng Ký</a>
                                                     </li>
                                                 </ul>
-                                            </li>
-                                            <li>
-                                                <a onclick="khodo()">Kho Đồ</a>
-                                            </li>
-                                            <li>
-                                                <a onclick="dangxuat()">Đăng Xuất</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </nav>
-                    </div>
-                    <!-- Menu Đã Đăng Nhập -->
-                    <header id="gtco-header" style="background-image: url(images/img_8.jpg)">
-                        <!-- Bắt Đầu -->
-                        <div id="batdau">
-                            </br>
-                            <div class="row" >
-                                <div class="text-center" data-animate-effect="fadeInUp">
-
-                                    <p>1560660     |      1560683     |       1560634      |       1560640</p>
-                                    </br>
-                                    </br>
-                                    <h1 class="text-primary">TRANG ĐẤU GIÁ 15CK3</h1>
-                                    <br><br><br>
-                                    <h3 class="text-info">
-                                        Bắt đầu tham gia đấu giá nào !!!
-                                    </h3>
-                                    <input id="submitbatdau" type="submit" class="btn btn-primary" value="Bắt Đầu">
-                                </div>
-                            </div>
-                            <br><br>
-                            <div class="row-mt-15em">
-                                <img src="/images/NOKIA-Logo-Blue-Rev.jpg" width="290px" height="225px">
-                                <img src="/images/download.png" width="290px" height="225px">
-                                <img src="/images/apple-logo_318-40184.jpg" width="290px" height="225px">
-                                <img src="/images/2000px-Samsung_Logo.svg.png" width="318x" height="225px">
-                                <img src="/images/main-qimg-18d801a88c5d4fefd289642da0d074d9.png" width="290x" height="225px">
-                                <img src="/images/392455336.png" width="290x" height="225px">
-                                <img src="/images/1280px-Intel-logo.svg.png" width="290x" height="225px">
-                                <img src="/images/asus-logo.png" width="318x" height="225px">
-                                
-                            </div>
-                        </div>
-                        <!-- Bắt Đầu -->
-                        <!-- Đã Đăng Nhập -->
-                        <div id="dadangnhap">
-                            <div class="row">
-
-                                <div class="col-lg-12 mt-text animate-box" data-animate-effect="fadeInUp">
-                                    <div id='tenuser'></div>
-                                    </br>
-                                    <p>1560660     |      1560683     |       1560634      |       1560640</p>
-                                    </br>
-                                    </br>
-                                    <h1>TRANG ĐẤU GIÁ 15CK3</h1>
-                                    <div class="row form-group">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Đã Đăng Nhập -->
-
-                        <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
-                        <div class="gtco-container" id="chuadangnhap">
-                            <div class="row">
-                                <div class="col-md-12 col-md-offset-0 text-left">
-
-                                    <div class="row row-mt-15em">
-                                        <div class="col-md-7 mt-text " data-animate-effect="fadeInUp">
-                                            1560660 1560683 1560634 1560640
-                                            </br>
-                                            </br>
-                                            <h1>TRANG ĐẤU GIÁ 15CK3</h1>
-                                        </div>
-
-                                        <div id="menu" class="col-md-4 col-md-push-1 " data-animate-effect="fadeInRight">
-                                            <div class="form-wrap">
-                                                <div class="tab">
-                                                    <ul class="tab-menu">
-                                                        <li class="active gtco-first">
-                                                            <a data-tab="signup">Đăng Nhập</a>
-                                                        </li>
-                                                        <li class="gtco-second">
-                                                            <a data-tab="login">Đăng Ký</a>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="tab-content">
-                                                        <div class="tab-content-inner active" data-content="signup">
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Tên Đăng Nhập</label>
-                                                                    <input type="text" class="form-control" id="userdn">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="password">Mật Khẩu</label>
-                                                                    <input type="password" class="form-control" id="passdn">
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <input id="submitdangnhap" type="submit" class="btn btn-primary" value="Đăng Nhập">
-                                                                </div>
+                                                <div class="tab-content">
+                                                    <div class="tab-content-inner active" data-content="signup">
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Tên Đăng Nhập</label>
+                                                                <input type="text" class="form-control" id="userdn">
                                                             </div>
                                                         </div>
-                                                        <div class="tab-content-inner" data-content="login">
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Tên Đăng Nhập</label>
-                                                                    <input type="text" class="form-control" id="user">
-                                                                </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="password">Mật Khẩu</label>
+                                                                <input type="password" class="form-control" id="passdn">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Tên Hiển Thị</label>
-                                                                    <input type="text" class="form-control" id="name">
-                                                                </div>
+                                                        </div>
+
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <input id="submitdangnhap" type="submit" class="btn btn-primary" value="Đăng Nhập">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Email</label>
-                                                                    <input type="text" class="form-control" id="email">
-                                                                </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-content-inner" data-content="login">
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Tên Đăng Nhập</label>
+                                                                <input type="text" class="form-control" id="user">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Số Điện Thoại</label>
-                                                                    <input type="text" class="form-control" id="sodt">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Tên Hiển Thị</label>
+                                                                <input type="text" class="form-control" id="name">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Địa chỉ</label>
-                                                                    <input type="text" class="form-control" id="diachi">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Email</label>
+                                                                <input type="text" class="form-control" id="email">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="password">Mật Khẩu</label>
-                                                                    <input type="password" class="form-control" id="pass1">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Số Điện Thoại</label>
+                                                                <input type="text" class="form-control" id="sodt">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="password2">Nhập Lại Mật Khẩu</label>
-                                                                    <input type="password" class="form-control" id="pass2">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Địa chỉ</label>
+                                                                <input type="text" class="form-control" id="diachi">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <label for="username">Code(create admin)</label>
-                                                                    <input type="text" class="form-control" id="ad123">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="password">Mật Khẩu</label>
+                                                                <input type="password" class="form-control" id="pass1">
                                                             </div>
-                                                            <div class="row form-group">
-                                                                <div class="col-md-12">
-                                                                    <input id="submitdangky" type="submit" class="btn btn-primary" value="Đăng Ký">
-                                                                </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="password2">Nhập Lại Mật Khẩu</label>
+                                                                <input type="password" class="form-control" id="pass2">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <label for="username">Code(create admin)</label>
+                                                                <input type="text" class="form-control" id="ad123">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-md-12">
+                                                                <input id="submitdangky" type="submit" class="btn btn-primary" value="Đăng Ký">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -597,54 +625,55 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
-                    </header>
-                    <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
-                    <div class="gtco-section border-bottom">
-                        <div class="gtco-container">
-
-                            <div class="row" id="sanpham">
-
-                            </div>
-                        </div>
                     </div>
-                    <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
+                    <!-- Chưa Đăng Nhập, người dùng nhập user, pass -->
+                </header>
+                <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
+                <div class="gtco-section border-bottom">
+                    <div class="gtco-container">
 
-                    <div class="gtco-section border-bottom">
-                        <div class="gtco-container">
-                            <div class="row-pb-sm">
-                                <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-                                    <h2>Trường Đại Học Khoa Học Tự Nhiên</h2>
-                                </div>
-                            </div>
+                        <div class="row" id="sanpham">
 
                         </div>
-                    </div>
-                    <div class="gototop js-top">
-                        <a class="js-gotop">
-                            <i class="icon-arrow-up"></i>
-                        </a>
                     </div>
                 </div>
+                <!-- Danh sách sản phẩm khi người dùng đã đăng nhập -->
+
+                <div class="gtco-section border-bottom">
+                    <div class="gtco-container">
+                        <div class="row-pb-sm">
+                            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                                <h2>Trường Đại Học Khoa Học Tự Nhiên</h2>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="gototop js-top">
+                    <a class="js-gotop">
+                        <i class="icon-arrow-up"></i>
+                    </a>
+                </div>
             </div>
-            <!-- jQuery -->
-            <script src="js/jquery.min.js"></script>
-            <!-- jQuery Easing -->
-            <script src="js/jquery.easing.1.3.js"></script>
-            <!-- Bootstrap -->
-            <script src="js/bootstrap.min.js"></script>
-            <!-- Waypoints -->
-            <script src="js/jquery.waypoints.min.js"></script>
-            <!-- Carousel -->
-            <script src="js/owl.carousel.min.js"></script>
-            <!-- countTo -->
-            <script src="js/jquery.countTo.js"></script>
-            <!-- Magnific Popup -->
-            <script src="js/jquery.magnific-popup.min.js"></script>
-            <script src="js/magnific-popup-options.js"></script>
-            <!-- Main -->
-            <script src="js/main.js"></script>
         </div>
+        <!-- jQuery -->
+        <script src="js/jquery.min.js"></script>
+        <!-- jQuery Easing -->
+        <script src="js/jquery.easing.1.3.js"></script>
+        <!-- Bootstrap -->
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Waypoints -->
+        <script src="js/jquery.waypoints.min.js"></script>
+        <!-- Carousel -->
+        <script src="js/owl.carousel.min.js"></script>
+        <!-- countTo -->
+        <script src="js/jquery.countTo.js"></script>
+        <!-- Magnific Popup -->
+        <script src="js/jquery.magnific-popup.min.js"></script>
+        <script src="js/magnific-popup-options.js"></script>
+        <!-- Main -->
+        <script src="js/main.js"></script>
+    </div>
     </div>
 </body>
 

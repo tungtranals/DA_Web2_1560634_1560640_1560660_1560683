@@ -623,9 +623,10 @@ app.get("/thanhtoansp/:id", function (req, res) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
+                    console.log("k thanh cong thanh cong");
                     return console.error("error", err);
                 } else {
-                    console.log(result);
+                    console.log("thanh cong me roi");
                     res.send("thanh cong");
 
                 }
@@ -722,7 +723,7 @@ app.post('/daugiaclient', function (req, res) {
                     return console.error("error", err);
                 } else {
                     if (result.rowCount == 1) {//update
-                        client.query("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
+                        client.query("UPDATE phieudaugia SET giadau=" + giadau + ",tinhtrang =1 WHERE maphiendau=" + maphien
                             + " AND tendangnhap='" + suser + "'",
                             function (err, result) {
                                 done();
