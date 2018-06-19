@@ -64,7 +64,7 @@
                     }else{
                         var timepp = timesec - min;
                         $(tgcl).html(timepp);
-                        $(thedaugia).html("<a class='btn btn-default btn-sm' onclick='thanhtoansp(" + ma + ")'>Đấu Giá</a>");
+                        //$(thedaugia).html();
                         
                     }
                     
@@ -76,7 +76,11 @@
         });
     </script>
     <script type="text/javascript">
-
+        function daugiaclient(ma){
+            var idghts = "#idghts" + ma;
+            var gia = $(idghts).val();
+            alert(gia+"//"+ma);
+        }
         $(document).ready(function () {
             $("#tangtien").val(5);
 
@@ -93,17 +97,12 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-                        if(arr[0] ==  " ") {
-                            $("#userdn").val("");
-                            $("#passdn").val("");
-                        }
-                        else {
-                            $("#userdn").val(arr[0]);
-                            $("#passdn").val(arr[1]);
-                        }
+
+                        $("#userdn").val(arr[0]);
+                        $("#passdn").val(arr[1]);
                         $("#chuadangnhap").show();
                         $("#batdau").hide();
-                        if (arr[2] != " ") {
+                        if (arr[2] != "0") {
                             $("#menu1").show();
                             $("#chuadangnhap").hide();
                             $("#dadangnhap").show();
@@ -132,6 +131,7 @@
                             $("#dadangnhap").show();
                             $("#sanpham").show();
                             $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
+                            laycacphiendau();
                             if (response.quyen == 2) {
                                 $("#admin").show();
                                 $("#nguoidung").hide();
@@ -160,15 +160,21 @@
                         contentType: 'application/json',
                         data: JSON.stringify({ add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
                         success: function (response) {
-                            if (response == 1) {
-                                $("#menu1").show();
-                                $("#chuadangnhap").hide();
-                                $("#dadangnhap").show();
-                                $("#sanpham").show();
-                                alert("Tạo thành công");
-                            } else {
-                                alert("không thể tạo tài khoản này");
+                            if (response.rowcount == 1) {
+                            $("#menu1").show();
+                            $("#chuadangnhap").hide();
+                            $("#dadangnhap").show();
+                            $("#sanpham").show();
+                            $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
+                            laycacphiendau();
+                            if (response.quyen == 2) {
+                                $("#admin").show();
+                                $("#nguoidung").hide();
                             }
+
+                        } else {
+                            alert("sai mật khẩu hoặc tài khoản");
+                        }
                         }
                     });
                 } else {
@@ -210,16 +216,19 @@
                         "<div class='price-box'>" +
                         "<img src='images/" + response.tenanh + "' alt='Image' class='img-responsive'>" +
                         "<p>" + response.tensp + "</p>" +
-                        "<p>" + response.mota + "</p>" +
+                        "<p>Mô Tả: " + response.mota + "</p>" +
+                        "<p>Time Bắt Đầu: " + response.thoigianbatdau  + "</p>" +
+                        "<p>Time Đấu Giá: " + response.thoigiandau  + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
+                        
                         "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
-                        "</br><div id = '"+idthedaugia+"' ></div>" +
+                        "</br> <a class='btn btn-default btn-sm' onclick='daugiaclient("+ma+")' >Đấu Giá</a>" +
                         "</div></div>";
                     $("#sanpham").append(lc);
                 }
@@ -282,6 +291,7 @@
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
@@ -307,6 +317,7 @@
                             "<div class='price-box'>" +
                             "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                             "<p> Tên SP:" + item.tensp + "</p>" +
+                            "<p>Time Đấu Giá: " + item.thoigianbatdau  + "</p>" +
                             "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                             "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
                             "<hr>" +
