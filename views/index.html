@@ -64,7 +64,7 @@
                     }else{
                         var timepp = timesec - min;
                         $(tgcl).html(timepp);
-                        $(thedaugia).html("<a class='btn btn-default btn-sm' onclick='thanhtoansp(" + ma + ")'>Đấu Giá</a>");
+                        $(thedaugia).html("<a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a>");
                         
                     }
                     
@@ -93,14 +93,9 @@
                     dataType: 'text',
                     success: function (response) {
                         var arr = response.toString().split("|");
-                        if (arr[0] != "0"){
-                            $("#userdn").val(arr[0]);
-                            $("#passdn").val(arr[1]);
-                        }else{
-                            $("#userdn").val('');
-                            $("#passdn").val('');
-                        }
-                        
+
+                        $("#userdn").val(arr[0]);
+                        $("#passdn").val(arr[1]);
                         $("#chuadangnhap").show();
                         $("#batdau").hide();
                         if (arr[2] != "0") {
@@ -132,6 +127,7 @@
                             $("#dadangnhap").show();
                             $("#sanpham").show();
                             $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
+                            laycacphiendau();
                             if (response.quyen == 2) {
                                 $("#admin").show();
                                 $("#nguoidung").hide();
@@ -160,15 +156,21 @@
                         contentType: 'application/json',
                         data: JSON.stringify({ add: ad.val(), diachi: diachi.val(), email: email.val(), sodt: sodt.val(), user: user.val(), name: name.val(), pass: pass1.val() }),
                         success: function (response) {
-                            if (response == 1) {
-                                $("#menu1").show();
-                                $("#chuadangnhap").hide();
-                                $("#dadangnhap").show();
-                                $("#sanpham").show();
-                                alert("Tạo thành công");
-                            } else {
-                                alert("không thể tạo tài khoản này");
+                            if (response.rowcount == 1) {
+                            $("#menu1").show();
+                            $("#chuadangnhap").hide();
+                            $("#dadangnhap").show();
+                            $("#sanpham").show();
+                            $('#tenuser').html(response.tenhienthi + " đã đăng Nhập");
+                            laycacphiendau();
+                            if (response.quyen == 2) {
+                                $("#admin").show();
+                                $("#nguoidung").hide();
                             }
+
+                        } else {
+                            alert("sai mật khẩu hoặc tài khoản");
+                        }
                         }
                     });
                 } else {

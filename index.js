@@ -71,7 +71,7 @@ app.post('/login', function (req, res) {
                     }
                     res.cookie('user', user.toString(), options);
                     res.cookie('pass', pass.toString(), options);
-                    req.session.user = user.toString(); 
+                    req.session.user = user.toString();
                     req.session.quyen = result.rows[0].maloaitaikhoan;
                     res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan, tenhienthi: result.rows[0].tenhienthi });
                 }
@@ -81,16 +81,19 @@ app.post('/login', function (req, res) {
 app.post('/signin', function (req, res) {
     var user = req.body.user;
     var pass = req.body.pass;
-    var quyen = 1;
+    var quyen1 = 1;
     var quyenadmin = req.body.add;
     if (quyenadmin == "admin123") {
-        quyen = 2;
+        quyen1 = 2;
     }
 
     var name = req.body.name;
     var email = req.body.email;
     var sodt = req.body.sodt;
     var diachi = req.body.diachi;
+
+
+
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
@@ -104,15 +107,24 @@ app.post('/signin', function (req, res) {
                     if (result.rowCount == 0) {
                         var kq = user + "/" + pass + "/" + name + "/" + email + "/" + sodt + "/" + diachi;
                         var sql = "INSERT INTO taikhoan(tendangnhap, matkhau, tenhienthi, email,dienthoai,diachi,maloaitaikhoan) VALUES('" + user
-                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "'," + quyen + " )";
+                            + "','" + pass + "','" + name + "','" + email + "','" + sodt + "','" + diachi + "'," + quyen1 + " )";
                         client.query(sql, function (err, result) {
                             done();
                             if (err) {
                                 res.send("0");
                                 res.end();
                                 return console.error("error", err);
+                            } else {
+                                let options = {
+                                    maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
+                                    httpOnly: true,
+                                }
+                                res.cookie('user', user.toString(), options);
+                                res.cookie('pass', pass.toString(), options);
+                                req.session.user = user.toString();
+                                req.session.quyen = quyen1;
                             }
-                            res.send("1");
+                            res.send({rowcount: 1, quyen: quyen1, tenhienthi: name});
                         });
 
                     } else
@@ -614,9 +626,9 @@ app.get('/laykhodo', function (req, res) {
         }
         var suser = req.session.user;
         client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
-        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
-        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh"+
-        " WHERE tendangnhap ='"+suser+"' AND phieudaugia.tinhtrang = 1",
+            + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
+            " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1",
             function (err, result) {
                 done();
                 if (err) {
@@ -636,7 +648,7 @@ app.get("/thanhtoansp/:id", function (req, res) {
         if (err) {
             return console.error("error ", err);
         }
-        client.query("UPDATE phieudaugia SET tinhtrang = 2 WHERE maphieudau ="+id+"",
+        client.query("UPDATE phieudaugia SET tinhtrang = 2 WHERE maphieudau =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
@@ -659,8 +671,8 @@ app.get('/laycacphiendau', function (req, res) {
         }
         var suser = req.session.user;
         client.query("SELECT *FROM phiendaugia "
-        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
-        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh",
+            + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
+            " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh",
             function (err, result) {
                 done();
                 if (err) {
@@ -683,8 +695,8 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
         }
         var loai = req.params.id;
         client.query("SELECT *FROM phiendaugia "
-        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
-        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE sanpham.maloaisp = "+loai+"",
+            + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
+            " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE sanpham.maloaisp = " + loai + "",
             function (err, result) {
                 done();
                 if (err) {
@@ -707,8 +719,8 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
         }
         var loai = req.params.id;
         client.query("SELECT *FROM phiendaugia "
-        +" INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp "+
-        " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE phiendaugia.maphien = "+loai+"",
+            + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
+            " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE phiendaugia.maphien = " + loai + "",
             function (err, result) {
                 done();
                 if (err) {
