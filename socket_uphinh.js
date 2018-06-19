@@ -52,7 +52,7 @@ app.post('/upload', function(req, res) {
         res.send("hihi");
     });
 });
-app.get("/trtr",function(req,res){
+/*app.get("/trtr",function(req,res){
     res.render("uphinh.ejs");
 }); 
 
@@ -72,4 +72,4 @@ app.post('/uploadsss', function(req, res) {
   
         res.send("hihi");
     });
-});
+});*/
