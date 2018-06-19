@@ -281,32 +281,24 @@
                             var arrtime = item.thoigiandau.split(":");
                             var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
                             if (min > timesec) {//Hết Giờ
-                            } else {
-                                $(thedaupp).show();
-                                var timepp = timesec - min;
-                                $(tgcl).html(timepp);
-
+                                var lc = " <div class='col-md-4'>" +
+                                    "<div class='price-box'>" +
+                                    "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
+                                    "<p>" + item.tensp + "</p>" +
+                                    "<p>" + item.mota + "</p>" +
+                                    "<p>" + item.giadau + "</p>" +
+                                    "<hr>" +
+                                    "</ul>" +
+                                    "<a class='btn btn-default btn-sm' onclick='thanhtoansp(" + item.maphieudau + ")'>Thanh Toán</a>" +
+                                    "</div></div>";
+                                $("#sanpham").append(lc);
                             }
-
-
                         }
-                        var lc = " <div class='col-md-4'>" +
-                            "<div class='price-box'>" +
-                            "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
-                            "<p>" + item.tensp + "</p>" +
-                            "<p>" + item.mota + "</p>" +
-                            "<p>" + item.giadau + "</p>" +
-                            "<hr>" +
-                            "</ul>" +
-                            "<a class='btn btn-default btn-sm' onclick='thanhtoansp(" + item.maphieudau + ")'>Thanh Toán</a>" +
-                            "</div></div>";
-                        $("#sanpham").append(lc);
                     });
                 }
             });
         }
         function thanhtoansp(id) {
-            alert("hihihi");
             $.ajax({
                 type: 'GET',
                 url: '/thanhtoansp/' + id,
