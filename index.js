@@ -22,7 +22,7 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5432,
+    port: 5433,
     max: 10,
     idleTimeoutMillis: 30000,
 };
@@ -595,11 +595,10 @@ app.get('/laykhodo', function (req, res) {
             return console.error("error ", err);
         }
         var suser = req.session.user;
-        client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
+        client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphieudau = phiendaugia.maphieuthang "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
-            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang =" +
-            +"phieudaugia.maphieudau",
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1",
             function (err, result) {
                 done();
                 if (err) {

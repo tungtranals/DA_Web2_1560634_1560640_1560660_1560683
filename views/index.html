@@ -256,16 +256,7 @@
             var tyle = parseInt($("#tangtien").val());
             $("#tangtien").val(tyle + 5);
         }
-        function thanhtoansp(id) {
-            $.ajax({
-                type: 'GET',
-                url: '/thanhtoansp/' + id,
-                dataType: 'json',
-                success: function (response) {
-                    khodo();
-                }
-            });
-        }
+        
         function khodo() {
             $("#sanpham").html("");
             $.ajax({
@@ -288,6 +279,18 @@
                     });
                 }
             });
+        }
+        function thanhtoansp(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/thanhtoansp/' + id,
+                dataType: 'json',
+                success: function (response) {
+                    alert(response);
+                    
+                }
+            });
+            khodo();
         }
         function laycacphiendau() {
             $("#sanpham").html("");
