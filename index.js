@@ -16,17 +16,14 @@ var server = require("http").Server(app);
 var io = require("socket.io")(server);
 
 
-var http = require('http');
-
+var http = require('http').createServer(app);
 //Test Deploy and run Node apps
-var PORT = "3000";
-http.createServer(function(req, res) {
-    res.writeHead(200, {"Content-Type": "text/plain"});
-    res.end("Hello\n");
-}).listen(process.env.PORT)
+http.listen(process.env.PORT);
 
 
-server.listen(3000, function () { console.log('server is listening in port 3000') });
+
+
+//server.listen(3000, function () { console.log('server is listening in port 3000') });
 var pg = require('pg');
 var config = {
     user: 'postgres',
@@ -58,7 +55,6 @@ setInterval(function () {
 }, 100);
 
 app.get('/', function (req, res) {
-
     res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
