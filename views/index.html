@@ -76,10 +76,20 @@
         });
     </script>
     <script type="text/javascript">
+
         function daugiaclient(ma){
+            
             var idghts = "#idghts" + ma;
             var gia = $(idghts).val();
-            alert(gia+"//"+ma);
+
+            $.ajax({
+                    url: '/daugiaclient',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ maphien: ma, giadau: gia }),
+                    success: function (response) {
+                    }
+                });
         }
         $(document).ready(function () {
             $("#tangtien").val(5);
