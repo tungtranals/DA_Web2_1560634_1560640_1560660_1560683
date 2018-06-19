@@ -747,25 +747,25 @@ app.post('/daugiaclient', function (req, res) {
                                 }
                             });
                     }
-                    var lcdem = 0;
-                    var arr;
-                    client.query("SELECT * FROM phieudaugia WHERE maphiendau ="+maphien+" AND tendangnhap= '"+suser+"' ",
+                    var maphieupp = 0;
+                    lcdem =1;
+                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau ="+maphien+" AND tendangnhap= '"+suser+"' ",
                         function (err, result) {
                             done();
                             if (err) {
                                 return console.error("error", err);
                             } else {
-                                lcdem =result.rowCount;
-                                arr = result.rows;
+                                //lcdem =result.rowCount;
+                                var arr = result.rows;
+                                maphieupp = arr[0].maphieudau;
                                 console.log("dem "+result.rowCount);
+                                console.log("dem11 "+arr[0].maphieudau);
                             }
                         });
                     if(lcdem == 1){
-                        var maphieu = arr[0].maphieudau;
-                        console.log(maphieu+" ma phieu")
-                        client.query("UPDATE phiendaugia SET giahientai= "+giadau
-                        +", matinhtrang= 2, maphieuthang= "+maphieu
-                        +" WHERE maphien="+maphien+" ",
+                        console.log(maphieupp+" ma phieu")
+                        client.query("UPDATE phiendaugia SET giahientai="+giadau+", matinhtrang= 2, maphieuthang= "+
+                        maphieupp+" WHERE maphien = "+maphien+"",
                         function (err, result) {
                             done();
                             if (err) {
@@ -773,9 +773,7 @@ app.post('/daugiaclient', function (req, res) {
                             } else {
                                 lcdem =result.rowCount;
                                 arr = result.rows;
-                                console.log("UPDATE phiendaugia SET giahientai= "+giadau
-                                +", matinhtrang= 2, maphieuthang= "+maphieu
-                                +" WHERE maphien="+maphien+" ");
+                                console.log("UPDATE");
                             }
                         });
                     }
