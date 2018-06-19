@@ -733,3 +733,36 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
             });
     });
 });
+
+
+//
+app.post('/daugiaclient', function (req, res) {
+    var maphien = req.body.maphien;
+    var giadau = req.body.giadau;
+    var suser = req.session.user;
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        client.query("SELECT *FROM phieudaugia WHERE maphiendau = " 
+        + maphien.toString() + " AND tendangnhap='" + suser.toString() + "'",
+            function (err, result) {
+                done();
+                if (err) {
+                    return console.error("error", err);
+                } else {
+                    if(result.rowCount == 1){
+                        client.query("",
+                        function (err, result) {
+                        done();
+                        if (err) {
+                            return console.error("error", err);
+                        } else {
+                        }});
+                    }else{
+                        console.log("chua");
+                    }
+                }
+            });
+    });
+});
