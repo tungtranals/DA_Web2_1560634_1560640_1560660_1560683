@@ -64,7 +64,7 @@
                     }else{
                         var timepp = timesec - min;
                         $(tgcl).html(timepp);
-                        $(thedaugia).html("<a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a>");
+                        //$(thedaugia).html();
                         
                     }
                     
@@ -76,7 +76,11 @@
         });
     </script>
     <script type="text/javascript">
-
+        function daugiaclient(ma){
+            var idghts = "#idghts" + ma;
+            var gia = $(idghts).val();
+            alert(gia+"//"+ma);
+        }
         $(document).ready(function () {
             $("#tangtien").val(5);
 
@@ -224,7 +228,7 @@
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
-                        "</br><div id = '"+idthedaugia+"' ></div>" +
+                        "</br> <a class='btn btn-default btn-sm' onclick='daugiaclient("+ma+")' >Đấu Giá</a>" +
                         "</div></div>";
                     $("#sanpham").append(lc);
                 }
