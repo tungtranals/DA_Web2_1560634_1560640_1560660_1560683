@@ -566,7 +566,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var pass = req.cookies['pass'];
     //Kiểm tra cookie
     if (user === undefined || pass === undefined) {
-        lc += "0|0|";
+        lc += "user|pass|";
         //test
         /*let options = {
             maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
@@ -609,7 +609,7 @@ app.get('/laykhodo', function (req, res) {
         client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
-            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang ="+
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang =" +
             +"phieudaugia.maphieudau",
             function (err, result) {
                 done();
@@ -721,43 +721,75 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 app.post('/daugiaclient', function (req, res) {
     var maphien = req.body.maphien;
     var giadau = req.body.giadau;
-    var suser = req.session.user ;
+    var suser = req.session.user.toString();
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
         }
         client.query("SELECT *FROM phieudaugia WHERE maphiendau = "
-            + maphien + " AND tendangnhap='" + suser+ "'",
+            + maphien + " AND tendangnhap='" + suser + "'",
             function (err, result) {
                 done();
                 if (err) {
                     return console.error("error", err);
                 } else {
                     if (result.rowCount == 1) {//update
-                        client.query("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
-                        +" AND tendangnhap='"+suser+"'",
+                        client.query("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
+                            + " AND tendangnhap='" + suser + "'",
                             function (err, result) {
                                 done();
                                 if (err) {
                                     return console.error("error", err);
                                 } else {
-                                    console.log("UPDATE phieudaugia SET giadau="+giadau+" WHERE maphiendau="+maphien
-                                    +" AND tendangnhap='"+suser+"'");
+                                    console.log("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
+                                        + " AND tendangnhap='" + suser + "'");
                                 }
                             });
                     } else {//insert
                         client.query("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
-                        +maphien+", '"+suser+"', "+giadau+", 1)",
+                            + maphien + ", '" + suser + "', " + giadau + ", 1)",
                             function (err, result) {
                                 done();
                                 if (err) {
                                     return console.error("error", err);
                                 } else {
                                     console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
-                                    +maphien+", '"+suser+"', "+giadau+", 1);");
+                                        + maphien + ", '" + suser + "', " + giadau + ", 1);");
                                 }
                             });
                     }
+                    var maphieupp = 0;
+                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
+                        function (err, result) {
+                            done();
+                            if (err) {
+                                return console.error("error", err);
+                            } else {
+                                //lcdem =result.rowCount;
+                                var arr = result.rows;
+                                maphieupp = arr[0].maphieudau;
+                                console.log("dem " + result.rowCount);
+                                console.log("dem11 " + arr[0].maphieudau);
+                                
+                                console.log(maphieupp + " ma phieu")
+                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
+                                console.log(SQL + "cc");
+                                client.query(SQL,
+                                    function (err, result) {
+                                        done();
+                                        if (err) {
+                                            return console.error("error", err);
+                                        } else {
+                                            lcdem = result.rowCount;
+                                            arr = result.rows;
+                                            console.log(SQL);
+                                        }
+                                    });
+                            }
+                        });
+
+
+
                 }
             });
     });
