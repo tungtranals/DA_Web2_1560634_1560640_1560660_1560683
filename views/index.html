@@ -16,9 +16,6 @@
     <script src="js/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="/css/simple-sidebar.css">
 
-
-
-    <!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
     <!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
     <script src="js/adminEdit.js"></script>
     <script src="socket.io/socket.io.js"></script>
@@ -26,54 +23,59 @@
 
     <script>
         var socket = io("http://localhost:3000");
-        try {
-            socket.on("senddata", function (data) {
+        var hoatdong = 1;
+        if (hoatdong == 1) {
+            hoatdong = 0;
+            try {
+                socket.on("senddata", function (data) {
 
-                data.forEach(function (item) {
+                    data.forEach(function (item) {
 
-                    var tyle = parseInt($("#tangtien").val());
+                        var tyle = parseInt($("#tangtien").val());
 
 
-                    var ma = item.maphien;
-                    var idght = "#idght" + ma; //giá hiện tại
-                    $(idght).html(item.giahientai);
-                    var idghts = "#idghts" + ma; //giá hiện tại
-                    var thedaugia = "#thedaugia" + ma;
-                    $(idghts).val(item.giahientai + tyle);
+                        var ma = item.maphien;
+                        var idght = "#idght" + ma; //giá hiện tại
+                        $(idght).html(item.giahientai);
+                        var idghts = "#idghts" + ma; //giá hiện tại
+                        var thedaugia = "#thedaugia" + ma;
+                        $(idghts).val(item.giahientai + tyle);
 
-                    var tgcl = "#tgcl" + ma;
+                        var tgcl = "#tgcl" + ma;
 
-                    var startDate = Date.parse(item.thoigianbatdau.toString());
-                    var date = new Date();
-                    var t3 = date.getDate();
-                    var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
-                    var h = date.getHours(); var m = date.getMinutes();
-                    var s = date.getSeconds();
-                    var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
-                    var endDate = Date.parse(StrDate.toString());
-                    var thedaupp = "#thepp" + ma;
+                        var startDate = Date.parse(item.thoigianbatdau.toString());
+                        var date = new Date();
+                        var t3 = date.getDate();
+                        var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                        var h = date.getHours(); var m = date.getMinutes();
+                        var s = date.getSeconds();
+                        var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
+                        var endDate = Date.parse(StrDate.toString());
+                        var thedaupp = "#thepp" + ma;
 
-                    if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
-                        $(thedaupp).hide();
-                        $(tgcl).html("chưa tới giờ");
-                    } else {//Bắt Đầu Đấu Giá
-                        $(thedaupp).hide();
-                        var min = ((endDate - startDate) / 1000);
-                        var arrtime = item.thoigiandau.split(":");
-                        var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
-                        if (min > timesec) {
-                            $(tgcl).html("Hết giờ");
-                        } else {
-                            $(thedaupp).show();
-                            var timepp = timesec - min;
-                            $(tgcl).html(timepp);
+                        if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
+                            $(thedaupp).hide();
+                            $(tgcl).html("chưa tới giờ");
+                        } else {//Bắt Đầu Đấu Giá
+                            $(thedaupp).hide();
+                            var min = ((endDate - startDate) / 1000);
+                            var arrtime = item.thoigiandau.split(":");
+                            var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                            if (min > timesec) {
+                                $(tgcl).html("Hết giờ");
+                            } else {
+                                $(thedaupp).show();
+                                var timepp = timesec - min;
+                                $(tgcl).html(timepp);
 
+                            }
                         }
-                    }
+                    });
+                    hoatdong = 1;
                 });
-            });
-        } catch (error) {
+            } catch (error) {
 
+            }
         }
     </script>
     <script type="text/javascript">

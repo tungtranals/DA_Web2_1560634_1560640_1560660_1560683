@@ -23,12 +23,15 @@ var config = {
     password: 'admin',
     host: 'localhost',
     port: 5433,
-    max: 1,
+    max: 10,
     idleTimeoutMillis: 30000,
 };
 var pool = new pg.Pool(config);
 //emit liên tục mỗi giấy để lấy giá trị realtime gửi về cho client
+var hoatdong = 1;
 setInterval(function () {
+    if(hoatdong == 1){
+        hoatdong = 0;
     try {
         pool.connect(function (err, client, done) {
             if (err) {
@@ -41,13 +44,15 @@ setInterval(function () {
                         console.log(err);
                     } else {
                         io.sockets.emit("senddata", result.rows);
+                        hoatdong = 1;
                     }
                 });
         });
     } catch (error) {
 
     }
-}, 1);
+}
+}, 100);
 
 app.get('/', function (req, res) {
     try {
@@ -863,9 +868,10 @@ app.post('/daugiaclient', function (req, res) {
                                         res.end();
                                         return console.error("error", err);
                                     } else {
-                                        invaophien(maphien, suser, giadau);
+                                        
                                         console.log("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
                                             + " AND tendangnhap='" + suser + "'");
+                                            invaophien(maphien, suser, giadau);
                                     }
                                 });
                         } else {//insert
@@ -877,9 +883,10 @@ app.post('/daugiaclient', function (req, res) {
                                         res.end();
                                         return console.error("error", err);
                                     } else {
-                                        invaophien(maphien, suser, giadau);
+                                        
                                         console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
                                             + maphien + ", '" + suser + "', " + giadau + ", 1);");
+                                            invaophien(maphien, suser, giadau);
                                     }
                                 });
                         }
@@ -914,7 +921,7 @@ function invaophien(maphien, suser, giadau) {
 
                     console.log(maphieupp + " ma phieu")
                     var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
-                    console.log(SQL + "cc");
+
                     client.query(SQL,
                         function (err, result) {
                             done();
@@ -930,3 +937,4 @@ function invaophien(maphien, suser, giadau) {
             });
     });
 }
+//ngày mai đi trên mai em diii
