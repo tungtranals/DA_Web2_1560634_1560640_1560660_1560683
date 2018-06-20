@@ -863,6 +863,7 @@ app.post('/daugiaclient', function (req, res) {
                                         res.end();
                                         return console.error("error", err);
                                     } else {
+                                        invaophien(maphien, suser, giadau);
                                         console.log("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
                                             + " AND tendangnhap='" + suser + "'");
                                     }
@@ -876,8 +877,9 @@ app.post('/daugiaclient', function (req, res) {
                                         res.end();
                                         return console.error("error", err);
                                     } else {
+                                        invaophien(maphien, suser, giadau);
                                         console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
-                                            + maphien + ", '" + suser + "', " + giadau + ", 1); " + result);
+                                            + maphien + ", '" + suser + "', " + giadau + ", 1);");
                                     }
                                 });
                         }
@@ -885,38 +887,46 @@ app.post('/daugiaclient', function (req, res) {
 
 
                     }
-                    var maphieupp = 0;
-                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
-                        function (err, result) {
-                            done();
-                            if (err) {
-                                return console.error("error", err);
-                            } else {
-                                //lcdem =result.rowCount;
-                                var arr = result.rows;
-                                maphieupp = arr[0].maphieudau;
-                                console.log("dem " + result.rowCount);
-                                console.log("dem11 " + arr[0].maphieudau);
-
-                                console.log(maphieupp + " ma phieu")
-                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
-                                console.log(SQL + "cc");
-                                client.query(SQL,
-                                    function (err, result) {
-                                        done();
-                                        if (err) {
-                                            return console.error("error", err);
-                                        } else {
-                                            lcdem = result.rowCount;
-                                            arr = result.rows;
-                                            console.log(SQL);
-                                        }
-                                    });
-                            }
-                        });
                 });
         });
     } catch (error) {
 
     }
 });
+
+function invaophien(maphien, suser, giadau) {
+    var maphieupp = 0;
+    pool.connect(function (err, client, done) {
+        if (err) {
+            return console.error("error ", err);
+        }
+        client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
+            function (err, result) {
+                done();
+                if (err) {
+                    return console.error("error", err);
+                } else {
+                    //lcdem =result.rowCount;
+                    var arr = result.rows;
+                    maphieupp = arr[0].maphieudau;
+                    console.log("dem " + result.rowCount);
+                    console.log("dem11 " + arr[0].maphieudau);
+
+                    console.log(maphieupp + " ma phieu")
+                    var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
+                    console.log(SQL + "cc");
+                    client.query(SQL,
+                        function (err, result) {
+                            done();
+                            if (err) {
+                                return console.error("error", err);
+                            } else {
+                                lcdem = result.rowCount;
+                                arr = result.rows;
+                                console.log(SQL);
+                            }
+                        });
+                }
+            });
+    });
+}
