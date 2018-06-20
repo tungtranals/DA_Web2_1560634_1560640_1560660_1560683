@@ -26,56 +26,55 @@
 
     <script>
         var socket = io("http://localhost:3000");
+        try {
+            socket.on("senddata", function (data) {
 
-        socket.on("senddata", function (data) {
+                data.forEach(function (item) {
 
-            data.forEach(function (item) {
-
-                var tyle = parseInt($("#tangtien").val());
+                    var tyle = parseInt($("#tangtien").val());
 
 
-                var ma = item.maphien;
-                var idght = "#idght" + ma; //giá hiện tại
-                $(idght).html(item.giahientai);
-                var idghts = "#idghts" + ma; //giá hiện tại
-                var thedaugia = "#thedaugia" + ma;
-                $(idghts).val(item.giahientai + tyle);
+                    var ma = item.maphien;
+                    var idght = "#idght" + ma; //giá hiện tại
+                    $(idght).html(item.giahientai);
+                    var idghts = "#idghts" + ma; //giá hiện tại
+                    var thedaugia = "#thedaugia" + ma;
+                    $(idghts).val(item.giahientai + tyle);
 
-                var tgcl = "#tgcl" + ma;
+                    var tgcl = "#tgcl" + ma;
 
-                var startDate = Date.parse(item.thoigianbatdau.toString());
-                var date = new Date();
-                var t3 = date.getDate();
-                var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
-                var h = date.getHours(); var m = date.getMinutes();
-                var s = date.getSeconds();
-                var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
-                var endDate = Date.parse(StrDate.toString());
-                var thedaupp = "#thepp" + ma;
+                    var startDate = Date.parse(item.thoigianbatdau.toString());
+                    var date = new Date();
+                    var t3 = date.getDate();
+                    var t1 = date.getMonth() + 1; var t2 = date.getFullYear();
+                    var h = date.getHours(); var m = date.getMinutes();
+                    var s = date.getSeconds();
+                    var StrDate = t1 + "/" + t3 + "/" + t2 + "  " + h + ":" + m + ":" + s;
+                    var endDate = Date.parse(StrDate.toString());
+                    var thedaupp = "#thepp" + ma;
 
-                if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
-                    $(thedaupp).hide();
-                    $(tgcl).html("chưa tới giờ");
-                } else {//Bắt Đầu Đấu Giá
-                    $(thedaupp).hide();
-                    var min = ((endDate - startDate) / 1000);
-                    var arrtime = item.thoigiandau.split(":");
-                    var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
-                    if (min > timesec) {
-                        $(tgcl).html("Hết giờ");
-                    } else {
-                        $(thedaupp).show();
-                        var timepp = timesec - min;
-                        $(tgcl).html(timepp);
+                    if (endDate - startDate < 0) {//Chưa tới time đấu giá sp này
+                        $(thedaupp).hide();
+                        $(tgcl).html("chưa tới giờ");
+                    } else {//Bắt Đầu Đấu Giá
+                        $(thedaupp).hide();
+                        var min = ((endDate - startDate) / 1000);
+                        var arrtime = item.thoigiandau.split(":");
+                        var timesec = parseInt(arrtime[0]) * 60 + parseInt(arrtime[1]);
+                        if (min > timesec) {
+                            $(tgcl).html("Hết giờ");
+                        } else {
+                            $(thedaupp).show();
+                            var timepp = timesec - min;
+                            $(tgcl).html(timepp);
 
+                        }
                     }
-
-
-                }
-
+                });
             });
+        } catch (error) {
 
-        });
+        }
     </script>
     <script type="text/javascript">
 
@@ -224,7 +223,7 @@
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
                     var idthedaugia = "thedaugia" + ma;
-                    var lc = " <div class='col-md-4'>" +
+                    var lc = "<center> <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<img src='images/" + response.tenanh + "' alt='Image' class='img-responsive'>" +
                         "<p>" + response.tensp + "</p>" +
@@ -233,15 +232,15 @@
                         "<p>Time Đấu Giá: " + response.thoigiandau + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
-                        "<div class='price-box'>" +
+                        "<div >" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
 
-                        "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
+                        "<p>giá khởi điểm: </br>" + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
                         "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
-                        "</div></div>";
+                        "</div></div> </center>";
                     $("#sanpham").append(lc);
                 }
             });
