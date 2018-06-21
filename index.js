@@ -26,11 +26,12 @@ var config = {
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
-    port: 5433,
-    max: 100, // set pool max size to 20
-    idleTimeoutMillis: 30000, // close idle clients after 30 second
+    port: 5432,
+    max: 10, // set pool max size to 20
+    idleTimeoutMillis: 3000, // close idle clients after 30 second
     connectionTimeoutMillis: 1000,
 };
+
 var pool = new pg.Pool(config)
     .on('error', err => {
         console.error('idle client error: ', err.message, err.stack);
