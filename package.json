@@ -1,23 +1,23 @@
 {
-    "name": "doanweb2",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-        "start": "node index"
-    },
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-        "body-parser": "^1.18.3",
-        "cookie": "^0.3.1",
-        "cookie-parser": "^1.4.3",
-        "ejs": "^2.6.1",
-        "express": "^4.16.3",
-        "express-fileupload": "^0.4.0",
-        "express-session": "^1.15.6",
-        "nodemon": "^1.17.5",
-        "pg": "^7.4.3",
-        "socket.io": "^2.1.1"
-    }
+  "name": "doanweb2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "express-fileupload": "^0.4.0",
+    "express-session": "^1.15.6",
+    "nodemon": "^1.17.5",
+    "pg": "^7.4.3",
+    "socket.io": "^2.1.1"
+  }
 }
