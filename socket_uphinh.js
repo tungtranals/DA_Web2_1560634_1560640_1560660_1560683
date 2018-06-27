@@ -52,23 +52,6 @@ app.post('/upload', function(req, res) {
     });
 });
 
-/*app.post('/uploadsss', function(req, res) {
-    var file = req.body.file;
-
-    var name = file.name;
-    // Use the mv() method to place the file somewhere on your server
-    file.mv('./public/'+name, function(err) {
-      if (err)
-        return res.status(500).send(err);
-  
-        res.send("hihi");
-    });
-});*/
-
-app.get("/trtr",function(req,res){
-    res.render("uphinh.ejs");
-}); 
-
 app.get('/html',function(req,res){
     res.sendFile(path.join(__dirname+'/views/senfile.html'));
 });
