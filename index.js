@@ -298,6 +298,10 @@ app.post('/cssanpham', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err); res.end();
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                 } else {
                     res.send("Thanh cong"); res.end();
                 }
