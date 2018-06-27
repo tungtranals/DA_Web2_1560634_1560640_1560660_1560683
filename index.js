@@ -18,20 +18,8 @@ app.use(fileUpload());
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 
-<<<<<<< HEAD
-
-var http = require('http').createServer(app);
-//Test Deploy and run Node apps
-http.listen(process.env.PORT);
-
-
-
-
-//server.listen(3000, function () { console.log('server is listening in port 3000') });
-=======
 server.listen(process.env.POST ||3000, function () { console.log('server is listening in port 3000') });
 
->>>>>>> 22a44f9abf683d6bae622f5929a1e73880dde38f
 var pg = require('pg');
 var config = {
     user: 'postgres',
