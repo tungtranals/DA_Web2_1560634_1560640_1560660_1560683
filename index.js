@@ -54,7 +54,7 @@ var pool = new pg.Pool(config)
         console.error('lỗi client << : ' + err);
     });
 
-    
+
 app.get('/layphiendaugiamoigiay', function (req, res) {
     try {
         pool.connect(function (err, client, done) {
@@ -111,6 +111,10 @@ app.post('/login', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
 
@@ -159,6 +163,10 @@ app.post('/signin', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     if (result.rowCount == 0) {
@@ -170,6 +178,10 @@ app.post('/signin', function (req, res) {
                             if (err) {
                                 res.send("0");
                                 console.error("error", err);
+                                pool = new pg.Pool(config)
+                                    .on('error', err => {
+                                        console.error('lỗi client << : ' + err);
+                                    });
                                 res.end();
                             } else {
                                 let options = {
@@ -206,6 +218,10 @@ app.get('/laysanpham', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result.rows);
@@ -228,6 +244,10 @@ app.get("/xoasp/:id", function (req, res) {
                 if (err) {
                     res.send("k thanh cong");
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result);
@@ -249,6 +269,10 @@ app.get("/suasp/:id", function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result.rows);
@@ -274,6 +298,10 @@ app.post('/cssanpham', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err); res.end();
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                 } else {
                     res.send("Thanh cong"); res.end();
                 }
@@ -295,6 +323,10 @@ app.post('/addsanpham', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err); res.end();
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                 } else {
                     res.send("Thêm Thành Công"); res.end();
                 }
@@ -312,7 +344,12 @@ app.get('/layphiendaugia', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); res.end();
+                    console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                    res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
@@ -338,7 +375,12 @@ app.post('/hoanthanhaddPhien', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); res.end();
+                    console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                    res.end();
                 } else {
                     res.send("Thêm Thành Công"); res.end();
                 }
@@ -356,7 +398,12 @@ app.get("/xoaphien/:id", function (req, res) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
-                    console.error("error", err); res.end();
+                    console.error("error", err); 
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                    res.end();
                 } else {
                     console.log(result);
                     res.send("thanh cong");
@@ -587,6 +634,7 @@ app.post('/upload', function (req, res) {
     }
     console.log(req.files);
     res.sendFile(path.join(__dirname + '/views/index.html'));
+    res.end();
 
 });
 
@@ -788,6 +836,10 @@ app.post('/daugiaclient', function (req, res) {
                 done();
                 if (err) {
                     console.error("lỗi lấy phiếu đấu giá", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     if (result.rowCount == 1) {//update
@@ -797,6 +849,10 @@ app.post('/daugiaclient', function (req, res) {
                                 done();
                                 if (err) {
                                     console.error("lỗi update phiếu", err);
+                                    pool = new pg.Pool(config)
+                                        .on('error', err => {
+                                            console.error('lỗi client << : ' + err);
+                                        });
                                     res.end();
                                 } else {
                                     console.log("update phieu");
@@ -806,6 +862,10 @@ app.post('/daugiaclient', function (req, res) {
                                             done();
                                             if (err) {
                                                 console.error("lỗi update phiên 1", err);
+                                                pool = new pg.Pool(config)
+                                                    .on('error', err => {
+                                                        console.error('lỗi client << : ' + err);
+                                                    });
                                                 res.end();
                                             } else {
                                                 //lcdem =result.rowCount;
@@ -818,6 +878,10 @@ app.post('/daugiaclient', function (req, res) {
                                                         done();
                                                         if (err) {
                                                             console.error("lỗi lấy phiên 1", err);
+                                                            pool = new pg.Pool(config)
+                                                                .on('error', err => {
+                                                                    console.error('lỗi client << : ' + err);
+                                                                });
                                                             res.end();
                                                         } else {
                                                             console.log("update phien");
@@ -834,8 +898,11 @@ app.post('/daugiaclient', function (req, res) {
                             function (err, result) {
                                 done();
                                 if (err) {
-
                                     console.error("lỗi insert phiếu ", err);
+                                    pool = new pg.Pool(config)
+                                        .on('error', err => {
+                                            console.error('lỗi client << : ' + err);
+                                        });
                                     res.end();
                                 } else {
 
@@ -846,6 +913,10 @@ app.post('/daugiaclient', function (req, res) {
                                             done();
                                             if (err) {
                                                 console.error("lỗi lấy mã phiên", err);
+                                                pool = new pg.Pool(config)
+                                                    .on('error', err => {
+                                                        console.error('lỗi client << : ' + err);
+                                                    });
                                                 res.end();
                                             } else {
                                                 //lcdem =result.rowCount;
@@ -858,6 +929,10 @@ app.post('/daugiaclient', function (req, res) {
                                                         done();
                                                         if (err) {
                                                             console.error("lỗi update phiên 2", err);
+                                                            pool = new pg.Pool(config)
+                                                                .on('error', err => {
+                                                                    console.error('lỗi client << : ' + err);
+                                                                });
                                                             res.end();
                                                         } else {
                                                             console.log("update phien");
