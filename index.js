@@ -17,17 +17,18 @@ app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //run local
-/*var server = require("http").Server(app);
-server.listen(3000, function () { console.log('server is listening in port 3000') });*/
+var server = require("http").Server(app);
+server.listen(3000, function () { console.log('server is listening in port 3000') });
 
 //run heroku
+/*
 var http = require('http').createServer(app);
-http.listen(process.env.PORT);
+http.listen(process.env.PORT);*/
 
 var pg = require('pg');
 
 //config postgres local
-/*var config = {
+var config = {
     user: 'postgres',
     database: 'ql_daugia',
     password: 'admin',
@@ -35,9 +36,10 @@ var pg = require('pg');
     port: 5432,
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
-};*/
+};
 
 //config heroku postgres database
+/*
 var config = {
     user: 'sjltuabeirfakq',
     database: 'd90ajcbdlokt18',
@@ -47,7 +49,7 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
-
+*/
 
 var pool = new pg.Pool(config)
     .on('error', err => {

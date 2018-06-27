@@ -117,7 +117,7 @@ function chinhsuasp(ma) {
         url: '/suasp/' + ma,
         dataType: 'json',
         success: function (response) {
-            $('#sanphanadmin').append('Mã Loại</br><input value= ' + response.maloaisp + ' type="text" class="form-control" id="maloaispp">');
+            $('#sanphanadmin').append('Mã Loại(1: Nokia, 2: Samsung, 3: Iphone)</br><input value= ' + response.maloaisp + ' type="text" class="form-control" id="maloaispp">');
             $('#sanphanadmin').append('Tên SP</br><input value= ' + response.tensp + ' type="text" class="form-control" id="tenspp">');
             $('#sanphanadmin').append('Mô Tả</br><input value= ' + response.mota + ' type="text" class="form-control" id="motap">');
             $('#sanphanadmin').append('Mã HA</br><input value= ' + response.mahinhanh + ' type="text" class="form-control" id="mahinhanhp">');
@@ -145,7 +145,7 @@ function hoanthanhcs(maspp) {
 function addSP() {
     $('#sanphanadmin').html("");
     $('#ten').html("Thêm SP");
-    $('#sanphanadmin').append('Mã Loại</br><input type="text" class="form-control" id="maloaispp">');
+    $('#sanphanadmin').append('Mã Loại(1: Nokia, 2: Samsung, 3: Iphone)</br><input type="text" class="form-control" id="maloaispp">');
     $('#sanphanadmin').append('Tên SP</br><input type="text" class="form-control" id="tenspp">');
     $('#sanphanadmin').append('Mô Tả</br><input type="text" class="form-control" id="motap">');
     $('#sanphanadmin').append('Mã Hình Ảnh</br><input type="text" class="form-control" id="mahinhanhp">');
@@ -184,9 +184,9 @@ function layphiendaugia() {
                 $('#sanphanadmin').append("</br>Mã SP: " + item.masp + "");
                 $('#sanphanadmin').append("</br>Time Bắt Đầu (mm/dd/yyy hh:mm:ss): " + item.thoigianbatdau + "");
                 $('#sanphanadmin').append("</br>Time Đấu: " + item.thoigiandau + "");
-                $('#sanphanadmin').append("</br>Giá Hiện Tại:" + item.giahientai + "");
-                $('#sanphanadmin').append("</br>Giá Khởi Điểm:" + item.giakhoidiem + "");
-                $('#sanphanadmin').append("</br>Mã Tình Trạng:" + item.matinhtrang + "");
+                $('#sanphanadmin').append("</br>Giá Hiện Tại(K):" + item.giahientai + "");
+                $('#sanphanadmin').append("</br>Giá Khởi Điểm(K):" + item.giakhoidiem + "");
+                $('#sanphanadmin').append("</br>Mã Tình Trạng(1: đã đc mua, 2: chưa đc mua): " + item.matinhtrang + "");
                 $('#sanphanadmin').append("</br>Mã Phiếu Thắng:" + item.maphieuthang + "");
                 $('#sanphanadmin').append('</br><a href="#" onclick="xoaphien(' + item.maphien + ')" class="btn btn-primary btn-sm">Xóa</a>');
                 $('#sanphanadmin').append('<a href="#" onclick="chinhsuaphien(' + item.maphien + ')" class="btn btn-primary btn-sm">Sửa</a></br>');
@@ -205,9 +205,9 @@ function chinhsuaphien(ma) {
             $('#sanphanadmin').append('Mã Sản Phẩm: </br><input value= ' + response.masp + ' type="text" class="form-control" id="pmasp">');
             $('#sanphanadmin').append('Time Bắt Đầu (mm/dd/yyy hh:mm:ss)::</br><input value= ' + response.thoigianbatdau + ' type="text" class="form-control" id="ptimebd">');
             $('#sanphanadmin').append('Time Đấu:</br><input value= ' + response.thoigiandau + ' type="text" class="form-control" id="mtimedau">');
-            $('#sanphanadmin').append('Giá Hiện Tại:</br><input value= ' + response.giahientai + ' type="text" class="form-control" id="pgiaht">');
-            $('#sanphanadmin').append('Giá Khởi Điểm:</br><input value= ' + response.giakhoidiem + ' type="text" class="form-control" id="pgiakd">');
-            $('#sanphanadmin').append('Mã Tình Trạng:</br><input value= ' + response.matinhtrang + ' type="text" class="form-control" id="ptinhtrang">');
+            $('#sanphanadmin').append('Giá Hiện Tại(K):</br><input value= ' + response.giahientai + ' type="text" class="form-control" id="pgiaht">');
+            $('#sanphanadmin').append('Giá Khởi Điểm(K):</br><input value= ' + response.giakhoidiem + ' type="text" class="form-control" id="pgiakd">');
+            $('#sanphanadmin').append('Mã Tình Trạng(1: đã đc mua, 2: chưa đc mua):</br><input value= ' + response.matinhtrang + ' type="text" class="form-control" id="ptinhtrang">');
             $('#sanphanadmin').append('Mã Phiếu Thắng:</br><input value= ' + response.maphieuthang + ' type="text" class="form-control" id="pmathang">');
             $('#sanphanadmin').append('</br><a onclick="hoanthanhcsphien(' + response.maphien + ')" href="#" class="btn btn-primary btn-sm">Hoàn Thành</a></br>');
         }
