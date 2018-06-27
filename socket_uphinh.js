@@ -51,7 +51,8 @@ app.post('/upload', function(req, res) {
         res.send("hihi");
     });
 });
-app.post('/uploadsss', function(req, res) {
+
+/*app.post('/uploadsss', function(req, res) {
     var file = req.body.file;
 
     var name = file.name;
@@ -62,7 +63,8 @@ app.post('/uploadsss', function(req, res) {
   
         res.send("hihi");
     });
-});
+});*/
+
 app.get("/trtr",function(req,res){
     res.render("uphinh.ejs");
 }); 
