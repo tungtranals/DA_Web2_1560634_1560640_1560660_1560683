@@ -14,47 +14,27 @@ var path = require("path");
 app.use(session({ secret: 'iloveuit' }));
 app.use(cookieParser());
 app.use(fileUpload());
-
+require('events').EventEmitter.defaultMaxListeners = Infinity;
 var server = require("http").Server(app);
-var io = require("socket.io")(server);
 
+server.listen(process.env.POST || 3000, function () { console.log('server is listening in port 3000') });
 
-var http = require('http').createServer(app);
-//Test Deploy and run Node apps
-http.listen(process.env.PORT);
-
-
-
-
-//server.listen(3000, function () { console.log('server is listening in port 3000') });
 var pg = require('pg');
-/*var config = {
+var config = {
     user: 'postgres',
     database: 'ql_daugia',
     password: 'admin',
     host: 'localhost',
     port: 5432,
     max: 10, // set pool max size to 20
-    idleTimeoutMillis: 3000, // close idle clients after 30 second
-    connectionTimeoutMillis: 1000,
-};*/
-
-//Config PG heroku
-var config = {
-    user: 'sjltuabeirfakq',
-    database: 'd90ajcbdlokt18',
-    password: '81a076e29d75a4f42fe0476982b4d8c82b9b3078de6a75c3c6f084e60b34f206',
-    host: 'ec2-23-23-245-89.compute-1.amazonaws.com',
-    port: 5432,
-    max: 10, // set pool max size to 20
-    idleTimeoutMillis: 3000, // close idle clients after 30 second
-    connectionTimeoutMillis: 1000,
-}
+    idleTimeoutMillis: 30000, // close idle clients after 30 second
+};
 
 var pool = new pg.Pool(config)
     .on('error', err => {
-        console.error('idle client error: ', err.message, err.stack);
+        console.error('lỗi client << : ' + err);
     });
+
 
 
 app.get('/layphiendaugiamoigiay', function (req, res) {
@@ -93,7 +73,11 @@ app.get('/layphiendaugiamoigiay', function (req, res) {
     }
 });
 
+
+
+
 app.get('/', function (req, res) {
+
     res.sendFile(path.join(__dirname + '/views/index.html'));
 });
 
@@ -102,13 +86,15 @@ app.post('/login', function (req, res) {
     var pass = req.body.pass;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("SELECT *FROM taikhoan WHERE tendangnhap ='" + user.toString() + "'AND matkhau='" + pass.toString() + "'",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err);
+                    res.end();
                 } else {
 
                     let options = {
@@ -121,6 +107,7 @@ app.post('/login', function (req, res) {
                         req.session.user = user.toString();
                         req.session.quyen = result.rows[0].maloaitaikhoan;
                         res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan, tenhienthi: result.rows[0].tenhienthi });
+                        res.end();
                     } catch (error) {
 
                     }
@@ -147,13 +134,15 @@ app.post('/signin', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("SELECT *FROM taikhoan WHERE tendangnhap ='" + user.toString() + "'",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err);
+                    res.end();
                 } else {
                     if (result.rowCount == 0) {
                         var kq = user + "/" + pass + "/" + name + "/" + email + "/" + sodt + "/" + diachi;
@@ -163,8 +152,8 @@ app.post('/signin', function (req, res) {
                             done();
                             if (err) {
                                 res.send("0");
+                                console.error("error", err);
                                 res.end();
-                                return console.error("error", err);
                             } else {
                                 let options = {
                                     maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
@@ -176,6 +165,7 @@ app.post('/signin', function (req, res) {
                                 req.session.quyen = quyen1;
                             }
                             res.send({ rowcount: 1, quyen: quyen1, tenhienthi: name });
+                            res.end();
                         });
 
                     } else
@@ -191,17 +181,19 @@ app.get('/laysanpham', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("SELECT *FROM sanpham INNER JOIN hinhanh ON sanpham.mahinhanh=hinhanh.mahinhanh",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err);
+                    res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -210,18 +202,20 @@ app.get("/xoasp/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("DELETE FROM sanpham WHERE masp =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
-                    return console.error("error", err);
+                    console.error("error", err);
+                    res.end();
                 } else {
                     console.log(result);
                     res.send("thanh cong");
-
+                    res.end();
                 }
             });
     });
@@ -230,17 +224,19 @@ app.get("/suasp/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("SELECT *FROM sanpham WHERE masp =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err);
+                    res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
-
+                    res.end();
                 }
             });
     });
@@ -253,15 +249,16 @@ app.post('/cssanpham', function (req, res) {
     var mahinh = req.body.mahinhanh;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err);
+            res.end();
         }
         client.query("UPDATE sanpham SET maloaisp=" + maloai + ", tensp='" + ten + "', mota='" + mota + "', mahinhanh=" + mahinh + " WHERE masp=" + masp + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    res.send("Thanh cong");
+                    res.send("Thanh cong"); res.end();
                 }
             });
     });
@@ -274,15 +271,15 @@ app.post('/addsanpham', function (req, res) {
     var mahinh = req.body.mahinhanh;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("INSERT INTO sanpham( maloaisp, tensp, mota, mahinhanh) VALUES (" + maloai + ",'" + ten + "','" + mota + "'," + mahinh + ") ",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    res.send("Thêm Thành Công");
+                    res.send("Thêm Thành Công"); res.end();
                 }
             });
     });
@@ -292,17 +289,17 @@ app.get('/layphiendaugia', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("SELECT *FROM phiendaugia",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -317,16 +314,16 @@ app.post('/hoanthanhaddPhien', function (req, res) {
     var pmathang = req.body.pmathang;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("INSERT INTO phiendaugia(masp, thoigianbatdau, thoigiandau, giahientai, giakhoidiem, matinhtrang, maphieuthang)" +
             "VALUES (" + pmasp + ",'" + ptimebd + "','" + mtimedau + "', " + pgiaht + ", " + pgiakd + ", " + ptinhtrang + ", " + pmathang + ");",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    res.send("Thêm Thành Công");
+                    res.send("Thêm Thành Công"); res.end();
                 }
             });
     });
@@ -335,18 +332,18 @@ app.get("/xoaphien/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("DELETE FROM phiendaugia WHERE maphien =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result);
                     res.send("thanh cong");
-
+                    res.end();
                 }
             });
     });
@@ -355,17 +352,17 @@ app.get("/chinhsuaphien/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("SELECT *FROM phiendaugia WHERE maphien =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
-
+                    res.end();
                 }
             });
     });
@@ -381,16 +378,16 @@ app.post('/hoanthanhcsphien', function (req, res) {
     var pmathang = req.body.pmathang;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
 
         client.query("UPDATE phiendaugia SET masp=" + pmasp + ", thoigianbatdau='" + ptimebd + "', thoigiandau='" + mtimedau + "',giahientai=" + pgiaht + ", giakhoidiem=" + pgiakd + ", matinhtrang=" + ptinhtrang + ", maphieuthang=" + pmathang + " WHERE maphien = " + maphien + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    res.send("Thanh cong");
+                    res.send("Thanh cong"); res.end();
                 }
             });
     });
@@ -401,17 +398,17 @@ app.get('/laytaikhoan', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("SELECT *FROM taikhoan",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -421,7 +418,7 @@ app.get("/xoatk/:id", function (req, res) {
     var user = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("DELETE FROM taikhoan WHERE matk ='" + user + "'",
             function (err, result) {
@@ -429,11 +426,11 @@ app.get("/xoatk/:id", function (req, res) {
                 if (err) {
                     console.log("kk");
                     res.send("k thanh cong");
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log("cc");
                     res.send("thanh cong");
-
+                    res.end();
                 }
             });
     });
@@ -442,17 +439,17 @@ app.get("/suatk/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("SELECT *FROM taikhoan WHERE matk =" + id + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
-
+                    res.end();
                 }
             });
     });
@@ -468,15 +465,15 @@ app.post('/cstaikhoan', function (req, res) {
     var diachi = req.body.diachi;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("UPDATE taikhoan SET dienthoai='" + dienthoai + "', diachi='" + diachi + "', tendangnhap='" + tendn + "', matkhau='" + matkhau + "', tenhienthi='" + tenht + "', email='" + email + "' WHERE matk=" + matk + "",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    res.send("Thanh cong");
+                    res.send("Thanh cong"); res.end();
                 }
             });
     });
@@ -486,17 +483,17 @@ app.get('/layhinhanh', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("SELECT *FROM hinhanh",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -504,8 +501,7 @@ app.get('/layhinhanh', function (req, res) {
 
 app.post('/upload', function (req, res) {
     if (!req.files)
-        return res.status(400).send('No files were uploaded.');
-
+        res.status(400).send('No files were uploaded.');
     let sampleFile = req.files.sampleFile;
     let sampleFile2 = req.files.sampleFile2;
     let sampleFile3 = req.files.sampleFile3;
@@ -574,13 +570,14 @@ app.post('/upload', function (req, res) {
     }
     console.log(req.files);
     res.sendFile(path.join(__dirname + '/views/index.html'));
+
 });
 
 app.get("/xoahinhanh/:id", function (req, res) {
     var user = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("DELETE FROM hinhanh WHERE mahinhanh =" + user + "",
             function (err, result) {
@@ -588,11 +585,11 @@ app.get("/xoahinhanh/:id", function (req, res) {
                 if (err) {
                     console.log("kk");
                     res.send("k thanh cong");
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log("cc");
                     res.send("thanh cong");
-
+                    res.end();
                 }
             });
     });
@@ -643,7 +640,7 @@ app.get('/laykhodo', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         var suser = req.session.user;
         client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphieudau = phiendaugia.maphieuthang "
@@ -653,11 +650,11 @@ app.get('/laykhodo', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -667,7 +664,7 @@ app.get("/thanhtoansp/:id", function (req, res) {
     var id = req.params.id;
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         client.query("UPDATE phieudaugia SET tinhtrang = 2 WHERE maphieudau =" + id + "",
             function (err, result) {
@@ -675,11 +672,11 @@ app.get("/thanhtoansp/:id", function (req, res) {
                 if (err) {
                     res.send("k thanh cong");
                     console.log("k thanh cong thanh cong");
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
-                    console.log("thanh cong me roi");
+                    console.log("thanh cong");
                     res.send("thanh cong");
-
+                    res.end();
                 }
             });
     });
@@ -689,7 +686,7 @@ app.get('/laycacphiendau', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         var suser = req.session.user;
         client.query("SELECT *FROM phiendaugia "
@@ -698,11 +695,11 @@ app.get('/laycacphiendau', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -713,7 +710,7 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         var loai = req.params.id;
         client.query("SELECT *FROM phiendaugia "
@@ -722,11 +719,11 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
-
+                    res.end();
                 }
             });
     });
@@ -737,7 +734,7 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("error ", err); res.end();
         }
         var loai = req.params.id;
         client.query("SELECT *FROM phiendaugia "
@@ -746,11 +743,11 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("error", err); res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
-
+                    res.end();
                 }
             });
     });
@@ -761,18 +758,20 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
 app.post('/daugiaclient', function (req, res) {
     var maphien = req.body.maphien;
     var giadau = req.body.giadau;
-    var suser = req.session.user.toString();
+    var suser = req.session.user;
 
     pool.connect(function (err, client, done) {
         if (err) {
-            return console.error("error ", err);
+            console.error("lỗi connect đấu giá 1 ", err);
+            res.end();
         }
         client.query("SELECT *FROM phieudaugia WHERE maphiendau = "
             + maphien + " AND tendangnhap='" + suser + "'",
             function (err, result) {
                 done();
                 if (err) {
-                    return console.error("error", err);
+                    console.error("lỗi lấy phiếu đấu giá", err);
+                    res.end();
                 } else {
                     if (result.rowCount == 1) {//update
                         client.query("UPDATE phieudaugia SET giadau=" + giadau + ",tinhtrang =1 WHERE maphiendau=" + maphien
@@ -780,10 +779,36 @@ app.post('/daugiaclient', function (req, res) {
                             function (err, result) {
                                 done();
                                 if (err) {
-                                    return console.error("error", err);
+                                    console.error("lỗi update phiếu", err);
+                                    res.end();
                                 } else {
-                                    console.log("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
-                                        + " AND tendangnhap='" + suser + "'");
+                                    console.log("update phieu");
+                                    var maphieupp = 0;
+                                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
+                                        function (err, result) {
+                                            done();
+                                            if (err) {
+                                                console.error("lỗi update phiên 1", err);
+                                                res.end();
+                                            } else {
+                                                //lcdem =result.rowCount;
+                                                var arr = result.rows;
+                                                maphieupp = arr[0].maphieudau;
+                                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
+
+                                                client.query(SQL,
+                                                    function (err, result) {
+                                                        done();
+                                                        if (err) {
+                                                            console.error("lỗi lấy phiên 1", err);
+                                                            res.end();
+                                                        } else {
+                                                            console.log("update phien");
+                                                            res.end();
+                                                        }
+                                                    });
+                                            }
+                                        });
                                 }
                             });
                     } else {//insert
@@ -792,39 +817,41 @@ app.post('/daugiaclient', function (req, res) {
                             function (err, result) {
                                 done();
                                 if (err) {
-                                    return console.error("error", err);
+
+                                    console.error("lỗi insert phiếu ", err);
+                                    res.end();
                                 } else {
-                                    console.log("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
-                                        + maphien + ", '" + suser + "', " + giadau + ", 1);");
+
+                                    console.log("insert phieu");
+                                    var maphieupp = 0;
+                                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
+                                        function (err, result) {
+                                            done();
+                                            if (err) {
+                                                console.error("lỗi lấy mã phiên", err);
+                                                res.end();
+                                            } else {
+                                                //lcdem =result.rowCount;
+                                                var arr = result.rows;
+                                                maphieupp = arr[0].maphieudau;
+                                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
+
+                                                client.query(SQL,
+                                                    function (err, result) {
+                                                        done();
+                                                        if (err) {
+                                                            console.error("lỗi update phiên 2", err);
+                                                            res.end();
+                                                        } else {
+                                                            console.log("update phien");
+                                                            res.end();
+                                                        }
+                                                    });
+                                            }
+                                        });
                                 }
                             });
                     }
-                    var maphieupp = 0;
-                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
-                        function (err, result) {
-                            done();
-                            if (err) {
-                                return console.error("error", err);
-                            } else {
-                                //lcdem =result.rowCount;
-                                var arr = result.rows;
-                                maphieupp = arr[0].maphieudau;
-                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
-
-                                client.query(SQL,
-                                    function (err, result) {
-                                        done();
-                                        if (err) {
-                                            return console.error("error", err);
-                                        } else {
-                                            console.log(SQL + " ===============");
-                                        }
-                                    });
-                            }
-                        });
-
-
-
                 }
             });
     });

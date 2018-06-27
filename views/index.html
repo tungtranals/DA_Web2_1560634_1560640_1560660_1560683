@@ -16,12 +16,13 @@
     <script src="js/modernizr-2.6.2.min.js"></script>
     <link rel="stylesheet" href="/css/simple-sidebar.css">
 
+
+
     <!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
     <script src="js/adminEdit.js"></script>
-    <script src="socket.io/socket.io.js"></script>
     <script src="jquery.js"></script>
 
-    <script type="text/javascript">
+    <script>
         setInterval(function () {
             try {
                 $.ajax({
@@ -80,7 +81,6 @@
 
             }
         }, 100);
-
 
         function daugiaclient(ma) {
 
@@ -227,7 +227,7 @@
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
                     var idthedaugia = "thedaugia" + ma;
-                    var lc = "<center> <div class='col-md-4'>" +
+                    var lc = " <div class='col-md-4'>" +
                         "<div class='price-box'>" +
                         "<img src='images/" + response.tenanh + "' alt='Image' class='img-responsive'>" +
                         "<p>" + response.tensp + "</p>" +
@@ -236,15 +236,15 @@
                         "<p>Time Đấu Giá: " + response.thoigiandau + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
-                        "<div >" +
+                        "<div class='price-box'>" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
 
-                        "<p>giá khởi điểm: </br>" + response.giakhoidiem + "</p>" +
+                        "<p>giá khởi điểm: " + response.giakhoidiem + "</p>" +
                         "<p>giá hiện tại: " + "<div id = '" + idght + "'> </div>" + "</p>" +
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
                         "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
-                        "</div></div> </center>";
+                        "</div></div>";
                     $("#sanpham").append(lc);
                 }
             });
@@ -527,19 +527,6 @@
                                 </h3>
                                 <input id="submitbatdau" type="submit" class="btn btn-primary" value="Bắt Đầu">
                             </div>
-                        </div>
-                        <br>
-                        <br>
-                        <div class="row-mt-15em">
-                            <img src="/images/NOKIA-Logo-Blue-Rev.jpg" width="290px" height="225px">
-                            <img src="/images/download.png" width="290px" height="225px">
-                            <img src="/images/apple-logo_318-40184.jpg" width="290px" height="225px">
-                            <img src="/images/2000px-Samsung_Logo.svg.png" width="318x" height="225px">
-                            <img src="/images/main-qimg-18d801a88c5d4fefd289642da0d074d9.png" width="290x" height="225px">
-                            <img src="/images/392455336.png" width="290x" height="225px">
-                            <img src="/images/1280px-Intel-logo.svg.png" width="290x" height="225px">
-                            <img src="/images/asus-logo.png" width="318x" height="225px">
-
                         </div>
                     </div>
                     <!-- Bắt Đầu -->
