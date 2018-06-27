@@ -28,7 +28,7 @@ http.listen(process.env.PORT);
 
 //server.listen(3000, function () { console.log('server is listening in port 3000') });
 var pg = require('pg');
-var config = {
+/*var config = {
     user: 'postgres',
     database: 'ql_daugia',
     password: 'admin',
@@ -37,7 +37,19 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 3000, // close idle clients after 30 second
     connectionTimeoutMillis: 1000,
-};
+};*/
+
+//Config PG heroku
+var config = {
+    user: 'sjltuabeirfakq',
+    database: 'd90ajcbdlokt18',
+    password: '81a076e29d75a4f42fe0476982b4d8c82b9b3078de6a75c3c6f084e60b34f206',
+    host: 'ec2-23-23-245-89.compute-1.amazonaws.com',
+    port: 5432,
+    max: 10, // set pool max size to 20
+    idleTimeoutMillis: 3000, // close idle clients after 30 second
+    connectionTimeoutMillis: 1000,
+}
 
 var pool = new pg.Pool(config)
     .on('error', err => {
