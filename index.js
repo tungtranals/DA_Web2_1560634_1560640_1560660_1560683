@@ -2,19 +2,23 @@ var express = require("express");
 var session = require('express-session')
 var cookieParser = require('cookie-parser');
 var app = express();
+
 app.use(express.static("public"));
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
 var fileUpload = require('express-fileupload');
 var path = require("path");
+
 app.use(session({ secret: 'iloveuit' }));
 app.use(cookieParser());
-
 app.use(fileUpload());
+
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 
+<<<<<<< HEAD
 
 var http = require('http').createServer(app);
 //Test Deploy and run Node apps
@@ -24,6 +28,10 @@ http.listen(process.env.PORT);
 
 
 //server.listen(3000, function () { console.log('server is listening in port 3000') });
+=======
+server.listen(process.env.POST ||3000, function () { console.log('server is listening in port 3000') });
+
+>>>>>>> 22a44f9abf683d6bae622f5929a1e73880dde38f
 var pg = require('pg');
 var config = {
     user: 'postgres',
@@ -31,27 +39,38 @@ var config = {
     password: 'admin',
     host: 'localhost',
     port: 5432,
-    max: 10,
-    idleTimeoutMillis: 30000,
+    max: 10, // set pool max size to 20
+    idleTimeoutMillis: 3000, // close idle clients after 30 second
+    connectionTimeoutMillis: 1000,
 };
-var pool = new pg.Pool(config);
+
+var pool = new pg.Pool(config)
+    .on('error', err => {
+        console.error('idle client error: ', err.message, err.stack);
+    });
+
 
 //emit liên tục mỗi giấy để lấy giá trị realtime gửi về cho client
+var finish = 1;
 setInterval(function () {
-    pool.connect(function (err, client, done) {
-        if (err) {
-            return console.error("error ", err);
-        }
-        client.query("SELECT *FROM phiendaugia",
-            function (err, result) {
-                done();
-                if (err) {
-                    return console.error("error", err);
-                } else {
-                    io.sockets.emit("senddata", result.rows);
-                }
-            });
-    });
+    if (finish == 1) {
+        finish = 0;
+        pool.connect(function (err, client, done) {
+            if (err) {
+                return console.error("error hihi ", err);
+            }
+            client.query("SELECT *FROM phiendaugia",
+                function (err, result) {
+                    done();
+                    if (err) {
+                        return console.error("error", err);
+                    } else {
+                        io.sockets.emit("senddata", result.rows);
+                        finish = 1;
+                    }
+                });
+        });
+    }
 }, 100);
 
 app.get('/', function (req, res) {
@@ -76,11 +95,16 @@ app.post('/login', function (req, res) {
                         maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
                         httpOnly: true,
                     }
-                    res.cookie('user', user.toString(), options);
-                    res.cookie('pass', pass.toString(), options);
-                    req.session.user = user.toString();
-                    req.session.quyen = result.rows[0].maloaitaikhoan;
-                    res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan, tenhienthi: result.rows[0].tenhienthi });
+                    try {
+                        res.cookie('user', user.toString(), options);
+                        res.cookie('pass', pass.toString(), options);
+                        req.session.user = user.toString();
+                        req.session.quyen = result.rows[0].maloaitaikhoan;
+                        res.send({ rowcount: result.rowCount, quyen: result.rows[0].maloaitaikhoan, tenhienthi: result.rows[0].tenhienthi });
+                    } catch (error) {
+
+                    }
+
                 }
             });
     });
@@ -602,11 +626,10 @@ app.get('/laykhodo', function (req, res) {
             return console.error("error ", err);
         }
         var suser = req.session.user;
-        client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphiendau = phiendaugia.maphien "
+        client.query("SELECT *FROM phieudaugia INNER JOIN phiendaugia ON phieudaugia.maphieudau = phiendaugia.maphieuthang "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh" +
-            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1 AND phiendaugia.maphieuthang =" +
-            +"phieudaugia.maphieudau",
+            " WHERE tendangnhap ='" + suser + "' AND phieudaugia.tinhtrang = 1",
             function (err, result) {
                 done();
                 if (err) {
@@ -631,9 +654,10 @@ app.get("/thanhtoansp/:id", function (req, res) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
+                    console.log("k thanh cong thanh cong");
                     return console.error("error", err);
                 } else {
-                    console.log(result);
+                    console.log("thanh cong me roi");
                     res.send("thanh cong");
 
                 }
@@ -718,6 +742,7 @@ app.post('/daugiaclient', function (req, res) {
     var maphien = req.body.maphien;
     var giadau = req.body.giadau;
     var suser = req.session.user.toString();
+
     pool.connect(function (err, client, done) {
         if (err) {
             return console.error("error ", err);
@@ -730,7 +755,7 @@ app.post('/daugiaclient', function (req, res) {
                     return console.error("error", err);
                 } else {
                     if (result.rowCount == 1) {//update
-                        client.query("UPDATE phieudaugia SET giadau=" + giadau + " WHERE maphiendau=" + maphien
+                        client.query("UPDATE phieudaugia SET giadau=" + giadau + ",tinhtrang =1 WHERE maphiendau=" + maphien
                             + " AND tendangnhap='" + suser + "'",
                             function (err, result) {
                                 done();
@@ -764,21 +789,15 @@ app.post('/daugiaclient', function (req, res) {
                                 //lcdem =result.rowCount;
                                 var arr = result.rows;
                                 maphieupp = arr[0].maphieudau;
-                                console.log("dem " + result.rowCount);
-                                console.log("dem11 " + arr[0].maphieudau);
-                                
-                                console.log(maphieupp + " ma phieu")
                                 var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
-                                console.log(SQL + "cc");
+
                                 client.query(SQL,
                                     function (err, result) {
                                         done();
                                         if (err) {
                                             return console.error("error", err);
                                         } else {
-                                            lcdem = result.rowCount;
-                                            arr = result.rows;
-                                            console.log(SQL);
+                                            console.log(SQL + " ===============");
                                         }
                                     });
                             }

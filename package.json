@@ -4,8 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
+=======
+    "start": "node index"
+>>>>>>> 22a44f9abf683d6bae622f5929a1e73880dde38f
   },
   "author": "",
   "license": "ISC",
