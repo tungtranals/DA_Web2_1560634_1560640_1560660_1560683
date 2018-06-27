@@ -159,6 +159,7 @@
                 });
 
             });
+            //Đăng ký
             $("#submitdangky").click(function () {
                 var user = $("#user");
                 var name = $("#name");
@@ -198,6 +199,7 @@
 
             });
         });
+        //Đăng xuất
         function dangxuat() {
             $.ajax({
                 type: 'POST',
@@ -259,7 +261,7 @@
             var tyle = parseInt($("#tangtien").val());
             $("#tangtien").val(tyle + 5);
         }
-
+        //Kho đồ
         function khodo() {
             $("#sanpham").html("");
             $.ajax({
