@@ -31,23 +31,6 @@ io.on("connection", function(socket){
     }, 1000);
 });
 
-
-app.post('/upload', function(req, res) {
-    if (!req.files)
-  
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.sampleFile;
-    console.log(req.files);
-    var name = sampleFile.name;
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('./public/'+name, function(err) {
-      if (err)
-        return res.status(500).send(err);
-  
-        res.send("hihi");
-    });
-});
-
 app.get('/html',function(req,res){
     res.sendFile(path.join(__dirname+'/views/senfile.html'));
 });
