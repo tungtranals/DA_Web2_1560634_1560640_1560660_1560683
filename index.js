@@ -269,6 +269,10 @@ app.get("/suasp/:id", function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result.rows);
