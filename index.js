@@ -54,7 +54,7 @@ var pool = new pg.Pool(config)
         console.error('lỗi client << : ' + err);
     });
 
-    
+
 app.get('/layphiendaugiamoigiay', function (req, res) {
     try {
         pool.connect(function (err, client, done) {
@@ -111,6 +111,10 @@ app.post('/login', function (req, res) {
                 done();
                 if (err) {
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
 
