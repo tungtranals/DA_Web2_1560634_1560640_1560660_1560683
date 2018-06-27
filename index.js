@@ -398,7 +398,7 @@ app.get("/xoaphien/:id", function (req, res) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -427,7 +427,7 @@ app.get("/chinhsuaphien/:id", function (req, res) {
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
                         });
-                     res.end();
+                    res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
@@ -454,7 +454,7 @@ app.post('/hoanthanhcsphien', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -478,7 +478,7 @@ app.get('/laytaikhoan', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -505,7 +505,7 @@ app.get("/xoatk/:id", function (req, res) {
                 if (err) {
                     console.log("kk");
                     res.send("k thanh cong");
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -529,7 +529,7 @@ app.get("/suatk/:id", function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -560,7 +560,7 @@ app.post('/cstaikhoan', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -583,7 +583,7 @@ app.get('/layhinhanh', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
                         .on('error', err => {
                             console.error('lỗi client << : ' + err);
@@ -612,15 +612,24 @@ app.post('/upload', function (req, res) {
             else {
                 pool.connect(function (err, client, done) {
                     if (err) {
-                        return console.error("error ", err);
+                        console.error("error ", err);
+                        res.end();
                     }
-                    client.query("INSERT INTO hinhanh(tenanh) VALUES ('" + name + "')",
-                        function (err, result) {
-                            done();
-                            if (err) {
-                                return console.error("error", err);
-                            } else { }
-                        });
+                    else {
+                        client.query("INSERT INTO hinhanh(tenanh) VALUES ('" + name + "')",
+                            function (err, result) {
+                                done();
+                                if (err) {
+                                    console.error("error", err);
+                                    pool = new pg.Pool(config)
+                                        .on('error', err => {
+                                            console.error('lỗi client << : ' + err);
+                                        });
+                                    res.end();
+                                } else { }
+                            });
+                    }
+
                 });
             }
         });
@@ -633,13 +642,18 @@ app.post('/upload', function (req, res) {
             else {
                 pool.connect(function (err, client, done) {
                     if (err) {
-                        return console.error("error ", err);
+                        res.end();
                     }
                     client.query("INSERT INTO hinhanh(tenanh) VALUES ('" + name2 + "')",
                         function (err, result) {
                             done();
                             if (err) {
-                                return console.error("error", err);
+                                console.error("error", err);
+                                pool = new pg.Pool(config)
+                                    .on('error', err => {
+                                        console.error('lỗi client << : ' + err);
+                                    });
+                                res.end();
                             } else { }
                         });
                 });
@@ -650,17 +664,23 @@ app.post('/upload', function (req, res) {
         var name3 = sampleFile3.name;
         sampleFile3.mv('./public/images/' + name3, function (err) {
             if (err)
-                return res.status(500).send(err);
+                res.status(500).send(err);
             else {
                 pool.connect(function (err, client, done) {
                     if (err) {
-                        return console.error("error ", err);
+                        console.error("error ", err);
+                        res.end();
                     }
                     client.query("INSERT INTO hinhanh(tenanh) VALUES ('" + name3 + "')",
                         function (err, result) {
                             done();
                             if (err) {
-                                return console.error("error", err);
+                                console.error("error", err);
+                                pool = new pg.Pool(config)
+                                    .on('error', err => {
+                                        console.error('lỗi client << : ' + err);
+                                    });
+                                res.end();
                             } else { }
                         });
                 });
