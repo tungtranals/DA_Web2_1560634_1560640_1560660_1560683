@@ -422,7 +422,12 @@ app.get("/chinhsuaphien/:id", function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); res.end();
+                    console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                     res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows[0]);
