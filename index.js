@@ -505,7 +505,12 @@ app.get("/xoatk/:id", function (req, res) {
                 if (err) {
                     console.log("kk");
                     res.send("k thanh cong");
-                    console.error("error", err); res.end();
+                    console.error("error", err); 
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                    res.end();
                 } else {
                     console.log("cc");
                     res.send("thanh cong");
