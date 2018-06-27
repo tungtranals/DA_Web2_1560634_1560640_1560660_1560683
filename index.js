@@ -802,11 +802,11 @@ app.get("/thanhtoansp/:id", function (req, res) {
                 if (err) {
                     res.send("k thanh cong");
                     console.log("k thanh cong thanh cong");
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
-                                        .on('error', err => {
-                                            console.error('lỗi client << : ' + err);
-                                        });
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log("thanh cong");
@@ -830,11 +830,11 @@ app.get('/laycacphiendau', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); 
+                    console.error("error", err);
                     pool = new pg.Pool(config)
-                                        .on('error', err => {
-                                            console.error('lỗi client << : ' + err);
-                                        });
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result.rows);
@@ -859,7 +859,12 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
             function (err, result) {
                 done();
                 if (err) {
-                    console.error("error", err); res.end();
+                    console.error("error", err); 
+                    pool = new pg.Pool(config)
+                                        .on('error', err => {
+                                            console.error('lỗi client << : ' + err);
+                                        });
+                    res.end();
                 } else {
                     console.log(result.rows);
                     res.send(result.rows);
