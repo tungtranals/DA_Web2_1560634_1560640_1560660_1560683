@@ -57,28 +57,41 @@ var pool = new pg.Pool(config)
     });
 
 
-//emit liên tục mỗi giấy để lấy giá trị realtime gửi về cho client
-var finish = 1;
-setInterval(function () {
-    if (finish == 1) {
-        finish = 0;
+app.get('/layphiendaugiamoigiay', function (req, res) {
+    try {
         pool.connect(function (err, client, done) {
             if (err) {
-                return console.error("error hihi ", err);
+                console.error("lỗi connect mỗi giây ", err);
+                res.end();
             }
-            client.query("SELECT *FROM phiendaugia",
-                function (err, result) {
-                    done();
-                    if (err) {
-                        return console.error("error", err);
-                    } else {
-                        io.sockets.emit("senddata", result.rows);
-                        finish = 1;
-                    }
-                });
+            try {
+                client.query("SELECT *FROM phiendaugia",
+                    function (err, result) {
+                        done();
+                        if (err) {
+                            console.error("lỗi truy vấn mỗi giây: Tạo lại pool mới", err);
+                            pool = new pg.Pool(config)
+                                .on('error', err => {
+                                    console.error('lỗi client << : ' + err);
+                                });
+                            res.end();
+                        } else {
+                            try {
+                                res.send(result.rows);
+                                res.end();
+                            } catch (error) {
+
+                            }
+                        }
+                    });
+            } catch (error) {
+
+            }
         });
+    } catch (error) {
+
     }
-}, 100);
+});
 
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname + '/views/index.html'));
