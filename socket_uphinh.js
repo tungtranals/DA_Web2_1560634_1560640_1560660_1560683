@@ -31,7 +31,7 @@ io.on("connection", function(socket){
     }, 1000);
 });
 
-app.get('/html',function(req,res){
+/*app.get('/html',function(req,res){
     res.sendFile(path.join(__dirname+'/views/senfile.html'));
-});
+});*/
 
