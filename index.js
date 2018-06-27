@@ -16,17 +16,18 @@ app.use(cookieParser());
 app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
-var server = require("http").Server(app);
-
 //run local
-/*server.listen(3000, function () { console.log('server is listening in port 3000') });*/
+/*var server = require("http").Server(app);
+server.listen(3000, function () { console.log('server is listening in port 3000') });*/
 
 //run heroku
-server.listen(process.env.PORT);
+var http = require('http').createServer(app);
+http.listen(process.env.PORT);
+
+var pg = require('pg');
 
 //config postgres local
-/*var pg = require('pg');
-var config = {
+/*var config = {
     user: 'postgres',
     database: 'ql_daugia',
     password: 'admin',
@@ -53,6 +54,7 @@ var pool = new pg.Pool(config)
         console.error('lỗi client << : ' + err);
     });
 
+    
 app.get('/layphiendaugiamoigiay', function (req, res) {
     try {
         pool.connect(function (err, client, done) {
@@ -90,12 +92,11 @@ app.get('/layphiendaugiamoigiay', function (req, res) {
 });
 
 
-
-
 app.get('/', function (req, res) {
 
     res.sendFile(path.join(__dirname + '/views/index.html'));
 });
+
 
 app.post('/login', function (req, res) {
     var user = req.body.name;
