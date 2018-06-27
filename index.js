@@ -15,9 +15,14 @@ app.use(session({ secret: 'iloveuit' }));
 app.use(cookieParser());
 app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
+
 var server = require("http").Server(app);
 
-server.listen(process.env.POST || 3000, function () { console.log('server is listening in port 3000') });
+//run local
+server.listen(3000, function () { console.log('server is listening in port 3000') });
+
+//run heroku
+server.listen(process.env.PORT);
 
 var pg = require('pg');
 var config = {
@@ -34,8 +39,6 @@ var pool = new pg.Pool(config)
     .on('error', err => {
         console.error('lỗi client << : ' + err);
     });
-
-
 
 app.get('/layphiendaugiamoigiay', function (req, res) {
     try {
