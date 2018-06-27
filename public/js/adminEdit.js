@@ -186,7 +186,7 @@ function layphiendaugia() {
                 $('#sanphanadmin').append("</br>Time Đấu: " + item.thoigiandau + "");
                 $('#sanphanadmin').append("</br>Giá Hiện Tại(K):" + item.giahientai + "");
                 $('#sanphanadmin').append("</br>Giá Khởi Điểm(K):" + item.giakhoidiem + "");
-                $('#sanphanadmin').append("</br>Mã Tình Trạng(1: đã đc mua, 2: chưa đc mua): " + item.matinhtrang + "");
+                $('#sanphanadmin').append("</br>Mã Tình Trạng(1: chưa đc mua, 2: đã đc mua): " + item.matinhtrang + "");
                 $('#sanphanadmin').append("</br>Mã Phiếu Thắng:" + item.maphieuthang + "");
                 $('#sanphanadmin').append('</br><a href="#" onclick="xoaphien(' + item.maphien + ')" class="btn btn-primary btn-sm">Xóa</a>');
                 $('#sanphanadmin').append('<a href="#" onclick="chinhsuaphien(' + item.maphien + ')" class="btn btn-primary btn-sm">Sửa</a></br>');
@@ -207,7 +207,7 @@ function chinhsuaphien(ma) {
             $('#sanphanadmin').append('Time Đấu:</br><input value= ' + response.thoigiandau + ' type="text" class="form-control" id="mtimedau">');
             $('#sanphanadmin').append('Giá Hiện Tại(K):</br><input value= ' + response.giahientai + ' type="text" class="form-control" id="pgiaht">');
             $('#sanphanadmin').append('Giá Khởi Điểm(K):</br><input value= ' + response.giakhoidiem + ' type="text" class="form-control" id="pgiakd">');
-            $('#sanphanadmin').append('Mã Tình Trạng(1: đã đc mua, 2: chưa đc mua):</br><input value= ' + response.matinhtrang + ' type="text" class="form-control" id="ptinhtrang">');
+            $('#sanphanadmin').append('Mã Tình Trạng(1: chưa đc mua, 2: đã đc mua):</br><input value= ' + response.matinhtrang + ' type="text" class="form-control" id="ptinhtrang">');
             $('#sanphanadmin').append('Mã Phiếu Thắng:</br><input value= ' + response.maphieuthang + ' type="text" class="form-control" id="pmathang">');
             $('#sanphanadmin').append('</br><a onclick="hoanthanhcsphien(' + response.maphien + ')" href="#" class="btn btn-primary btn-sm">Hoàn Thành</a></br>');
         }

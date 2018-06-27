@@ -66,7 +66,11 @@
                                     } else {
                                         $(thedaupp).show();
                                         var timepp = timesec - min;
-                                        $(tgcl).html(timepp);
+
+                                        var x = parseInt(timepp / 60);
+                                        var y = timepp % 60;
+
+                                        $(tgcl).html(x + ":" + y);
 
                                     }
                                 }
@@ -225,6 +229,7 @@
                 dataType: 'json',
                 success: function (response) {
                     var ma = response.maphien;
+                    var layphien = "layphien"+ma;
                     var tgcl = "tgcl" + ma;
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
@@ -238,7 +243,7 @@
                         "<p>Time Đấu Giá: " + response.thoigiandau + "</p>" +
                         "</ul>" + "</div></div>" +
                         " <div class='col-md-4'>" +
-                        "<div class='price-box'>" +
+                        "<center>" +
                         "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
 
                         "<p>giá khởi điểm: " + response.giakhoidiem + " K</p> " +
@@ -246,7 +251,10 @@
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
                         "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
-                        "</div></div>";
+                        "</div></center>"+
+                        " <div class='col-md-4'>"+
+                            "<div id = '" + layphien + "'> </div>"+
+                        "</div>";
                     $("#sanpham").append(lc);
                 }
             });
@@ -354,7 +362,7 @@
                                 "<p> Tên SP:" + item.tensp + "</p>" +
                                 "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
                                 "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
-                                "<p>Giá khởi điểm: " + item.giakhoidiem + "</p>" +
+                                "<p>Giá khởi điểm: " + item.giakhoidiem + "K</p>" +
                                 "<hr>" +
                                 "</ul>" +
                                 "<a  class='btn btn-default btn-sm' onclick='nhanvaosp(" + item.maphien + ")'>Chi Tiết</a>" +
