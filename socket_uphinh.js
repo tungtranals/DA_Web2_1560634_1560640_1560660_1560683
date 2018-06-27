@@ -15,7 +15,7 @@ server.listen(3000,function(){
     console.log('server is listening in port 3000')
 });
 
-io.on("connection", function(socket){
+/*io.on("connection", function(socket){
     console.log("ket noi "+socket.io);
     socket.on("disconnect", function(){
         console.log(socket.io +"ngat ket noi ");
@@ -29,12 +29,8 @@ io.on("connection", function(socket){
         io.sockets.emit("senddata",time+" hihi");
         time++;
     }, 1000);
-});
+});*/
 
-
-app.get("/tr",function(req,res){
-    res.render("main1.ejs");
-}); 
 
 app.post('/upload', function(req, res) {
     if (!req.files)
