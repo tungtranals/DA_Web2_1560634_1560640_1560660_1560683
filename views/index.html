@@ -20,10 +20,11 @@
 
     <!-- HÀM XỬ LÝ CHÍNH CHO ADMIN -->
     <script src="js/adminEdit.js"></script>
+    <script src="socket.io/socket.io.js"></script>
     <script src="jquery.js"></script>
 
     <script>
-        
+        var socket = io("http://localhost:3000/");
         setInterval(function () {
             try {
                 $.ajax({
@@ -75,38 +76,17 @@
 
                                     }
                                 }
-                                var layphien = "#layphien"+ma;
-                                $(layphien).html("");
-                                shownguoidau(ma);
-
                             });
                         } catch (error) {
-
                         }
                     }
                 });
             } catch (error) {
 
             }
-            shownguoidau()
         }, 100);
+
         
-        function shownguoidau(ma){
-            var layphien = "#layphien"+ma;
-                $.ajax({
-                    type: 'GET',
-                    url: '/shownguoidau',
-                    dataType: 'json',
-                    success: function (response) {
-                        
-                        response.forEach(function (item) {
-                            if(item.maphiendau == ma){
-                                $(layphien).append(item.tendangnhap+" : "+item.giadau+"</br>");
-                            }
-                        });
-                    }
-                });
-        }
 
         function daugiaclient(ma) {
 
@@ -119,8 +99,23 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ maphien: ma, giadau: gia }),
                 success: function (response) {
+                    socket.emit("clientsentdata","hi");
                 }
             });
+            shownguoidau(ma);
+        }
+        function shownguoidau(ma) {
+            socket.on("senddata", function (data) {
+                var layphien = "#layphien" + ma;
+                $(layphien).html("");
+                for (var i = data.length - 1; i >= 0; i--) {
+                    if (data[i].maphiendau == ma) {
+                        $(layphien).append(data[i].tendangnhap + " : " + data[i].giadau + "</br>");
+                    }
+                }
+
+            });
+
         }
         $(document).ready(function () {
             $("#tangtien").val(5);
@@ -251,7 +246,7 @@
                 dataType: 'json',
                 success: function (response) {
                     var ma = response.maphien;
-                    var layphien = "layphien"+ma;
+                    var layphien = "layphien" + ma;
                     var tgcl = "tgcl" + ma;
                     var idght = "idght" + ma;
                     var idghts = "idghts" + ma;
@@ -273,12 +268,15 @@
                         "Giá đề nghị: </br><input id='" + idghts + "' type='email' width='50' class='btn btn-default btn-sm' placeholder=''>" +
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
                         "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
-                        "</div></center>"+
-                        " <div class='col-md-4'>"+
-                            "<div id = '" + layphien + "'> </div>"+
+                        "</div></center>" +
+                        " <div class='col-md-4'>" +
+                        "<div id = '" + layphien + "'> </div>" +
                         "</div>";
                     $("#sanpham").append(lc);
+                    socket.emit("clientsentdata","hi");
+                    shownguoidau(ma);
                 }
+
             });
         }
         function trutien(idghts) {

@@ -14,11 +14,14 @@ var path = require("path");
 app.use(session({ secret: 'iloveuit' }));
 app.use(cookieParser());
 app.use(fileUpload());
+
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //run local
 var server = require("http").Server(app);
+var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
+
 
 //run heroku
 /*
@@ -56,6 +59,42 @@ var pool = new pg.Pool(config)
         console.error('lỗi client << : ' + err);
     });
 
+io.on("connection", function (socket) {
+    console.log("ket noi " + socket.io);
+    socket.on("disconnect", function () {
+        console.log(socket.io + "ngat ket noi ");
+    });
+    socket.on("clientsentdata", function (data) {
+        pool.connect(function (err, client, done) {
+            if (err) {
+                console.error("lỗi connect mỗi giây ", err);
+            }
+            try {
+                client.query("SELECT *FROM phieudaugia",
+                    function (err, result) {
+                        done();
+                        if (err) {
+                            console.error("lỗi truy vấn mỗi giây: Tạo lại pool mới", err);
+                            pool = new pg.Pool(config)
+                                .on('error', err => {
+                                    console.error('lỗi client << : ' + err);
+                                });
+                            res.end();
+                        } else {
+                            try {
+                                io.sockets.emit("senddata",result.rows);
+                            } catch (error) {
+
+                            }
+                        }
+                    });
+            } catch (error) {
+
+            }
+        });
+
+    });
+});
 
 app.get('/layphiendaugiamoigiay', function (req, res) {
     try {
@@ -65,7 +104,7 @@ app.get('/layphiendaugiamoigiay', function (req, res) {
                 res.end();
             }
             try {
-                
+
                 client.query("SELECT *FROM phiendaugia",
                     function (err, result) {
                         done();
@@ -94,41 +133,6 @@ app.get('/layphiendaugiamoigiay', function (req, res) {
     }
 });
 
-app.get('/shownguoidau', function (req, res) {
-    try {
-        pool.connect(function (err, client, done) {
-            if (err) {
-                console.error("lỗi connect mỗi giây ", err);
-                res.end();
-            }
-            try {
-                client.query("SELECT *FROM phieudaugia",
-                    function (err, result) {
-                        done();
-                        if (err) {
-                            console.error("lỗi truy vấn mỗi giây: Tạo lại pool mới", err);
-                            pool = new pg.Pool(config)
-                                .on('error', err => {
-                                    console.error('lỗi client << : ' + err);
-                                });
-                            res.end();
-                        } else {
-                            try {
-                                res.send(result.rows);
-                                res.end();
-                            } catch (error) {
-
-                            }
-                        }
-                    });
-            } catch (error) {
-
-            }
-        });
-    } catch (error) {
-
-    }
-});
 
 
 app.get('/', function (req, res) {
