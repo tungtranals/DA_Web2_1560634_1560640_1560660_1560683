@@ -398,7 +398,12 @@ app.get("/xoaphien/:id", function (req, res) {
                 done();
                 if (err) {
                     res.send("k thanh cong");
-                    console.error("error", err); res.end();
+                    console.error("error", err); 
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
+                    res.end();
                 } else {
                     console.log(result);
                     res.send("thanh cong");
