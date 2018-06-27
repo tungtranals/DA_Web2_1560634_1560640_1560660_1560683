@@ -244,6 +244,10 @@ app.get("/xoasp/:id", function (req, res) {
                 if (err) {
                     res.send("k thanh cong");
                     console.error("error", err);
+                    pool = new pg.Pool(config)
+                        .on('error', err => {
+                            console.error('lỗi client << : ' + err);
+                        });
                     res.end();
                 } else {
                     console.log(result);
