@@ -802,7 +802,12 @@ app.get("/thanhtoansp/:id", function (req, res) {
                 if (err) {
                     res.send("k thanh cong");
                     console.log("k thanh cong thanh cong");
-                    console.error("error", err); res.end();
+                    console.error("error", err); 
+                    pool = new pg.Pool(config)
+                                        .on('error', err => {
+                                            console.error('lỗi client << : ' + err);
+                                        });
+                    res.end();
                 } else {
                     console.log("thanh cong");
                     res.send("thanh cong");
