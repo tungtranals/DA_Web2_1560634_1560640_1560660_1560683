@@ -23,6 +23,7 @@
     <script src="jquery.js"></script>
 
     <script>
+        
         setInterval(function () {
             try {
                 $.ajax({
@@ -74,6 +75,9 @@
 
                                     }
                                 }
+                                var layphien = "#layphien"+ma;
+                                $(layphien).html("");
+                                shownguoidau(ma);
 
                             });
                         } catch (error) {
@@ -84,7 +88,25 @@
             } catch (error) {
 
             }
+            shownguoidau()
         }, 100);
+        
+        function shownguoidau(ma){
+            var layphien = "#layphien"+ma;
+                $.ajax({
+                    type: 'GET',
+                    url: '/shownguoidau',
+                    dataType: 'json',
+                    success: function (response) {
+                        
+                        response.forEach(function (item) {
+                            if(item.maphiendau == ma){
+                                $(layphien).append(item.tendangnhap+" : "+item.giadau+"</br>");
+                            }
+                        });
+                    }
+                });
+        }
 
         function daugiaclient(ma) {
 
