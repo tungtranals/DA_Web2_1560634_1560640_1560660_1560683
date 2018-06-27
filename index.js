@@ -178,6 +178,10 @@ app.post('/signin', function (req, res) {
                             if (err) {
                                 res.send("0");
                                 console.error("error", err);
+                                pool = new pg.Pool(config)
+                                    .on('error', err => {
+                                        console.error('lỗi client << : ' + err);
+                                    });
                                 res.end();
                             } else {
                                 let options = {
