@@ -173,7 +173,7 @@ function hoanthanhaddsp() {
 function layphiendaugia() {
     $('#ten').html("Phiên Đấu Giá");
     $('#sanphanadmin').html("");
-    $('#sanphanadmin').append('<a href="#" onclick="addPhien()" class="btn btn-primary btn-sm">Thêm SP</a></br></br>');
+    $('#sanphanadmin').append('<a href="#" onclick="addPhien()" class="btn btn-primary btn-sm">Thêm Phiên</a></br></br>');
     $.ajax({
         type: 'GET',
         url: '/layphiendaugia',
@@ -286,7 +286,7 @@ function hoanthanhaddPhien() {
 function layhinhanh(){
     $('#ten').html("Danh Sách Ảnh");
     $('#sanphanadmin').html("");
-    $('#sanphanadmin').append('<a href="#" onclick="addHinhAnh()" class="btn btn-primary btn-sm">Thêm SP</a></br></br>');
+    $('#sanphanadmin').append('<a href="#" onclick="addHinhAnh()" class="btn btn-primary btn-sm">Thêm Hình Ảnh</a></br></br>');
     $.ajax({
         type: 'GET',
         url: '/layhinhanh',
