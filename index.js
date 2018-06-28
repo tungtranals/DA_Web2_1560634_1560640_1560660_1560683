@@ -989,10 +989,6 @@ app.post('/daugiaclient', function (req, res) {
     var giadau = req.body.giadau;
     var suser = req.session.user;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> parent of aa0947f... sửa lỗi sesion
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("lỗi connect đấu giá 1 ", err);
@@ -1011,57 +1007,6 @@ app.post('/daugiaclient', function (req, res) {
                     res.end();
                 } else {
                     if (result.rowCount == 1) {//update
-<<<<<<< HEAD
-                        client.query("UPDATE phieudaugia SET giadau=" + giadau + ",tinhtrang =1 WHERE maphiendau=" + maphien
-                            + " AND tendangnhap='" + suser + "'",
-                            function (err, result) {
-                                done();
-                                if (err) {
-                                    console.error("lỗi update phiếu", err);
-                                    pool = new pg.Pool(config)
-                                        .on('error', err => {
-                                            console.error('lỗi client << : ' + err);
-                                        });
-                                    res.end();
-                                } else {
-                                    console.log("update phieu");
-                                    var maphieupp = 0;
-                                    client.query("SELECT maphieudau,maphiendau FROM phieudaugia WHERE maphiendau =" + maphien + " AND tendangnhap= '" + suser + "' ",
-                                        function (err, result) {
-                                            done();
-                                            if (err) {
-                                                console.error("lỗi update phiên 1", err);
-                                                pool = new pg.Pool(config)
-                                                    .on('error', err => {
-                                                        console.error('lỗi client << : ' + err);
-                                                    });
-                                                res.end();
-                                            } else {
-                                                //lcdem =result.rowCount;
-                                                var arr = result.rows;
-                                                maphieupp = arr[0].maphieudau;
-                                                var SQL = "UPDATE phiendaugia SET giahientai=" + giadau + ", matinhtrang=2, maphieuthang=" + maphieupp + " WHERE maphien = " + maphien + "";
-
-                                                client.query(SQL,
-                                                    function (err, result) {
-                                                        done();
-                                                        if (err) {
-                                                            console.error("lỗi lấy phiên 1", err);
-                                                            pool = new pg.Pool(config)
-                                                                .on('error', err => {
-                                                                    console.error('lỗi client << : ' + err);
-                                                                });
-                                                            res.end();
-                                                        } else {
-                                                            console.log("update phien");
-                                                            res.end();
-                                                        }
-                                                    });
-                                            }
-                                        });
-                                }
-                            });
-=======
                         var user = req.cookies['user'];
                         if (user === undefined) {
                             res.send("sesion trống, vui lòng kiểm tra lại phiên");
@@ -1117,7 +1062,6 @@ app.post('/daugiaclient', function (req, res) {
                                 });
                         }
 
->>>>>>> parent of aa0947f... sửa lỗi sesion
                     } else {//insert
                         client.query("INSERT INTO phieudaugia( maphiendau, tendangnhap, giadau, tinhtrang) VALUES ("
                             + maphien + ", '" + suser + "', " + giadau + ", 1)",
