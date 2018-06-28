@@ -18,15 +18,17 @@ app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //run local
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+//var server = require("http").Server(app);
 
 //server.listen(3000, function () { console.log('server is listening in port 3000') });
 
 
 //run heroku
 var http = require('http').createServer(app);
+var io = require("socket.io")(http);
 http.listen(process.env.PORT);
+
+
 
 var pg = require('pg');
 
