@@ -24,7 +24,8 @@
     <script src="jquery.js"></script>
 
     <script>
-        var socket = io("https://chillindo.herokuapp.com/");
+        var socket = io("http://localhost:3000/");
+        //var socket = io("https://chillindo.herokuapp.com/");
         setInterval(function () {
             try {
                 $.ajax({
@@ -99,7 +100,10 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ maphien: ma, giadau: gia }),
                 success: function (response) {
-                    alert(response);
+                    if(response==1){
+                        alert("sesion trống, vui lòng mở tab khác để đấu giá");
+                    }
+                    
                     socket.emit("clientsentdata","hi");
                 }
             });
