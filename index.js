@@ -29,6 +29,9 @@ var http = require('http').createServer(app);
 http.listen(process.env.PORT);
 
 var pg = require('pg');
+
+//pg local
+/*
 var config = {
     user: 'postgres',
     database: 'ql_daugia',
@@ -37,7 +40,7 @@ var config = {
     port: 5432,
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
-};
+};*/
 
 //config heroku postgres database
 
