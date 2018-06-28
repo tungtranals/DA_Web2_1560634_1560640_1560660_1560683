@@ -19,7 +19,7 @@ require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 
 //config postgres local
-
+/*
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
@@ -34,6 +34,7 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
+*/
 
 
 //config heroku postgres database
@@ -53,6 +54,19 @@ var config = {
 };
 */
 
+var http = require('http').createServer(app);
+var io = require("socket.io")(http);
+http.listen(process.env.PORT);
+var pg = require('pg');
+var config = {
+    user: 'ckfeqlcfbldbbb',
+    database: 'd29j86uvor8eld',
+    password: '9f2add25d99cfe7768b2b97151273d06c0dc85cde1a37d4995fbe43192902b28',
+    host: 'ec2-107-22-174-187.compute-1.amazonaws.com',
+    port: 5432,
+    max: 10, // set pool max size to 20
+    idleTimeoutMillis: 30000, // close idle clients after 30 second
+};
 
 var pool = new pg.Pool(config)
     .on('error', err => {
