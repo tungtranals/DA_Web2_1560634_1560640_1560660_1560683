@@ -18,38 +18,20 @@ app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //run local
-<<<<<<< HEAD
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
-
-//server.listen(3000, function () { console.log('server is listening in port 3000') });
-=======
 //var server = require("http").Server(app);
 
 //server.listen(3000, function () { console.log('server is listening in port 3000') });
 
-
 //run heroku
 var http = require('http').createServer(app);
+http.listen(process.env.PORT);
 var io = require("socket.io")(http);
-http.listen(process.env.PORT);
->>>>>>> parent of 4e5e200... sua server
-
-
-//run heroku
-var http = require('http').createServer(app);
-http.listen(process.env.PORT);
 
 var pg = require('pg');
 
-<<<<<<< HEAD
 //pg local
 /*
 var config = {
-=======
-//config postgres local
-/*var config = {
->>>>>>> parent of 4e5e200... sua server
     user: 'postgres',
     database: 'ql_daugia',
     password: 'admin',
@@ -70,11 +52,8 @@ var config = {
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> parent of 4e5e200... sua server
 var pool = new pg.Pool(config)
     .on('error', err => {
         console.error('lỗi client << : ' + err);
@@ -815,6 +794,7 @@ app.post('/kiemtrasesioncookie', function (req, res) {
 });
 
 app.post('/sigout', function (req, res) {
+
     req.session.destroy(function (err) {
         if (err) {
 
@@ -822,6 +802,7 @@ app.post('/sigout', function (req, res) {
             res.send("dang xuat");
         }
     });
+
 });
 
 //Kho Đồ
@@ -996,32 +977,6 @@ app.post('/daugiaclient', function (req, res) {
     var giadau = req.body.giadau;
     var suser = req.session.user;
 
-<<<<<<< HEAD
-=======
-    var user1 = req.cookies['user'];
-    if (user1 === undefined || suser === undefined) {
-        res.send("sesion trống, vui lòng kiểm tra lại phiên");
-        res.end();
-    } else {
-        pool.connect(function (err, client, done) {
-            if (err) {
-                console.error("lỗi connect đấu giá 1 ", err);
-                res.end();
-            }
-            client.query("SELECT *FROM phieudaugia WHERE maphiendau = "
-                + maphien + " AND tendangnhap='" + suser + "'",
-                function (err, result) {
-                    done();
-                    if (err) {
-                        console.error("lỗi lấy phiếu đấu giá", err);
-                        pool = new pg.Pool(config)
-                            .on('error', err => {
-                                console.error('lỗi client << : ' + err);
-                            });
-                        res.end();
-                    } else {
-                        if (result.rowCount == 1) {//update
->>>>>>> parent of 4e5e200... sua server
 
     pool.connect(function (err, client, done) {
         if (err) {
