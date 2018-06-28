@@ -96,15 +96,6 @@ io.on("connection", function (socket) {
                             res.end();
                         } else {
                             try {
-                                for (var i = 0; i < result.rows.length - 1; i++) {
-                                    for (var j = i + 1; j < result.rows.length; j++) {
-                                        if (result.rows[i].giadau < result.rows[j].giadau) {
-                                            var lc = result.rows[i];
-                                            result.rows[i] = result.rows[j];
-                                            result.rows[j] = lc;
-                                        }
-                                    }
-                                }
                                 io.sockets.emit("senddata", result.rows);
                             } catch (error) {
 
