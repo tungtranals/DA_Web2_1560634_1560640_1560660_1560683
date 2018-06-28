@@ -43,11 +43,6 @@ var config = {
 };*/
 
 //config heroku postgres database
-
-var http = require('http').createServer(app);
-var io = require("socket.io")(http);
-http.listen(process.env.PORT);
-var pg = require('pg');
 var config = {
     user: 'sjltuabeirfakq',
     database: 'd90ajcbdlokt18',
