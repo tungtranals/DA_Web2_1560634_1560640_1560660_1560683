@@ -18,7 +18,7 @@ app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //config postgres local
-/*
+
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
@@ -34,9 +34,9 @@ var config = {
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 
 };
-*/
-//config heroku postgres database
 
+//config heroku postgres database
+/*
 var http = require('http').createServer(app);
 var io = require("socket.io")(http);
 http.listen(process.env.PORT);
@@ -51,7 +51,7 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
-
+*/
 
 var pool = new pg.Pool(config)
     .on('error', err => {
@@ -771,13 +771,6 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     //Kiểm tra cookie
     if (user === undefined || pass === undefined) {
         lc += "user|pass|";
-        //test
-        /*let options = {
-            maxAge: 1000 * 60 * 60 * 24 * 3, // would expire after 3 day
-            httpOnly: true, // The cookie only accessible by the web server
-        }
-        res.cookie('user', 'tung', options);
-        res.cookie('pass', '12345', options);*/
     } else {
         lc += user + "|" + pass + "|";
     }
@@ -785,7 +778,11 @@ app.post('/kiemtrasesioncookie', function (req, res) {
     var suser = req.session.user;
     var quyen = req.session.quyen;
     if (suser) {
-        lc += suser + "|" + quyen;
+        if (suser == 404) {
+            lc += "0|0";
+        } else {
+            lc += suser + "|" + quyen;
+        }
     } else {
         lc += "0|0";
     }
@@ -793,13 +790,16 @@ app.post('/kiemtrasesioncookie', function (req, res) {
 });
 
 app.post('/sigout', function (req, res) {
+    req.session.user = 404;
+    res.send("dang xuat");
+    /* không hiệu quả
     req.session.destroy(function (err) {
         if (err) {
 
         } else {
             res.send("dang xuat");
         }
-    });
+    });*/
 });
 
 //Kho Đồ
