@@ -19,17 +19,25 @@ require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //run local
 //var server = require("http").Server(app);
-
+//var io = require("socket.io")(server);
 //server.listen(3000, function () { console.log('server is listening in port 3000') });
 
 //run heroku
+
 var http = require('http').createServer(app);
 http.listen(process.env.PORT);
+<<<<<<< HEAD
 var io = require("socket.io")(http);
 
 var pg = require('pg');
 
 //pg local
+=======
+
+var pg = require('pg');
+
+//config postgres local
+>>>>>>> parent of 9e304c5... Merge branch 'master' of https://github.com/tungtranals/DA_Web2_1560634_1560640_1560660_1560683
 /*
 var config = {
     user: 'postgres',
@@ -39,9 +47,10 @@ var config = {
     port: 5432,
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
-};*/
-
+};
+*/
 //config heroku postgres database
+
 var config = {
     user: 'sjltuabeirfakq',
     database: 'd90ajcbdlokt18',
@@ -53,7 +62,10 @@ var config = {
 };
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 9e304c5... Merge branch 'master' of https://github.com/tungtranals/DA_Web2_1560634_1560640_1560660_1560683
 var pool = new pg.Pool(config)
     .on('error', err => {
         console.error('lỗi client << : ' + err);
