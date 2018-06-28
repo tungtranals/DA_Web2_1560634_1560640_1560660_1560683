@@ -99,6 +99,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ maphien: ma, giadau: gia }),
                 success: function (response) {
+                    alert(response);
                     socket.emit("clientsentdata","hi");
                 }
             });
