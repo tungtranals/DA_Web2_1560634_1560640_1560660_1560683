@@ -17,12 +17,16 @@ app.use(fileUpload());
 
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
-
-//config postgres local
-/*
+//run local
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
-server.listen(3000, function () { console.log('server is listening in port 3000') });
+
+//server.listen(3000, function () { console.log('server is listening in port 3000') });
+
+
+//run heroku
+var http = require('http').createServer(app);
+http.listen(process.env.PORT);
 
 var pg = require('pg');
 var config = {
@@ -35,7 +39,6 @@ var config = {
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
 
-*/
 //config heroku postgres database
 
 var http = require('http').createServer(app);
