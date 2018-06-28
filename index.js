@@ -18,7 +18,7 @@ app.use(fileUpload());
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
 //config postgres local
-/*
+
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
@@ -34,9 +34,9 @@ var config = {
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 
 };
-*/
-//config heroku postgres database
 
+//config heroku postgres database
+/*
 var http = require('http').createServer(app);
 var io = require("socket.io")(http);
 http.listen(process.env.PORT);
@@ -52,7 +52,7 @@ var config = {
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
 
-
+*/
 var pool = new pg.Pool(config)
     .on('error', err => {
         console.error('lỗi client << : ' + err);
@@ -283,7 +283,7 @@ app.get('/laysanpham', function (req, res) {
     });
 });
 app.get("/xoasp/:id", function (req, res) {
-    var id = req.params.id;
+    var id =parseInt( req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err);
@@ -309,7 +309,7 @@ app.get("/xoasp/:id", function (req, res) {
     });
 });
 app.get("/suasp/:id", function (req, res) {
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err);
@@ -439,7 +439,7 @@ app.post('/hoanthanhaddPhien', function (req, res) {
     });
 });
 app.get("/xoaphien/:id", function (req, res) {
-    var id = req.params.id;
+    var id =parseInt( req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -464,7 +464,7 @@ app.get("/xoaphien/:id", function (req, res) {
     });
 });
 app.get("/chinhsuaphien/:id", function (req, res) {
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -545,7 +545,7 @@ app.get('/laytaikhoan', function (req, res) {
 });
 
 app.get("/xoatk/:id", function (req, res) {
-    var user = req.params.id;
+    var user = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -571,7 +571,7 @@ app.get("/xoatk/:id", function (req, res) {
     });
 });
 app.get("/suatk/:id", function (req, res) {
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -745,7 +745,7 @@ app.post('/upload', function (req, res) {
 });
 
 app.get("/xoahinhanh/:id", function (req, res) {
-    var user = req.params.id;
+    var user = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -842,7 +842,7 @@ app.get('/laykhodo', function (req, res) {
 });
 
 app.get("/thanhtoansp/:id", function (req, res) {
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     pool.connect(function (err, client, done) {
         if (err) {
             console.error("error ", err); res.end();
@@ -914,7 +914,7 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
         if (err) {
             console.error("error ", err); res.end();
         }
-        var loai = req.params.id;
+        var loai = parseInt(req.params.id);
         client.query("SELECT *FROM phiendaugia "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE sanpham.maloaisp = " + loai + "",
@@ -954,7 +954,7 @@ app.get('/laychitietphiendaugia/:id', function (req, res) {
         if (err) {
             console.error("error ", err); res.end();
         }
-        var loai = req.params.id;
+        var loai =parseInt(req.params.id);
         client.query("SELECT *FROM phiendaugia "
             + " INNER JOIN sanpham ON phiendaugia.masp = sanpham.masp " +
             " INNER JOIN hinhanh ON sanpham.mahinhanh = hinhanh.mahinhanh WHERE phiendaugia.maphien = " + loai + "",
