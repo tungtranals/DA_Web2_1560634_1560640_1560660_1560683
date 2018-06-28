@@ -24,7 +24,10 @@
     <script src="jquery.js"></script>
 
     <script>
+<<<<<<< HEAD
         //var socket = io("http://localhost:3000/");
+=======
+>>>>>>> parent of 4e5e200... sua server
         var socket = io("https://chillindo.herokuapp.com/");
         setInterval(function () {
             try {
@@ -100,10 +103,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify({ maphien: ma, giadau: gia }),
                 success: function (response) {
-                    if(response==1){
-                        alert("sesion trống, vui lòng mở tab khác để đấu giá");
-                    }
-                    
+                    alert(response);
                     socket.emit("clientsentdata","hi");
                 }
             });
