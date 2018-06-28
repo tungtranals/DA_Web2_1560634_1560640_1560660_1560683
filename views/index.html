@@ -25,9 +25,9 @@
 
     <script>
         //var socket = io("https://helloals.herokuapp.com/");
-        var socket = io("http://localhost:3000/");
+        //var socket = io("http://localhost:3000/");
         
-        //var socket = io("https://chillindo.herokuapp.com/");
+        var socket = io("https://chillindo.herokuapp.com/");
         setInterval(function () {
             try {
                 $.ajax({
@@ -115,8 +115,7 @@
                 var layphien = "#layphien" + ma;
                 $(layphien).html("");
                 $(layphien).append("<h5>Danh Sách User Đấu:</h5>");
-                $(layphien).append("*** "+data[0].tendangnhap + " : " + data[0].giadau + " K *** </br>");
-                for (var i = 1; i < data.length; i++) {
+                for (var i = 0; i < data.length; i++) {
                     if (data[i].maphiendau == ma) {
                         $(layphien).append(data[i].tendangnhap + " : " + data[i].giadau + " K</br>");
                     }
@@ -391,7 +390,7 @@
                                 "<img src='images/" + item.tenanh + "' alt='Image' class='img-responsive'>" +
                                 "<p> Tên SP:" + item.tensp + "</p>" +
                                 "<p>Time Đấu Giá: " + item.thoigianbatdau + "</p>" +
-                                "<p>Time Còn Lại: " + "<div id = '" + tgcl + "'> </div>" + "</p>" +
+                                "<p>" + "<div id = '" + tgcl + "'> </div>" + "</p>" +
                                 "<p>Giá khởi điểm: " + item.giakhoidiem + "K</p>" +
                                 "<hr>" +
                                 "</ul>" +
@@ -523,7 +522,7 @@
                                             <a onclick="laycacphiendau()">SP Mới Nhất</a>
                                         </li>
                                         <li class="has-dropdown">
-                                            <a>Danh Mục SP</a>
+                                            <a>Danh Mục Phone</a>
                                             <ul class="dropdown">
                                                 <li>
                                                     <a onclick="laycacphiendautheoloai(1)">NoKiA</a>
