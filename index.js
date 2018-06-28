@@ -883,8 +883,18 @@ app.get('/laycacphiendau', function (req, res) {
                         });
                     res.end();
                 } else {
+                    for(var i = 0; i < result.rows.length-1; i++){
+                        for(var j = i+1; j< result.rows.length; j++){
+                            var date1 = Date.parse(result.rows[i].thoigianbatdau.toString());
+                            var date2 = Date.parse(result.rows[j].thoigianbatdau.toString());
+                            if(date1 > date2){
+                                var lc = result.rows[i];
+                                result.rows[i] = result.rows[j];
+                                result.rows[j] = lc;
+                            }
+                        }
+                    }
                     console.log(result.rows);
-                    
                     res.send(result.rows);
                     res.end();
                 }
@@ -913,6 +923,17 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
                         });
                     res.end();
                 } else {
+                    for(var i = 0; i < result.rows.length-1; i++){
+                        for(var j = i+1; j< result.rows.length; j++){
+                            var date1 = Date.parse(result.rows[i].thoigianbatdau.toString());
+                            var date2 = Date.parse(result.rows[j].thoigianbatdau.toString());
+                            if(date1 > date2){
+                                var lc = result.rows[i];
+                                result.rows[i] = result.rows[j];
+                                result.rows[j] = lc;
+                            }
+                        }
+                    }
                     console.log(result.rows);
                     res.send(result.rows);
                     res.end();
