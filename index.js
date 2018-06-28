@@ -24,7 +24,7 @@ var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
 
 //config postgres local
-
+var pg = require('pg');
 var config = {
     user: 'postgres',
     database: 'ql_daugia',
