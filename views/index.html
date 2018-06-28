@@ -113,9 +113,10 @@
             socket.on("senddata", function (data) {
                 var layphien = "#layphien" + ma;
                 $(layphien).html("");
-                for (var i = data.length - 1; i >= 0; i--) {
+                $(layphien).append("<h4>Danh Sách Đấu Giá:</h4></br>");
+                for (var i = 0; i < data.length; i++) {
                     if (data[i].maphiendau == ma) {
-                        $(layphien).append(data[i].tendangnhap + " : " + data[i].giadau + "</br>");
+                        $(layphien).append(data[i].tendangnhap + " : " + data[i].giadau + " K</br>");
                     }
                 }
 
@@ -274,9 +275,9 @@
                         "<h3><a class='btn btn-default btn-sm' onclick='trutien(" + idghts + ")' '>-</a> <a class='btn btn-default btn-sm' onclick='themtien(" + idghts + ")' '>+</a></h3>" +
                         "</br><div id = 'thepp" + ma + "'> <a class='btn btn-default btn-sm' onclick='daugiaclient(" + ma + ")'>Đấu Giá</a></div>" +
                         "</div></center>" +
-                        " <div class='col-md-4'>" +
+                        " <div class='col-md-4'><center>" +
                         "<div id = '" + layphien + "'> </div>" +
-                        "</div>";
+                        "</center></div>";
                     $("#sanpham").append(lc);
                     socket.emit("clientsentdata","hi");
                     shownguoidau(ma);
