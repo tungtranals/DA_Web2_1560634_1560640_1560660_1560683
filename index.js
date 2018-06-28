@@ -17,24 +17,14 @@ app.use(fileUpload());
 
 require('events').EventEmitter.defaultMaxListeners = Infinity;
 
-//run local
+
+//config postgres local
 /*
 var server = require("http").Server(app);
 var io = require("socket.io")(server);
 server.listen(3000, function () { console.log('server is listening in port 3000') });
-*/
-
-//run heroku
-var http = require('http').createServer(app);
-var io = require("socket.io")(http);
-http.listen(process.env.PORT);
-
-
 
 var pg = require('pg');
-
-//config postgres local
-/*
 var config = {
     user: 'postgres',
     database: 'ql_daugia',
@@ -44,10 +34,14 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
-*/
 
+*/
 //config heroku postgres database
 
+var http = require('http').createServer(app);
+var io = require("socket.io")(http);
+http.listen(process.env.PORT);
+var pg = require('pg');
 var config = {
     user: 'sjltuabeirfakq',
     database: 'd90ajcbdlokt18',
@@ -57,6 +51,8 @@ var config = {
     max: 10, // set pool max size to 20
     idleTimeoutMillis: 30000, // close idle clients after 30 second
 };
+
+
 
 var pool = new pg.Pool(config)
     .on('error', err => {
@@ -86,9 +82,9 @@ io.on("connection", function (socket) {
                             res.end();
                         } else {
                             try {
-                                for(var i = 0; i < result.rows.length-1; i++){
-                                    for(var j = i+1; j < result.rows.length ; j++){
-                                        if(result.rows[i].giadau < result.rows[j].giadau){
+                                for (var i = 0; i < result.rows.length - 1; i++) {
+                                    for (var j = i + 1; j < result.rows.length; j++) {
+                                        if (result.rows[i].giadau < result.rows[j].giadau) {
                                             var lc = result.rows[i];
                                             result.rows[i] = result.rows[j];
                                             result.rows[j] = lc;
@@ -895,11 +891,11 @@ app.get('/laycacphiendau', function (req, res) {
                         });
                     res.end();
                 } else {
-                    for(var i = 0; i < result.rows.length-1; i++){
-                        for(var j = i+1; j< result.rows.length; j++){
+                    for (var i = 0; i < result.rows.length - 1; i++) {
+                        for (var j = i + 1; j < result.rows.length; j++) {
                             var date1 = Date.parse(result.rows[i].thoigianbatdau.toString());
                             var date2 = Date.parse(result.rows[j].thoigianbatdau.toString());
-                            if(date1 > date2){
+                            if (date1 > date2) {
                                 var lc = result.rows[i];
                                 result.rows[i] = result.rows[j];
                                 result.rows[j] = lc;
@@ -935,11 +931,11 @@ app.get('/laycacphiendautheoloai/:id', function (req, res) {
                         });
                     res.end();
                 } else {
-                    for(var i = 0; i < result.rows.length-1; i++){
-                        for(var j = i+1; j< result.rows.length; j++){
+                    for (var i = 0; i < result.rows.length - 1; i++) {
+                        for (var j = i + 1; j < result.rows.length; j++) {
                             var date1 = Date.parse(result.rows[i].thoigianbatdau.toString());
                             var date2 = Date.parse(result.rows[j].thoigianbatdau.toString());
-                            if(date1 > date2){
+                            if (date1 > date2) {
                                 var lc = result.rows[i];
                                 result.rows[i] = result.rows[j];
                                 result.rows[j] = lc;
